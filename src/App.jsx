@@ -1,7 +1,7 @@
 import html2pdf from "html2pdf.js";
 import Preview from "./Components/Preview";
 import OptionsForm from "./Components/OptionsForm";
-//
+// asdasd
 import { useState } from "react";
 
 function App() {
@@ -134,7 +134,7 @@ function App() {
   // Option to show the pinyin
   let [showPinyin, setShowPinyin] = useState(false);
 
-  // All states of number inputs will be stored here so is easier to send them  to the Options form
+  // All states of number inputs will be stored here so is easier to send them  to the Options form 
 
   let allNumberInputsStates = [
     [
