@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 
-function Toggle({ label, checked, onChange }) {
+function Toggle({ label, checked, onChange, className }) {
   return (
-    <label className="inline-flex items-center cursor-pointer">
+    <label className={`${className} inline-flex items-center cursor-pointer`}>
       <input
         type="checkbox"
         value=""
@@ -20,6 +20,7 @@ Toggle.propTypes = {
   label: PropTypes.string.isRequired,
   checked: PropTypes.bool.isRequired,
   onChange: PropTypes.func,
+  className: PropTypes.string,
 };
 
 export default Toggle;

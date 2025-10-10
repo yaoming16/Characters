@@ -13,6 +13,7 @@ function App() {
       quality: 1.0, // Maximum image quality
     },
     html2canvas: {
+      dpi: 94, // Higher DPI for better quality
       scale: 4, // Reduced from 4 to 2 so the grid can be seen
       useCORS: true, // Allows loading external fonts
       allowTaint: true, // Allows "tainted" content
@@ -157,6 +158,9 @@ function App() {
     calculateDivWidth()
   );
 
+  // State to change between the previewer and the options form
+  const [changeToPreviewer, setchangeToPreviewer] = useState(false);
+
   // Update width when previewer visibility changes or relevant props change
   useEffect(() => {
     if (showPreviewer) {
@@ -183,6 +187,7 @@ function App() {
       return () => clearTimeout(timer);
     }
   }, [
+    changeToPreviewer,
     showPreviewer,
     numberOfBoxesPerRow,
     numberColumnSpacing,
@@ -296,23 +301,35 @@ function App() {
       <div className="border-gray-300 ">
         <div
           id="container"
-          className="w-3/4 m-auto flex flex-row mt-10 mb-10 border border-gray-300 p-10 rounded-lg shadow-lg "
+          className={`w-3/4 m-auto mt-10 mb-10 border border-gray-300 p-10 rounded-lg shadow-lg flex ${changeToPreviewer ? "flex-col" : "flex-row"} `}
         >
           <div
             className={`flex flex-col ${
               showPreviewer ? "max-w-1/3" : "max-w-full  mr-auto ml-auto"
             }`}
           >
-            <div className="mb-5">
+            <div className="mb-5 flex flex-row justify-around">
               <Toggle
                 checked={showPreviewer}
                 label="Show Previewer"
                 onChange={() => {
                   setShowPreviewer(!showPreviewer);
+                  if (changeToPreviewer) {
+                    setchangeToPreviewer(false);
+                  }
                 }}
+                className="mr-5"
+              />
+              <Toggle
+                checked={changeToPreviewer}
+                label={changeToPreviewer ? "Previewer" : "Options"}
+                onChange={() => {
+                  setchangeToPreviewer(!changeToPreviewer);
+                }}
+                className={`${showPreviewer ? "!hidden " : ""}`}
               />
             </div>
-            <div>
+            <div className={`${changeToPreviewer ? "hidden" : ""}`}>
               <OptionsForm
                 allNumberInputsStates={allNumberInputsStates}
                 className=""
@@ -346,7 +363,8 @@ function App() {
           </div>
           <div
             className={`ml-10  w-2/3 rounded-lg shadow-lg border 
-              border-gray-300  ${showPreviewer ? "" : "hidden"}`}
+              border-gray-300  ${showPreviewer ? "" : changeToPreviewer ? "" : "hidden"} 
+              ${changeToPreviewer ? "mr-auto ml-auto" : ""}`}
             id="previewer-container"
           >
             <div style={marginStyle} id="previewer-div">
@@ -357,7 +375,6 @@ function App() {
                   characters={characters}
                   allStates={statesToShow}
                   widthOfTheSquaresInPx={widthOfTheSquaresInPx}
-                  className=""
                 ></Preview>
               ) : (
                 ""
