@@ -1,0 +1,15 @@
+/* Import Chinese fonts from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+/* Define custom font families for better Chinese character support */
+.chinese-fangsong {
+  font-family: "FangSong", "仿宋", "STFangSong", "华文仿宋", "Noto Serif SC", serif !important;
+}
+
+.chinese-kaiti {
+  font-family: "KaiTi", "楷体", "STKaiti", "华文楷体", "Noto Serif SC", serif !important;
+}
+
+.chinese-simsun {
+  font-family: "SimSun", "宋体", "华文细黑", "STXihei", "Noto Sans SC", sans-serif !important;
+}
