@@ -1,4 +1,4 @@
-import { Select, Label } from "flowbite-react";
+import { Label } from "flowbite-react";
 import PropTypes from "prop-types";
 import { useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -22,16 +22,29 @@ function SelectMod({ setFunction, selectInfo, id }) {
   );
 
   return (
-    <div className="max-w-md dark:bg-white mt-3">
-      <Label htmlFor={id} value="Select the font" className="dark:text-black" />
+    <div
+      className="max-w-md bg-gray-50 mt-3"
+      style={{ backgroundColor: "#f9fafb" }}
+    >
+      <Label
+        htmlFor={id}
+        value="Select the font"
+        className="text-black"
+        style={{ color: "black" }}
+      />
 
-      <Select
+      <select
         id={id}
-        className="dark:bg-white dark:text-black"
+        className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+        style={{
+          backgroundColor: "#f9fafb",
+          color: "#111827",
+          borderColor: "#d1d5db",
+        }}
         onChange={(e) => setFunction(e.target.value)}
       >
         {options.current}
-      </Select>
+      </select>
     </div>
   );
 }

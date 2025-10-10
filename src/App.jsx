@@ -1,8 +1,8 @@
 import html2pdf from "html2pdf.js";
 import Preview from "./Components/Preview";
 import OptionsForm from "./Components/OptionsForm";
-// asdasd
-import { useState } from "react";
+import Toggle from "./Components/Form/Toggle";
+import { useState, useEffect } from "react";
 
 function App() {
   const options = {
@@ -60,6 +60,21 @@ function App() {
     } finally {
       document.body.removeChild(clonedElement);
     }*/
+  }
+
+  // We need to calculate the width of the squares based on the amount of squares the user wants to have on the file
+  function calculateDivWidth() {
+    const previewDivContainer = document.getElementById(
+      "previewer-container"
+    )?.offsetWidth;
+    const spaceBetweenSquares = numberColumnSpacing * (numberOfBoxesPerRow - 1);
+    return Math.floor(
+      (previewDivContainer -
+        spaceBetweenSquares -
+        numberMarginRight -
+        numberMarginLeft) /
+        numberOfBoxesPerRow
+    );
   }
 
   // Use State for the input that selects the characters to show
@@ -134,8 +149,48 @@ function App() {
   // Option to show the pinyin
   let [showPinyin, setShowPinyin] = useState(false);
 
-  // All states of number inputs will be stored here so is easier to send them  to the Options form 
+  // Option to show the previewer
+  let [showPreviewer, setShowPreviewer] = useState(true);
 
+  // State to store the width of the squares
+  const [widthOfTheSquaresInPx, setWidthOfTheSquaresInPx] = useState(
+    calculateDivWidth()
+  );
+
+  // Update width when previewer visibility changes or relevant props change
+  useEffect(() => {
+    if (showPreviewer) {
+      // Wait a moment for the element to be visible, then recalculate
+      const timer = setTimeout(() => {
+        const previewDivContainer = document.getElementById(
+          "previewer-container"
+        )?.offsetWidth;
+        if (previewDivContainer) {
+          const spaceBetweenSquares =
+            numberColumnSpacing * (numberOfBoxesPerRow - 1);
+          const newWidth = Math.floor(
+            (previewDivContainer -
+              spaceBetweenSquares -
+              numberMarginRight -
+              numberMarginLeft) /
+              numberOfBoxesPerRow
+          );
+          if (newWidth > 0) {
+            setWidthOfTheSquaresInPx(newWidth);
+          }
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [
+    showPreviewer,
+    numberOfBoxesPerRow,
+    numberColumnSpacing,
+    numberMarginLeft,
+    numberMarginRight,
+  ]);
+
+  // All states of number inputs will be stored here so is easier to send them  to the Options form
   let allNumberInputsStates = [
     [
       warningNumberOfBoxesPerRow,
@@ -236,66 +291,65 @@ function App() {
     margin: `${numberMarginTop}px ${numberMarginRight}px ${numberMarginBottom}px ${numberMarginLeft}px`,
   };
 
-  // We need to calculate the width of the squares based on the amount of squares the user wants to have on the file
-  const previewDivContainer = document.getElementById(
-    "previewer-container"
-  )?.offsetWidth;
-  const spaceBetweenSquares = numberColumnSpacing * (numberOfBoxesPerRow - 1);
-  const widthOfTheSquaresInPx = Math.floor(
-    (previewDivContainer -
-      spaceBetweenSquares -
-      numberMarginRight -
-      numberMarginLeft) /
-      numberOfBoxesPerRow
-  );
-
   return (
     <>
-      <div className=" border-gray-300 ">
+      <div className="border-gray-300 ">
         <div
           id="container"
           className="w-3/4 m-auto flex flex-row mt-10 mb-10 border border-gray-300 p-10 rounded-lg shadow-lg "
         >
-          <div className="flex flex-col max-w-1/3">
-            <OptionsForm
-              allNumberInputsStates={allNumberInputsStates}
-              className=""
-              otherSetFunctions={[
-                setCharacters,
-                setFont,
-                setGridName,
-                setShowDefinition,
-                setShowPinyin,
-              ]}
-              showDefinition={showDefinition}
-            ></OptionsForm>
-            <div>
-              <button
-                className="w-full mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-                onClick={() => {
-                  downloadPDF("previewer-div", options, warningArr);
+          <div
+            className={`flex flex-col ${
+              showPreviewer ? "max-w-1/3" : "max-w-full  mr-auto ml-auto"
+            }`}
+          >
+            <div className="mb-5">
+              <Toggle
+                checked={showPreviewer}
+                label="Show Previewer"
+                onChange={() => {
+                  setShowPreviewer(!showPreviewer);
                 }}
-              >
-                Download
-              </button>
-              {warningArr.some((val) => val === true) ? (
-                <p className="text-red-600 text-center">
-                  Please fix the errors in the form to be able to download the
-                  PDF
-                </p>
-              ) : null}
+              />
+            </div>
+            <div>
+              <OptionsForm
+                allNumberInputsStates={allNumberInputsStates}
+                className=""
+                otherSetFunctions={[
+                  setCharacters,
+                  setFont,
+                  setGridName,
+                  setShowDefinition,
+                  setShowPinyin,
+                  setShowPreviewer,
+                ]}
+                showDefinition={showDefinition}
+              ></OptionsForm>
+              <div>
+                <button
+                  className="w-full mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+                  onClick={() => {
+                    downloadPDF("previewer-div", options, warningArr);
+                  }}
+                >
+                  Download
+                </button>
+                {warningArr.some((val) => val === true) ? (
+                  <p className="text-red-600 text-center">
+                    Please fix the errors in the form to be able to download the
+                    PDF
+                  </p>
+                ) : null}
+              </div>
             </div>
           </div>
           <div
             className={`ml-10  w-2/3 rounded-lg shadow-lg border 
-              border-gray-300 overflow-auto `}
+              border-gray-300  ${showPreviewer ? "" : "hidden"}`}
             id="previewer-container"
           >
-            <div
-              style={marginStyle}
-              id="previewer-div"
-              className="overflow-auto"
-            >
+            <div style={marginStyle} id="previewer-div">
               {/* We need to check if every warning is false to know if the previewer should be shown or not */}
               {warningArr.every((val) => val === false) ? (
                 <Preview
@@ -303,7 +357,7 @@ function App() {
                   characters={characters}
                   allStates={statesToShow}
                   widthOfTheSquaresInPx={widthOfTheSquaresInPx}
-                  className="overflow-hidden"
+                  className=""
                 ></Preview>
               ) : (
                 ""
