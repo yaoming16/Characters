@@ -63,19 +63,31 @@ function App() {
     }*/
   }
 
-  // We need to calculate the width of the squares based on the amount of squares the user wants to have on the file
+  // Function to recalculate the width of the squares when the user resizes the window or changes the number of boxes per row or the margins or the spacing between columns
   function calculateDivWidth() {
-    const previewDivContainer = document.getElementById(
-      "previewer-container"
-    )?.offsetWidth;
-    const spaceBetweenSquares = numberColumnSpacing * (numberOfBoxesPerRow - 1);
-    return Math.floor(
-      (previewDivContainer -
-        spaceBetweenSquares -
-        numberMarginRight -
-        numberMarginLeft) /
-        numberOfBoxesPerRow
-    );
+    if (showPreviewer) {
+      // Wait a moment for the element to be visible, then recalculate
+      const timer = setTimeout(() => {
+        const previewDivContainer = document.getElementById(
+          "previewer-container"
+        )?.offsetWidth;
+        if (previewDivContainer) {
+          const spaceBetweenSquares =
+            numberColumnSpacing * (numberOfBoxesPerRow - 1);
+          const newWidth = Math.floor(
+            (previewDivContainer -
+              spaceBetweenSquares -
+              numberMarginRight -
+              numberMarginLeft) /
+              numberOfBoxesPerRow
+          );
+          if (newWidth > 0) {
+            setWidthOfTheSquaresInPx(newWidth);
+          }
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
   }
 
   // Use State for the input that selects the characters to show
@@ -163,29 +175,7 @@ function App() {
 
   // Update width when previewer visibility changes or relevant props change
   useEffect(() => {
-    if (showPreviewer) {
-      // Wait a moment for the element to be visible, then recalculate
-      const timer = setTimeout(() => {
-        const previewDivContainer = document.getElementById(
-          "previewer-container"
-        )?.offsetWidth;
-        if (previewDivContainer) {
-          const spaceBetweenSquares =
-            numberColumnSpacing * (numberOfBoxesPerRow - 1);
-          const newWidth = Math.floor(
-            (previewDivContainer -
-              spaceBetweenSquares -
-              numberMarginRight -
-              numberMarginLeft) /
-              numberOfBoxesPerRow
-          );
-          if (newWidth > 0) {
-            setWidthOfTheSquaresInPx(newWidth);
-          }
-        }
-      }, 100);
-      return () => clearTimeout(timer);
-    }
+    calculateDivWidth();
   }, [
     changeToPreviewer,
     showPreviewer,
@@ -194,6 +184,10 @@ function App() {
     numberMarginLeft,
     numberMarginRight,
   ]);
+
+  useEffect(() => {
+    window.addEventListener("resize", calculateDivWidth);
+  }, []);
 
   // All states of number inputs will be stored here so is easier to send them  to the Options form
   let allNumberInputsStates = [
@@ -301,7 +295,9 @@ function App() {
       <div className="border-gray-300 ">
         <div
           id="container"
-          className={`w-3/4 m-auto mt-10 mb-10 border border-gray-300 p-10 rounded-lg shadow-lg flex ${changeToPreviewer ? "flex-col" : "flex-row"} `}
+          className={`w-3/4 m-auto mt-10 mb-10 border border-gray-300 p-10 rounded-lg shadow-lg flex ${
+            changeToPreviewer ? "flex-col" : "flex-row"
+          } `}
         >
           <div
             className={`flex flex-col ${
@@ -363,7 +359,9 @@ function App() {
           </div>
           <div
             className={`ml-10  w-2/3 rounded-lg shadow-lg border 
-              border-gray-300  ${showPreviewer ? "" : changeToPreviewer ? "" : "hidden"} 
+              border-gray-300  ${
+                showPreviewer ? "" : changeToPreviewer ? "" : "hidden"
+              } 
               ${changeToPreviewer ? "mr-auto ml-auto" : ""}`}
             id="previewer-container"
           >
