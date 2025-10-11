@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 function Square({
   character = "",
   firstCharacter = false,
@@ -25,7 +23,7 @@ function Square({
         style={{
           width: widthInPx + "px",
           height: widthInPx + "px",
-        }} 
+        }}
       ></img>
       {/*<svg  xmlns="http://www.w3.org/2000/svg" version="1.1" width={widthInPx} height={widthInPx} viewBox="0 0 234 234" className={`absolute opacity-50`}>
           <path d="M0 0 C77.22 0 154.44 0 234 0 C234 77.22 234 154.44 234 234 C156.78 234 79.56 234 0 234 C0 156.78 0 79.56 0 0 Z " fill="#000000" transform="translate(0,0)"/>
@@ -40,11 +38,14 @@ function Square({
           <path d="M0 0 C77.22 0 154.44 0 234 0 C234 77.22 234 154.44 234 234 C156.78 234 79.56 234 0 234 C0 156.78 0 79.56 0 0 Z M5 5 C5 78.92 5 152.84 5 229 C78.92 229 152.84 229 229 229 C229 155.08 229 81.16 229 5 C155.08 5 81.16 5 5 5 Z " fill="#FEFEFE" transform="translate(0,0)"/>
           <path d="M0 0 C77.22 0 154.44 0 234 0 C234 77.22 234 154.44 234 234 C156.78 234 79.56 234 0 234 C0 156.78 0 79.56 0 0 Z M2 2 C2 77.9 2 153.8 2 232 C77.9 232 153.8 232 232 232 C232 156.1 232 80.2 232 2 C156.1 2 80.2 2 2 2 Z " fill="#000000" transform="translate(0,0)"/>
         </svg>*/}
-      <div className="flex relative " style={{
-            fontFamily: font,
-            width: widthInPx + "px",
-            height: widthInPx + "px",
-          }}>
+      <div
+        className="flex relative "
+        style={{
+          fontFamily: font,
+          width: widthInPx + "px",
+          height: widthInPx + "px",
+        }}
+      >
         <p
           style={{
             fontSize: Math.floor(widthInPx * 0.7) + "px",
@@ -53,11 +54,11 @@ function Square({
             textRendering: "optimizeLegibility",
             WebkitFontSmoothing: "antialiased",
             MozOsxFontSmoothing: "grayscale",
-            color: firstCharacter ? "#000000" : `rgba(200, 200, 200, ${letterOpacity / 100})`,
+            color: firstCharacter
+              ? "#000000"
+              : `rgba(200, 200, 200, ${letterOpacity / 100})`,
           }}
-          className={
-            "leading-none ml-auto mr-auto mt-0 mb-0"
-          }
+          className={"leading-none ml-auto mr-auto mt-0 mb-0"}
         >
           {character}
         </p>
@@ -66,13 +67,4 @@ function Square({
   );
 }
 
-Square.propTypes = {
-  character: PropTypes.string.isRequired,
-  firstCharacter: PropTypes.bool,
-  font: PropTypes.string.isRequired,
-  columnSpacing: PropTypes.string.isRequired,
-  gridName: PropTypes.string.isRequired,
-  widthInPx: PropTypes.number.isRequired,
-  letterOpacity: PropTypes.number.isRequired,
-};
 export default Square;

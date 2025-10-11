@@ -1,5 +1,4 @@
 import Input from "./Input";
-import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
 import { useRef } from "react";
 
@@ -21,13 +20,7 @@ function RadioMod({ options, onChange }) {
       </div>
     ))
   );
-
   return <>{inputs.current}</>;
 }
-
-RadioMod.propTypes = {
-  options: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
 
 export default RadioMod;

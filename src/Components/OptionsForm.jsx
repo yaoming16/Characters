@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import InputWLabel from "./Form/InputWLabel";
 import { v4 as uuidv4 } from "uuid";
 import { Accordion } from "flowbite-react";
@@ -152,11 +151,5 @@ function OptionsForm({ className, allNumberInputsStates, otherSetFunctions }) {
     </div>
   );
 }
-
-OptionsForm.propTypes = {
-  className: PropTypes.string,
-  allNumberInputsStates: PropTypes.array.isRequired,
-  otherSetFunctions: PropTypes.arrayOf(PropTypes.func).isRequired,
-};
 
 export default OptionsForm;

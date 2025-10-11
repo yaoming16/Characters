@@ -1,7 +1,5 @@
 import Label from "./Label";
 import Input from "./Input";
-import PropTypes from "prop-types";
-// import { FloatingLabel } from "flowbite-react";
 
 function InputWLabel({
   id,
@@ -51,23 +49,5 @@ function InputWLabel({
     </div>
   );
 }
-
-InputWLabel.propTypes = {
-  classNameLabel: PropTypes.string,
-  text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  id: PropTypes.string.isRequired,
-  classNameInput: PropTypes.string,
-  type: PropTypes.string.isRequired,
-  required: PropTypes.bool,
-  placeholder: PropTypes.string,
-  onChange: PropTypes.func,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  min: PropTypes.number,
-  max: PropTypes.number,
-  warning: PropTypes.bool,
-  className: PropTypes.string,
-  warningMessage: PropTypes.string,
-  step: PropTypes.string,
-};
 
 export default InputWLabel;

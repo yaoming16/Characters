@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import { Label, Checkbox } from "flowbite-react";
-import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
 
 export default function CheckboxMod({ setFunctions, texts }) {
@@ -23,8 +22,3 @@ export default function CheckboxMod({ setFunctions, texts }) {
   );
   return <>{checkboxsToReturn.current}</>;
 }
-
-CheckboxMod.propTypes = {
-  setFunctions: PropTypes.arrayOf(PropTypes.func).isRequired,
-  texts: PropTypes.arrayOf(PropTypes.string).isRequired,
-};

@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import Square from "./Square";
 import { v4 as uuidv4 } from "uuid";
 import { CharactersInfo } from "../data/dictionary";
@@ -130,13 +129,5 @@ function Preview({ id, className = "", allStates, widthOfTheSquaresInPx }) {
     </div>
   );
 }
-
-Preview.propTypes = {
-  id: PropTypes.string.isRequired,
-  allStates: PropTypes.array.isRequired,
-  className: PropTypes.string,
-  showDefinition: PropTypes.bool.isRequired,
-  widthOfTheSquaresInPx: PropTypes.number.isRequired,
-};
 
 export default Preview;

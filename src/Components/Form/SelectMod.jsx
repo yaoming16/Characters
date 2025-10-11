@@ -1,5 +1,4 @@
 import { Label } from "flowbite-react";
-import PropTypes from "prop-types";
 import { useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
@@ -48,11 +47,5 @@ function SelectMod({ setFunction, selectInfo, id }) {
     </div>
   );
 }
-
-SelectMod.propTypes = {
-  setFunction: PropTypes.func.isRequired,
-  selectInfo: PropTypes.object.isRequired,
-  id: PropTypes.string.isRequired,
-};
 
 export default SelectMod;

@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 function Label({ htmlFor, className, text, warning }) {
   return (
     <>
@@ -17,12 +15,5 @@ function Label({ htmlFor, className, text, warning }) {
     </>
   );
 }
-
-Label.propTypes = {
-  htmlFor: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  text: PropTypes.string,
-  warning: PropTypes.bool,
-};
 
 export default Label;

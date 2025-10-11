@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 function Input({
   id,
   type,
@@ -36,21 +34,5 @@ function Input({
     </div>
   );
 }
-
-Input.propTypes = {
-  id: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  type: PropTypes.string.isRequired,
-  required: PropTypes.bool.isRequired,
-  placeholder: PropTypes.string,
-  onChange: PropTypes.func,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  min: PropTypes.number,
-  max: PropTypes.number,
-  warning: PropTypes.bool,
-  name: PropTypes.string,
-  warningMessage: PropTypes.string,
-  step: PropTypes.string,
-};
 
 export default Input;
