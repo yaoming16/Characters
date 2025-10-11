@@ -130,11 +130,14 @@ function OptionsForm({ className, allNumberInputsStates, otherSetFunctions }) {
       </div>
 
       {/* Here are the advanced options (Like margins and column and row spacing) */}
-      <Accordion className="mt-10 bg-white border-0 ">
-        <Accordion.Panel className="">
-          <Accordion.Title className="bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
-            {" "}
-            Advanced Options{" "}
+      <Accordion
+        className="mt-10 bg-white "
+        alwaysOpen={false}
+        collapseAll={true}
+      >
+        <Accordion.Panel className="" collapsed={true}>
+          <Accordion.Title className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
+            Advanced Options
           </Accordion.Title>
           <Accordion.Content className="dark:bg-white">
             {/*  Here we add the other inputs, for this options the minVal is 0 so we will specify to override the 1 default minVal*/}

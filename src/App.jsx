@@ -2,6 +2,7 @@ import html2pdf from "html2pdf.js";
 import Preview from "./Components/Preview";
 import OptionsForm from "./Components/OptionsForm";
 import Toggle from "./Components/Form/Toggle";
+import DownloadButton from "./Components/Form/DownloadButton";
 import { useState, useEffect } from "react";
 
 function App() {
@@ -339,23 +340,15 @@ function App() {
                 ]}
                 showDefinition={showDefinition}
               ></OptionsForm>
-              <div>
-                <button
-                  className="w-full mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-                  onClick={() => {
-                    downloadPDF("previewer-div", options, warningArr);
-                  }}
-                >
-                  Download
-                </button>
-                {warningArr.some((val) => val === true) ? (
-                  <p className="text-red-600 text-center">
-                    Please fix the errors in the form to be able to download the
-                    PDF
-                  </p>
-                ) : null}
-              </div>
             </div>
+            {/* Download button that only appears when the previewer is shown or when we are in changeToPreviewer mode and the options form is hidden */}
+            <DownloadButton
+              onClick={() => {
+                downloadPDF("previewer-div", options, warningArr);
+              }}
+              warningArr={warningArr}
+              className={`${changeToPreviewer ? "hidden" : ""}`}
+            />
           </div>
           <div
             className={`ml-10  w-2/3 rounded-lg shadow-lg border 
@@ -379,6 +372,14 @@ function App() {
               )}
             </div>
           </div>
+          {/* Download button that only appears when the previewer is not shown */}
+          <DownloadButton
+            onClick={() => {
+              downloadPDF("previewer-div", options, warningArr);
+            }}
+            warningArr={warningArr}
+            className={`${showPreviewer || !changeToPreviewer ? "hidden" : ""}`}
+          />
         </div>
       </div>
     </>
