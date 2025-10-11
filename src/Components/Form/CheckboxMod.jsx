@@ -5,7 +5,10 @@ import { v4 as uuidv4 } from "uuid";
 export default function CheckboxMod({ setFunctions, texts }) {
   let checkboxsToReturn = useRef(
     setFunctions.map((setFunction, index) => (
-      <div className="flex flex-row mt-5" key={uuidv4()}>
+      <div
+        className="flex flex-row justify-between mt-5 items-center"
+        key={uuidv4()}
+      >
         <Label
           htmlFor="showDefinitionInput"
           label="Show definition"
