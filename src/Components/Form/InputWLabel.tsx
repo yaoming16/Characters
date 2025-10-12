@@ -1,6 +1,24 @@
 import Label from "./Label";
 import Input from "./Input";
 
+interface InputWLabelProps {
+  id: string;
+  type: string;
+  required?: boolean;
+  placeholder?: string;
+  classNameLabel?: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  classNameInput?: string;
+  text: string;
+  value?: string | number;
+  min?: string;
+  max?: string;
+  warning?: boolean;
+  className?: string;
+  warningMessage?: string;
+  step?: string;
+}
+
 function InputWLabel({
   id,
   type,
@@ -17,7 +35,7 @@ function InputWLabel({
   className,
   warningMessage = "There is an error with this field",
   step,
-}) {
+}: InputWLabelProps) {
   return (
     <div className={className}>
       <Label

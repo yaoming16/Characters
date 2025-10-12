@@ -1,4 +1,11 @@
-function Label({ htmlFor, className, text, warning }) {
+interface LabelProps {
+  htmlFor: string;
+  className?: string;
+  text: string;
+  warning?: boolean;
+}
+
+function Label({ htmlFor, className = "", text, warning = false }: LabelProps) {
   return (
     <>
       <label

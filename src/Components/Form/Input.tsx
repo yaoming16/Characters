@@ -1,3 +1,18 @@
+interface InputProps {
+  id: string;
+  type: string;
+  required?: boolean;
+  placeholder?: string;
+  className?: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  value?: string | number;
+  min?: string;
+  max?: string;
+  warning?: boolean;
+  name?: string;
+  step?: string;
+}
+
 function Input({
   id,
   type,
@@ -11,7 +26,7 @@ function Input({
   warning,
   name,
   step,
-}) {
+}: InputProps) {
   return (
     <div>
       <input
