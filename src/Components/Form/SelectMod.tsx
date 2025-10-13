@@ -2,7 +2,16 @@ import { Label } from "flowbite-react";
 import { useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-function SelectMod({ setFunction, selectInfo, id }) {
+interface SelectModProps {
+  setFunction: React.Dispatch<React.SetStateAction<string>>,
+  selectInfo: {
+    values: string[];
+    text: string[];
+  },
+  id: string;
+}
+
+function SelectMod({ setFunction, selectInfo, id } : SelectModProps) {
   // We Use UseRef so the options don´t reRender when the user changes the font. This is to stop a bug that consisted in that the user selected option didt show correctly in the interface
   let options = useRef(
     selectInfo.values.map((value, index) => (

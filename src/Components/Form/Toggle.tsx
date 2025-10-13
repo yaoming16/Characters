@@ -1,4 +1,11 @@
-function Toggle({ label, checked, onChange, className }) {
+interface ToggleProps {
+  label: string;
+  checked: boolean;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  className?: string;
+}
+
+function Toggle({ label, checked, onChange, className } : ToggleProps) {
   return (
     <label className={`${className} inline-flex items-center cursor-pointer`}>
       <input
