@@ -1,4 +1,4 @@
-import html2pdf from "html2pdf.js";
+import html2pdf from "html2pdf.js"; 
 import Preview from "./Components/Preview";
 import OptionsForm from "./Components/OptionsForm";
 import Toggle from "./Components/Form/Toggle";
@@ -40,7 +40,8 @@ function App() {
     },
   };
 
-  async function downloadPDF(id, options, warningsArr) {
+  // Function to download the PDF
+  async function downloadPDF(id: string, options: any, warningsArr: boolean[]) {
     // Check for warnings before generating PDF
     if (warningsArr.some((warning) => warning)) {
       console.error("Cannot generate PDF due to warnings.");
@@ -48,6 +49,10 @@ function App() {
     }
 
     let originalElement = document.getElementById(id);
+    if (!originalElement) {
+      console.error(`Element with id "${id}" not found.`);
+      return;
+    }
     await html2pdf().from(originalElement).set(options).save();
 
     /*// Clone the element
@@ -167,9 +172,8 @@ function App() {
   let [showPreviewer, setShowPreviewer] = useState(true);
 
   // State to store the width of the squares
-  const [widthOfTheSquaresInPx, setWidthOfTheSquaresInPx] = useState(
-    calculateDivWidth()
-  );
+  const [widthOfTheSquaresInPx, setWidthOfTheSquaresInPx] = useState<number>(0);
+  //calculateDivWidth();
 
   // State to change between the previewer and the options form
   const [changeToPreviewer, setchangeToPreviewer] = useState(false);
@@ -191,7 +195,7 @@ function App() {
   }, []);
 
   // All states of number inputs will be stored here so is easier to send them  to the Options form
-  let allNumberInputsStates = [
+  let allNumberInputsStates: [boolean, React.Dispatch<React.SetStateAction<boolean>>, number, React.Dispatch<React.SetStateAction<number>>][] = [
     [
       warningNumberOfBoxesPerRow,
       setWarningNumberOfBoxesPerRow,
@@ -257,7 +261,19 @@ function App() {
   {
     /* This one is to send the states to the previewer */
   }
-  let statesToShow = [
+  let statesToShow: [
+    string,
+    number,
+    number,
+    number,
+    string,
+    number,
+    number,
+    string,
+    boolean,
+    boolean,
+    number
+  ] = [
     characters,
     numberOfBoxesPerRow,
     numberOfRowsPerCharacter,
@@ -336,9 +352,7 @@ function App() {
                   setGridName,
                   setShowDefinition,
                   setShowPinyin,
-                  setShowPreviewer,
                 ]}
-                showDefinition={showDefinition}
               ></OptionsForm>
             </div>
             {/* Download button that only appears when the previewer is shown or when we are in changeToPreviewer mode and the options form is hidden */}
@@ -363,7 +377,6 @@ function App() {
               {warningArr.every((val) => val === false) ? (
                 <Preview
                   id={"previewer"}
-                  characters={characters}
                   allStates={statesToShow}
                   widthOfTheSquaresInPx={widthOfTheSquaresInPx}
                 ></Preview>

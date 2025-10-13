@@ -1,33 +1,73 @@
 import Square from "./Square";
 import { v4 as uuidv4 } from "uuid";
-import { CharactersInfo } from "../data/dictionary";
+import CharactersInfoImport from "../data/dictionary.json";
 
-function findCharacterInfo(CharactersInfo, character) {
-  let elementToReturn = [false, {}];
-  CharactersInfo.forEach((element) => {
-    if (element["character"] === character) {
-      elementToReturn = [true, element];
-      return elementToReturn;
-    }
-  });
-  return elementToReturn;
+const CharactersInfo : characterInfoType[] = CharactersInfoImport.CharactersInfo;
+
+type characterInfoType = {
+  character? : string,
+  definition?: string,
+  pinyin? : string[],
+  decomposition? : string,
+  etymology?: {
+    type? : string,
+    hint?: string,
+  },
+  radical?: string,
+  matches? : any[]
 }
 
-function returnInfoOrNotFound(
-  CharactersInfo,
-  character,
-  infoNeeded,
-  errorMessage
-) {
+// This function is to return all the info of one character. Return an array where the first element is a boolean indicating if 
+// the character was found and the second element is the character info or an empty object
+function findCharacterInfo(CharactersInfo : characterInfoType[]  , character : string) : [boolean, {}] | [boolean, characterInfoType] {
+  let found = false;
+  let data: {} | characterInfoType = {};
+  for(let element of CharactersInfo) {
+    if (element["character"] === character) {
+      data = element;
+      found = true;
+      break;
+    }
+  }
+  return [found, data];
+}
+
+// T is a generic type that extends the keys of characterInfoType
+// This function is to return the info needed (infoNeeded parameter) or an error message if the character or the info for that character is not found
+function returnInfoOrNotFound<T extends keyof characterInfoType> (
+  CharactersInfo : characterInfoType[],
+  character : string,
+  infoNeeded : T, // Same as keyof characterInfoType
+  errorMessage : string
+) : characterInfoType[T] | string {
   let characterInfo = findCharacterInfo(CharactersInfo, character);
   if (characterInfo[0]) {
-    return characterInfo[1][infoNeeded];
+    return (characterInfo[1] as characterInfoType)[infoNeeded];
   } else {
     return errorMessage;
   }
 }
 
-function Preview({ id, className = "", allStates, widthOfTheSquaresInPx }) {
+interface PreviewPropsType {
+  id: string;
+  className?: string;
+  allStates: [
+    string,
+    number,
+    number,
+    number,
+    string,
+    number,
+    number,
+    string,
+    boolean,
+    boolean,
+    number
+  ];
+  widthOfTheSquaresInPx: number;
+}
+
+function Preview({ id, className = "", allStates, widthOfTheSquaresInPx } : PreviewPropsType) {
   let [
     characters,
     numberOfBoxesPerRow,
@@ -86,13 +126,13 @@ function Preview({ id, className = "", allStates, widthOfTheSquaresInPx }) {
 
   function createOneLine(
     character = "",
-    font,
-    numberOfBoxesPerRow,
-    numberPracticeSquares,
-    rowSpacing,
-    columnSpacing,
+    font : string,
+    numberOfBoxesPerRow : number,
+    numberPracticeSquares : number,
+    rowSpacing : number,
+    columnSpacing : number,
     firstLine = false,
-    widthOfTheSquaresInPx
+    widthOfTheSquaresInPx : number
   ) {
     return (
       <div

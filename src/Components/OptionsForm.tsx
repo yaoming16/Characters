@@ -5,12 +5,43 @@ import SelectMod from "./Form/SelectMod";
 import RadioMod from "./Form/RadioMod";
 import CheckboxMod from "./Form/CheckboxMod";
 
-function OptionsForm({ className, allNumberInputsStates, otherSetFunctions }) {
+// Tuple type for each allNumberInputsStates element
+type allNumberInputsStatesType = [
+  boolean,
+  React.Dispatch<React.SetStateAction<boolean>>,
+  number,
+  React.Dispatch<React.SetStateAction<number>>
+];
+
+type OtherSetFunctionsType = [
+  React.Dispatch<React.SetStateAction<string>>, // setCharacters
+  React.Dispatch<React.SetStateAction<string>>, // setFont
+  React.Dispatch<React.SetStateAction<string>>, // setGridName
+  React.Dispatch<React.SetStateAction<boolean>>, // setShowDefinition
+  React.Dispatch<React.SetStateAction<boolean>> // setShowPinyin
+];
+
+interface OptionsFormProps {
+  className?: string;
+  allNumberInputsStates: allNumberInputsStatesType[];
+  otherSetFunctions: OtherSetFunctionsType;
+}
+
+function OptionsForm({
+  className,
+  allNumberInputsStates,
+  otherSetFunctions,
+}: OptionsFormProps) {
   let [setCharacters, setFont, setGridName, setShowDefinition, setShowPinyin] =
     otherSetFunctions;
 
   /* Function to check if it is a number and above 0. Then change the values and the warning */
-  function checkNumbers(setFunction, newState, setWarning, minVal = 1) {
+  function checkNumbers(
+    setFunction: React.Dispatch<React.SetStateAction<number>>,
+    newState: number,
+    setWarning: React.Dispatch<React.SetStateAction<boolean>>,
+    minVal = 1
+  ): void {
     /* state is a number and above 0 */
     if (newState >= minVal && !isNaN(newState)) {
       setWarning(false);
@@ -21,7 +52,7 @@ function OptionsForm({ className, allNumberInputsStates, otherSetFunctions }) {
   }
 
   //Function to change the value on the input
-  function valueNumberInput(newState) {
+  function valueNumberInput(newState: number): number | string {
     if (newState > 0 || !isNaN(newState)) {
       return newState;
     } else {
@@ -35,7 +66,11 @@ function OptionsForm({ className, allNumberInputsStates, otherSetFunctions }) {
           index 2: value needed  (state)
           index 3: setState 
       This function return the HTML for the input from the arry with the info of the desired input. The array must be of the format described above*/
-  function inputsHTML(infoArray, textsArray, minVal = 1) {
+  function inputsHTML(
+    infoArray: allNumberInputsStatesType[],
+    textsArray: string[],
+    minVal = 1
+  ) {
     return infoArray.map((arrayWithInputStates, index) => (
       <InputWLabel
         className="mt-3"
@@ -134,7 +169,7 @@ function OptionsForm({ className, allNumberInputsStates, otherSetFunctions }) {
         alwaysOpen={false}
         collapseAll={true}
       >
-        <Accordion.Panel className="" collapsed={true}>
+        <Accordion.Panel className="">
           <Accordion.Title className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
             Advanced Options
           </Accordion.Title>
