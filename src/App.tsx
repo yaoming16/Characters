@@ -1,4 +1,4 @@
-import html2pdf from "html2pdf.js"; 
+import html2pdf from "html2pdf.js";
 import Preview from "./Components/Preview";
 import OptionsForm from "./Components/OptionsForm";
 import Toggle from "./Components/Form/Toggle";
@@ -96,6 +96,23 @@ function App() {
     }
   }
 
+  // Calculate the scale based on the width of the previewer container
+  function getScalePreviewer(
+    scale: number,
+    setScale: React.Dispatch<React.SetStateAction<number>>
+  ): void {
+    let newScale: number = scale;
+    if (showPreviewer) {
+      const previewDivContainer = document.getElementById(
+        "previewer-container"
+      )?.offsetWidth;
+      if (previewDivContainer) {
+        newScale = previewDivContainer / 794; // 794 is the width of an A4 in px at 96dpi
+      }
+    }
+    setScale(newScale);
+  }
+
   // Use State for the input that selects the characters to show
 
   let [characters, setCharacters] = useState("");
@@ -178,9 +195,15 @@ function App() {
   // State to change between the previewer and the options form
   const [changeToPreviewer, setchangeToPreviewer] = useState(false);
 
+  // State to store the scale of the previewer
+  const [scale, setScale] = useState<number>(1);
+
   // Update width when previewer visibility changes or relevant props change
   useEffect(() => {
     calculateDivWidth();
+    getScalePreviewer(scale, setScale);
+    console.log(scale);
+    console.log(widthOfTheSquaresInPx);
   }, [
     changeToPreviewer,
     showPreviewer,
@@ -191,11 +214,19 @@ function App() {
   ]);
 
   useEffect(() => {
-    window.addEventListener("resize", calculateDivWidth);
+    window.addEventListener("resize", () => {
+      calculateDivWidth();
+      getScalePreviewer(scale, setScale);
+    });
   }, []);
 
   // All states of number inputs will be stored here so is easier to send them  to the Options form
-  let allNumberInputsStates: [boolean, React.Dispatch<React.SetStateAction<boolean>>, number, React.Dispatch<React.SetStateAction<number>>][] = [
+  let allNumberInputsStates: [
+    boolean,
+    React.Dispatch<React.SetStateAction<boolean>>,
+    number,
+    React.Dispatch<React.SetStateAction<number>>
+  ][] = [
     [
       warningNumberOfBoxesPerRow,
       setWarningNumberOfBoxesPerRow,
@@ -366,11 +397,12 @@ function App() {
           </div>
           <div
             className={`ml-10  w-2/3 rounded-lg shadow-lg border 
-              border-gray-300  ${
+              border-gray-300 min-w-[794px] ${
                 showPreviewer ? "" : changeToPreviewer ? "" : "hidden"
               } 
               ${changeToPreviewer ? "mr-auto ml-auto" : ""}`}
             id="previewer-container"
+            style={{ transform: `scale(${scale})` }}
           >
             <div style={marginStyle} id="previewer-div">
               {/* We need to check if every warning is false to know if the previewer should be shown or not */}
