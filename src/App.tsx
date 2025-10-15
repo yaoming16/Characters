@@ -53,6 +53,7 @@ function App() {
       console.error(`Element with id "${id}" not found.`);
       return;
     }
+
     await html2pdf().from(originalElement).set(options).save();
 
     /*// Clone the element
@@ -97,21 +98,16 @@ function App() {
   }
 
   // Calculate the scale based on the width of the previewer container
-  function getScalePreviewer(
-    scale: number,
-    setScale: React.Dispatch<React.SetStateAction<number>>
-  ): void {
-    let newScale: number = scale;
+  /*   function getScalePreviewer(): void {
     if (showPreviewer) {
       const previewDivContainer = document.getElementById(
         "previewer-container"
       )?.offsetWidth;
       if (previewDivContainer) {
-        newScale = previewDivContainer / 794; // 794 is the width of an A4 in px at 96dpi
+        setScale(previewDivContainer / 794); // 794 is the width of an A4 in px at 96dpi
       }
     }
-    setScale(newScale);
-  }
+  } */
 
   // Use State for the input that selects the characters to show
 
@@ -196,14 +192,14 @@ function App() {
   const [changeToPreviewer, setchangeToPreviewer] = useState(false);
 
   // State to store the scale of the previewer
-  const [scale, setScale] = useState<number>(1);
+  //const [scale, setScale] = useState<number>(1);
 
   // Update width when previewer visibility changes or relevant props change
   useEffect(() => {
     calculateDivWidth();
-    getScalePreviewer(scale, setScale);
-    console.log(scale);
-    console.log(widthOfTheSquaresInPx);
+    //getScalePreviewer();
+    //console.log(scale);
+    //console.log(widthOfTheSquaresInPx);
   }, [
     changeToPreviewer,
     showPreviewer,
@@ -216,7 +212,7 @@ function App() {
   useEffect(() => {
     window.addEventListener("resize", () => {
       calculateDivWidth();
-      getScalePreviewer(scale, setScale);
+      //getScalePreviewer();
     });
   }, []);
 
@@ -397,12 +393,11 @@ function App() {
           </div>
           <div
             className={`ml-10  w-2/3 rounded-lg shadow-lg border 
-              border-gray-300 min-w-[794px] ${
+              border-gray-300 $
                 showPreviewer ? "" : changeToPreviewer ? "" : "hidden"
               } 
               ${changeToPreviewer ? "mr-auto ml-auto" : ""}`}
             id="previewer-container"
-            style={{ transform: `scale(${scale})` }}
           >
             <div style={marginStyle} id="previewer-div">
               {/* We need to check if every warning is false to know if the previewer should be shown or not */}
