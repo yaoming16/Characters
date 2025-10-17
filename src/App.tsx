@@ -9,56 +9,6 @@ import ReactPDFViewer from "./Components/ReactPDFViewer";
 import { Modal } from "flowbite-react";
 
 function App() {
-  const options = {
-    margin: [0, 0, 0, 0],
-    filename: "characters.pdf",
-    image: {
-      type: "png", // Change to PNG for better quality of images with transparency
-      quality: 1.0, // Maximum image quality
-    },
-    html2canvas: {
-      dpi: 94, // Higher DPI for better quality
-      scale: 4, // Reduced from 4 to 2 so the grid can be seen
-      useCORS: true, // Allows loading external fonts
-      allowTaint: true, // Allows "tainted" content
-      letterRendering: true, // Improves text rendering
-      logging: false, // Disables logs for better performance
-      width: null, // Automatic width based on content
-      height: null, // Automatic height
-      scrollX: 0,
-      scrollY: 0,
-      imageTimeout: 15000, // More time to load background images
-      removeContainer: true, // Improves capture
-      pagebreak: { mode: "avoid-all" },
-    },
-    jsPDF: {
-      unit: "pt", // Points for greater precision than inches
-      format: "a4",
-      orientation: "portrait",
-      compress: false, // No compression for higher quality
-      precision: 16, // Greater decimal precision
-    },
-    pagebreak: {
-      mode: ["avoid-all", "css", "legacy"], // Better page breaks
-    },
-  };
-
-  /*   // Function to download the PDF
-  async function downloadPDF(id: string, options: any, warningsArr: boolean[]) {
-    // Check for warnings before generating PDF
-    if (warningsArr.some((warning) => warning)) {
-      console.error("Cannot generate PDF due to warnings.");
-      return;
-    }
-
-    let originalElement = document.getElementById(id);
-    if (!originalElement) {
-      console.error(`Element with id "${id}" not found.`);
-      return;
-    }
-
-    await html2pdf().from(originalElement).set(options).save();
-  } */
 
   // Function to recalculate the width of the squares when the user resizes the window or changes the number of boxes per row or the margins or the spacing between columns
   function calculateDivWidth() {
@@ -304,8 +254,8 @@ function App() {
     warningNumberColumnSpacing,
   ];
 
-  // Style for the margins
-  const marginStyle = {
+  // Style for the margins previewer
+  const marginStylePreview = {
     margin: `${numberMarginTop}px ${numberMarginRight}px ${numberMarginBottom}px ${numberMarginLeft}px`,
   };
 
@@ -376,7 +326,7 @@ function App() {
               ${changeToPreviewer ? "mr-auto ml-auto" : ""}`}
             id="previewer-container"
           >
-            <div style={marginStyle} id="previewer-div">
+            <div style={marginStylePreview} id="previewer-div">
               {/* We need to check if every warning is false to know if the previewer should be shown or not */}
               {warningArr.every((val) => val === false) ? (
                 <Preview
@@ -419,6 +369,10 @@ function App() {
               id={"previewer"}
               allStates={statesToShow}
               widthOfTheSquaresInPx={widthOfTheSquaresInPx}
+              marginTop={numberMarginTop}
+              marginRight={numberMarginRight}
+              marginBottom={numberMarginBottom}
+              marginLeft={numberMarginLeft}
             ></ReactPDFViewer>
           </div>
         </Modal.Body>

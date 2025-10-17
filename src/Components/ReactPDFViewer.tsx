@@ -107,6 +107,10 @@ interface PreviewPropsType {
     number
   ];
   widthOfTheSquaresInPx: number;
+  marginTop: number;
+  marginRight: number;
+  marginBottom: number;
+  marginLeft: number;
 }
 
 function ReactPDFViewer({
@@ -114,6 +118,10 @@ function ReactPDFViewer({
   className = "",
   allStates,
   widthOfTheSquaresInPx,
+  marginTop,
+  marginRight,
+  marginBottom,
+  marginLeft,
 }: PreviewPropsType) {
   let [
     characters,
@@ -133,7 +141,7 @@ function ReactPDFViewer({
     <View key={uuidv4()}>
       <View
         style={{
-          marginTop: numberRowSpacing + 10 + "px",
+          marginTop: numberRowSpacing + 10 ,
         }}
       >
         {showDefinition ? (
@@ -188,9 +196,9 @@ function ReactPDFViewer({
     return (
       <View
         key={uuidv4()}
-        //className={"flex flex-row "}
         style={{
-          marginTop: rowSpacing + "px",
+          marginTop: rowSpacing,
+          ...tw("flex flex-row "),
         }}
       >
         {[...Array(numberOfBoxesPerRow).keys()].map((index) => (
@@ -213,10 +221,21 @@ function ReactPDFViewer({
       </View>
     );
   }
+
+      // Style for the pdf Download preview
+  const styles = StyleSheet.create({
+    marginStyleDownload: {
+      paddingTop: `${marginTop}`,
+      paddingRight: `${marginRight}`,
+      paddingBottom: `${marginBottom}`,
+      paddingLeft: `${marginLeft}`,
+    }
+  });
+
   return (
-    <PDFViewer style={{ width: "100%", height: "600px" }}>
+    <PDFViewer style={{ width: "100%" }}>
       <Document>
-        <Page size="A4">
+        <Page size="A4" style={styles.marginStyleDownload}>
           <div>{listCharacters}</div>
         </Page>
       </Document>
