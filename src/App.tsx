@@ -6,6 +6,7 @@ import DownloadButton from "./Components/Form/DownloadButton";
 import { useState, useEffect } from "react";
 import React from "react";
 import ReactPDFViewer from "./Components/ReactPDFViewer";
+import { Modal } from "flowbite-react";
 
 function App() {
   const options = {
@@ -42,7 +43,7 @@ function App() {
     },
   };
 
-  // Function to download the PDF
+  /*   // Function to download the PDF
   async function downloadPDF(id: string, options: any, warningsArr: boolean[]) {
     // Check for warnings before generating PDF
     if (warningsArr.some((warning) => warning)) {
@@ -57,20 +58,7 @@ function App() {
     }
 
     await html2pdf().from(originalElement).set(options).save();
-
-    /*// Clone the element
-    let clonedElement = originalElement.cloneNode(true);
-    clonedElement.id = id + "-pdf-clone";
-
-    // Add to DOM temporarily
-    document.body.appendChild(clonedElement);
-
-    try {
-      await html2pdf().from(clonedElement).set(options).save();
-    } finally {
-      document.body.removeChild(clonedElement);
-    }*/
-  }
+  } */
 
   // Function to recalculate the width of the squares when the user resizes the window or changes the number of boxes per row or the margins or the spacing between columns
   function calculateDivWidth() {
@@ -98,18 +86,6 @@ function App() {
       return () => clearTimeout(timer);
     }
   }
-
-  // Calculate the scale based on the width of the previewer container
-  /*   function getScalePreviewer(): void {
-    if (showPreviewer) {
-      const previewDivContainer = document.getElementById(
-        "previewer-container"
-      )?.offsetWidth;
-      if (previewDivContainer) {
-        setScale(previewDivContainer / 794); // 794 is the width of an A4 in px at 96dpi
-      }
-    }
-  } */
 
   // Use State for the input that selects the characters to show
 
@@ -193,15 +169,12 @@ function App() {
   // State to change between the previewer and the options form
   const [changeToPreviewer, setchangeToPreviewer] = useState(false);
 
-  // State to store the scale of the previewer
-  //const [scale, setScale] = useState<number>(1);
+  // State for the modal
+  const [openModal, setOpenModal] = useState(false);
 
   // Update width when previewer visibility changes or relevant props change
   useEffect(() => {
     calculateDivWidth();
-    //getScalePreviewer();
-    //console.log(scale);
-    //console.log(widthOfTheSquaresInPx);
   }, [
     changeToPreviewer,
     showPreviewer,
@@ -338,7 +311,7 @@ function App() {
 
   return (
     <>
-      <div className="border-gray-300 ">
+      <div className="border-gray-300 z-10">
         <div
           id="container"
           className={`w-3/4 m-auto mt-10 mb-10 border border-gray-300 p-10 rounded-lg shadow-lg flex ${
@@ -387,7 +360,8 @@ function App() {
             {/* Download button that only appears when the previewer is shown or when we are in changeToPreviewer mode and the options form is hidden */}
             <DownloadButton
               onClick={() => {
-                downloadPDF("previewer-div", options, warningArr);
+                //downloadPDF("previewer-div", options, warningArr);
+                setOpenModal(!openModal);
               }}
               warningArr={warningArr}
               className={`${changeToPreviewer ? "hidden" : ""}`}
@@ -397,7 +371,7 @@ function App() {
           <div
             className={`ml-10  w-2/3 rounded-lg shadow-lg border 
               border-gray-300 $
-                showPreviewer ? "" : changeToPreviewer ? "" : "hidden"
+               ${showPreviewer ? "" : changeToPreviewer ? "" : "hidden"
               } 
               ${changeToPreviewer ? "mr-auto ml-auto" : ""}`}
             id="previewer-container"
@@ -419,20 +393,36 @@ function App() {
           {/* Download button that only appears when the previewer is not shown */}
           <DownloadButton
             onClick={() => {
-              downloadPDF("previewer-div", options, warningArr);
+              //downloadPDF("previewer-div", options, warningArr);
+              setOpenModal(!openModal);
             }}
             warningArr={warningArr}
             className={`${showPreviewer || !changeToPreviewer ? "hidden" : ""}`}
           />
         </div>
       </div>
-      <div className="w-3/4 m-auto mb-10">
-        <ReactPDFViewer
-          id={"previewer"}
-          allStates={statesToShow}
-          widthOfTheSquaresInPx={widthOfTheSquaresInPx}
-        ></ReactPDFViewer>
-      </div>
+
+      {/* Modal for preview */}
+      <Modal
+        show={openModal}
+        size="5xl"
+        position="center"
+        dismissible
+        onClose={() => setOpenModal(false)}
+        className="!bg-black/70"
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="overflow-auto border border-gray-300 rounded-lg shadow-lg p-5">
+            asd
+            <ReactPDFViewer
+              id={"previewer"}
+              allStates={statesToShow}
+              widthOfTheSquaresInPx={widthOfTheSquaresInPx}
+            ></ReactPDFViewer>
+          </div>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }
