@@ -1,8 +1,10 @@
 import SquareReactPdf from "./SquareReactPdf";
 import { v4 as uuidv4 } from "uuid";
 import CharactersInfoImport from "../data/dictionary.json";
+import { createTw } from "react-pdf-tailwind";
 
 const CharactersInfo: characterInfoType[] = CharactersInfoImport.CharactersInfo;
+const tw = createTw({});
 
 import {
   Page,
@@ -39,19 +41,6 @@ Font.register({
 Font.register({
   family: "Noto Sans SC",
   src: "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap",
-});
-
-// Create styles
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: "row",
-    backgroundColor: "#E4E4E4",
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1,
-  },
 });
 
 type characterInfoType = {
@@ -147,24 +136,28 @@ function ReactPDFViewer({
           marginTop: numberRowSpacing + 10 + "px",
         }}
       >
-        <Text /* className={"" + (showDefinition ? "" : "hidden")} */>
-          <Text /* className="font-bold mr-2" */>Definition:</Text>
-          {returnInfoOrNotFound(
-            CharactersInfo,
-            character,
-            "definition",
-            "Could not find the character definition"
-          )}
-        </Text>
-        <Text /* className={"" + (showPinyin ? "" : "hidden")} */>
-          <Text /* className="font-bold mr-2" */>Pinyin:</Text>
-          {returnInfoOrNotFound(
-            CharactersInfo,
-            character,
-            "pinyin",
-            "Could not find the Pinyin"
-          )}
-        </Text>
+        {showDefinition ? (
+          <Text>
+            <Text style={tw(`font-bold mr-2`)}>Definition:</Text>
+            {returnInfoOrNotFound(
+              CharactersInfo,
+              character,
+              "definition",
+              "Could not find the character definition"
+            )}
+          </Text>
+        ) : null}
+        {showPinyin ? (
+          <Text>
+            <Text style={tw(`font-bold mr-2`)}>Pinyin:</Text>
+            {returnInfoOrNotFound(
+              CharactersInfo,
+              character,
+              "pinyin",
+              "Could not find the Pinyin"
+            )}
+          </Text>
+        ) : null}
       </View>
       {[...Array(numberOfRowsPerCharacter).keys()].map((index) =>
         createOneLine(
@@ -223,7 +216,7 @@ function ReactPDFViewer({
   return (
     <PDFViewer style={{ width: "100%", height: "600px" }}>
       <Document>
-        <Page size="A4" style={styles.page}>
+        <Page size="A4">
           <div>{listCharacters}</div>
         </Page>
       </Document>
