@@ -1,11 +1,11 @@
 interface SquarePropsType {
-  character: string,
-  firstCharacter: boolean,
-  font: string,
-  columnSpacing: number,
-  gridName: string,
-  widthInPx: number,
-  letterOpacity: number,
+  character: string;
+  firstCharacter: boolean;
+  font: string;
+  columnSpacing: number;
+  gridName: string;
+  widthInPx: number;
+  letterOpacity: number;
 }
 
 function Square({
@@ -16,7 +16,7 @@ function Square({
   gridName,
   widthInPx,
   letterOpacity,
-} : SquarePropsType) {
+}: SquarePropsType) {
   return (
     <div
       className=""

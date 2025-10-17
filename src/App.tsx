@@ -4,6 +4,8 @@ import OptionsForm from "./Components/OptionsForm";
 import Toggle from "./Components/Form/Toggle";
 import DownloadButton from "./Components/Form/DownloadButton";
 import { useState, useEffect } from "react";
+import React from "react";
+import ReactPDFViewer from "./Components/ReactPDFViewer";
 
 function App() {
   const options = {
@@ -391,6 +393,7 @@ function App() {
               className={`${changeToPreviewer ? "hidden" : ""}`}
             />
           </div>
+
           <div
             className={`ml-10  w-2/3 rounded-lg shadow-lg border 
               border-gray-300 $
@@ -412,6 +415,7 @@ function App() {
               )}
             </div>
           </div>
+
           {/* Download button that only appears when the previewer is not shown */}
           <DownloadButton
             onClick={() => {
@@ -421,6 +425,13 @@ function App() {
             className={`${showPreviewer || !changeToPreviewer ? "hidden" : ""}`}
           />
         </div>
+      </div>
+      <div className="w-3/4 m-auto mb-10">
+        <ReactPDFViewer
+          id={"previewer"}
+          allStates={statesToShow}
+          widthOfTheSquaresInPx={widthOfTheSquaresInPx}
+        ></ReactPDFViewer>
       </div>
     </>
   );

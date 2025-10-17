@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.3.1",
     "@tailwindcss/postcss": "^4.0.4",
     "@tailwindcss/vite": "^4.0.4",
     "flowbite-react": "^0.10.2",
@@ -20,11 +21,13 @@
     "uuid": "^11.0.5"
   },
   "devDependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@eslint/js": "^9.19.0",
     "@types/html2pdf.js": "^0.10.0",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.1",
     "@vitejs/plugin-react": "^4.3.4",
+    "buffer": "^6.0.3",
     "eslint": "^9.19.0",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.0.0",
