@@ -224,7 +224,7 @@ function ReactPDFViewer({
 
   // Style for the pdf Download preview
   const styles = StyleSheet.create({
-    marginStyleDownload: {
+    page: {
       paddingTop: `${marginTop}`,
       paddingRight: `${marginRight}`,
       paddingBottom: `${marginBottom}`,
@@ -232,11 +232,13 @@ function ReactPDFViewer({
     },
   });
 
+  //PDF width
+
   return (
     <PDFViewer style={{ width: "100%", height: "70vh" }}>
       <Document>
-        <Page size="A4" style={styles.marginStyleDownload}>
-          <View>{listCharacters}</View>
+        <Page size="A4" style={styles.page}>
+          <View style={{ width: "595" }}>{listCharacters}</View>
         </Page>
       </Document>
     </PDFViewer>

@@ -21,24 +21,31 @@ function App() {
     setFunction(true);
   }
 
+  function getDivWidth(id: string): number {
+    const previewDivContainer = document.getElementById(id)?.offsetWidth;
+    if (previewDivContainer) {
+      return previewDivContainer;
+    }
+    return 0;
+  }
+
+  function calculateNewWidth(maxWidth: number): number {
+    const spaceBetweenSquares = numberColumnSpacing * (numberOfBoxesPerRow - 1);
+    const newWidth = Math.floor(
+      (maxWidth - spaceBetweenSquares - numberMarginRight - numberMarginLeft) /
+        numberOfBoxesPerRow
+    );
+    return newWidth;
+  }
+
   // Function to recalculate the width of the squares when the user resizes the window or changes the number of boxes per row or the margins or the spacing between columns
   function calculateDivWidth() {
     if (showPreviewer) {
       // Wait a moment for the element to be visible, then recalculate
       const timer = setTimeout(() => {
-        const previewDivContainer = document.getElementById(
-          "previewer-container"
-        )?.offsetWidth;
+        const previewDivContainer = getDivWidth("previewer-container");
         if (previewDivContainer) {
-          const spaceBetweenSquares =
-            numberColumnSpacing * (numberOfBoxesPerRow - 1);
-          const newWidth = Math.floor(
-            (previewDivContainer -
-              spaceBetweenSquares -
-              numberMarginRight -
-              numberMarginLeft) /
-              numberOfBoxesPerRow
-          );
+          const newWidth = calculateNewWidth(previewDivContainer);
           if (newWidth > 0) {
             setWidthOfTheSquaresInPx(newWidth);
           }
@@ -375,7 +382,7 @@ function App() {
             <ReactPDFViewer
               id={"previewer"}
               allStates={statesToShow}
-              widthOfTheSquaresInPx={widthOfTheSquaresInPx}
+              widthOfTheSquaresInPx={calculateNewWidth(595)}
               marginTop={numberMarginTop}
               marginRight={numberMarginRight}
               marginBottom={numberMarginBottom}
