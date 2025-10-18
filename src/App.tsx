@@ -9,6 +9,17 @@ import ReactPDFViewer from "./Components/ReactPDFViewer";
 import { Modal } from "flowbite-react";
 
 function App() {
+  // Fuction to check if there are no warnings and show the final previewer
+  function changeStateIfNoWarnings(
+    warningsArr: boolean[],
+    setFunction: React.Dispatch<React.SetStateAction<boolean>>
+  ): void {
+    if (warningsArr.some((warning) => warning)) {
+      console.error("Cannot generate PDF due to warnings.");
+      return;
+    }
+    setFunction(true);
+  }
 
   // Function to recalculate the width of the squares when the user resizes the window or changes the number of boxes per row or the margins or the spacing between columns
   function calculateDivWidth() {
@@ -310,8 +321,7 @@ function App() {
             {/* Download button that only appears when the previewer is shown or when we are in changeToPreviewer mode and the options form is hidden */}
             <DownloadButton
               onClick={() => {
-                //downloadPDF("previewer-div", options, warningArr);
-                setOpenModal(!openModal);
+                changeStateIfNoWarnings(warningArr, setOpenModal);
               }}
               warningArr={warningArr}
               className={`${changeToPreviewer ? "hidden" : ""}`}
@@ -321,8 +331,7 @@ function App() {
           <div
             className={`ml-10  w-2/3 rounded-lg shadow-lg border 
               border-gray-300 $
-               ${showPreviewer ? "" : changeToPreviewer ? "" : "hidden"
-              } 
+               ${showPreviewer ? "" : changeToPreviewer ? "" : "hidden"} 
               ${changeToPreviewer ? "mr-auto ml-auto" : ""}`}
             id="previewer-container"
           >
@@ -343,8 +352,7 @@ function App() {
           {/* Download button that only appears when the previewer is not shown */}
           <DownloadButton
             onClick={() => {
-              //downloadPDF("previewer-div", options, warningArr);
-              setOpenModal(!openModal);
+              changeStateIfNoWarnings(warningArr, setOpenModal);
             }}
             warningArr={warningArr}
             className={`${showPreviewer || !changeToPreviewer ? "hidden" : ""}`}
@@ -364,7 +372,6 @@ function App() {
         <Modal.Header />
         <Modal.Body>
           <div className="overflow-auto border border-gray-300 rounded-lg shadow-lg p-5">
-            asd
             <ReactPDFViewer
               id={"previewer"}
               allStates={statesToShow}

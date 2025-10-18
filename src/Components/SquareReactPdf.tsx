@@ -33,17 +33,16 @@ function SquareReactPdf({
       <Image
         src={gridName}
         style={{
-          width: widthInPx ,
-          height: widthInPx ,
-          position: "absolute",
-          opacity: 0.5,
+          width: widthInPx,
+          height: widthInPx,
+          ...tw("absolute opacity-50 "),
         }}
       ></Image>
       <View
         style={{
           /* fontFamily: font, */
-          width: widthInPx ,
-          height: widthInPx ,
+          width: widthInPx,
+          height: widthInPx,
           ...tw("flex relative "),
         }}
       >
@@ -55,7 +54,7 @@ function SquareReactPdf({
             color: firstCharacter
               ? "#000000"
               : `rgba(200, 200, 200, ${letterOpacity / 100})`,
-              ...tw("leading-none ml-auto mr-auto mt-0 mb-0"),
+            ...tw("leading-none ml-auto mr-auto mt-0 mb-0"),
           }}
         >
           {character}
