@@ -116,9 +116,7 @@ function App() {
   let [warningLetterOpacity, setWarningLetterOpacity] = useState(false);
 
   //Use state for the font
-  let [font, setFont] = useState(
-    `"FangSong"`
-  );
+  let [font, setFont] = useState("FangSong");
 
   // Use state for grid selection
   let [gridName, setGridName] = useState("basic-grid.jpg");
@@ -155,11 +153,18 @@ function App() {
   ]);
 
   useEffect(() => {
-    window.addEventListener("resize", () => {
-      calculateDivWidth();
-      //getScalePreviewer();
-    });
-  }, []);
+    // We only want to resize when the modal is not open
+    const handler = () => {
+      if (!openModal) {
+        calculateDivWidth();
+      }
+    };
+    window.addEventListener("resize", handler);
+    // Cleanup function
+    return () => {
+      window.removeEventListener("resize", handler);
+    };
+  }, [openModal]);
 
   // All states of number inputs will be stored here so is easier to send them  to the Options form
   let allNumberInputsStates: [
@@ -375,7 +380,11 @@ function App() {
         size="5xl"
         position="center"
         dismissible
-        onClose={() => setOpenModal(false)}
+        onClose={() => {
+          setOpenModal(false);
+          // When modal opened, resizing was stoped, so we need to recalculate it in case user changed screen width
+          calculateDivWidth();
+        }}
         className="!bg-black/70"
       >
         <Modal.Header />
