@@ -22,6 +22,14 @@ function SquareReactPdf({
   widthInPx,
   letterOpacity,
 }: SquareReactPdfType) {
+  // Convert CSS font stack to registered font family name for @react-pdf/renderer
+  const getFontFamily = (fontStack: string): string => {
+    if (fontStack.includes("FangSong")) return "FangSong";
+    if (fontStack.includes("KaiTi")) return "KaiTi";
+    if (fontStack.includes("SimSun")) return "SimSun";
+    return "FangSong"; // Default fallback
+  };
+
   return (
     <View
       style={{
@@ -35,22 +43,21 @@ function SquareReactPdf({
         style={{
           width: widthInPx,
           height: widthInPx,
-          ...tw("absolute opacity-50 "),
+          ...tw("absolute opacity-50"),
         }}
       ></Image>
       <View
         style={{
-          /* fontFamily: font, */
           width: widthInPx,
           height: widthInPx,
-          ...tw("flex relative "),
+          ...tw("flex relative justify-center items-center"),
         }}
       >
         <Text
           style={{
             fontSize: Math.floor(widthInPx * 0.7),
-            /* fontFamily: font, */
-            fontWeight: firstCharacter ? "400" : "",
+            fontFamily: getFontFamily(font),
+            fontWeight: firstCharacter ? "400" : "normal",
             color: firstCharacter
               ? "#000000"
               : `rgba(200, 200, 200, ${letterOpacity / 100})`,

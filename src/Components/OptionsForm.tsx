@@ -111,9 +111,9 @@ function OptionsForm({
   let fontInfo = {
     text: [" FangSong (欢迎)", "Kaiti (欢迎)", "SimSun (欢迎)"],
     values: [
-      `"FangSong", "仿宋", "STFangSong", "华文仿宋", "Noto Serif SC", serif`,
-      `"KaiTi", "楷体", "STKaiti", "华文楷体", "Noto Serif SC", serif`,
-      `"SimSun", "宋体", "华文细黑", "STXihei", "Noto Sans SC", sans-serif`,
+      `"FangSong"`,
+      `"KaiTi"`,
+      `"SimSun"`,
     ],
   };
 

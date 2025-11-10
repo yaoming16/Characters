@@ -3,6 +3,10 @@ import { v4 as uuidv4 } from "uuid";
 import CharactersInfoImport from "../data/dictionary.json";
 import { createTw } from "react-pdf-tailwind";
 
+import FangSong from "../Fonts/FangSong.ttf";
+import KaiTi from "../Fonts/KaiTi.ttf";
+import SimSun from "../Fonts/SimSun.ttf";
+
 const CharactersInfo: characterInfoType[] = CharactersInfoImport.CharactersInfo;
 const tw = createTw({});
 
@@ -20,27 +24,17 @@ import {
 // Register Chinese fonts for react-pdf
 Font.register({
   family: "FangSong",
-  src: "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap",
+  src: FangSong,
 });
 
 Font.register({
   family: "KaiTi",
-  src: "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap",
+  src: KaiTi,
 });
 
 Font.register({
   family: "SimSun",
-  src: "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap",
-});
-
-Font.register({
-  family: "Noto Serif SC",
-  src: "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap",
-});
-
-Font.register({
-  family: "Noto Sans SC",
-  src: "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap",
+  src: SimSun,
 });
 
 type characterInfoType = {
@@ -138,7 +132,7 @@ function ReactPDFViewer({
   ] = allStates;
 
   const listCharacters = characters.split("").map((character) => (
-    <View key={uuidv4()}>
+    <View key={uuidv4()} >
       <View
         style={{
           marginTop: numberRowSpacing + 10,
@@ -167,6 +161,7 @@ function ReactPDFViewer({
           </Text>
         ) : null}
       </View>
+  <View>
       {[...Array(numberOfRowsPerCharacter).keys()].map((index) =>
         createOneLine(
           character,
@@ -180,6 +175,7 @@ function ReactPDFViewer({
           widthOfTheSquaresInPx
         )
       )}
+  </View>
     </View>
   ));
 
@@ -204,19 +200,18 @@ function ReactPDFViewer({
         {[...Array(numberOfBoxesPerRow).keys()].map((index) => (
           // We need to have a character in the square only for the number of practice squares the user wants
           // We also need to know if it is the first character we show to show it bold
-          <Text key={uuidv4()}>
-            <SquareReactPdf
-              widthInPx={widthOfTheSquaresInPx}
-              character={
-                index < numberPracticeSquares && firstLine ? character : ""
-              }
-              firstCharacter={index === 0 ? true : false}
-              font={""}
-              columnSpacing={columnSpacing}
-              gridName={gridName}
-              letterOpacity={letterOpacity}
-            ></SquareReactPdf>
-          </Text>
+          <SquareReactPdf
+            key={uuidv4()}
+            widthInPx={widthOfTheSquaresInPx}
+            character={
+              index < numberPracticeSquares && firstLine ? character : ""
+            }
+            firstCharacter={index === 0 ? true : false}
+            font={font}
+            columnSpacing={columnSpacing}
+            gridName={gridName}
+            letterOpacity={letterOpacity}
+          />
         ))}
       </View>
     );

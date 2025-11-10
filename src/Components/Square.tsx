@@ -49,7 +49,7 @@ function Square({
           <path d="M0 0 C77.22 0 154.44 0 234 0 C234 77.22 234 154.44 234 234 C156.78 234 79.56 234 0 234 C0 156.78 0 79.56 0 0 Z M2 2 C2 77.9 2 153.8 2 232 C77.9 232 153.8 232 232 232 C232 156.1 232 80.2 232 2 C156.1 2 80.2 2 2 2 Z " fill="#000000" transform="translate(0,0)"/>
         </svg>*/}
       <div
-        className="flex relative "
+        className="flex relative justify-center items-center"
         style={{
           fontFamily: font,
           width: widthInPx + "px",
