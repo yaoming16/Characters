@@ -117,7 +117,7 @@ function App() {
 
   //Use state for the font
   let [font, setFont] = useState(
-    `"FangSong", "仿宋", "STFangSong", "华文仿宋", "Noto Serif SC", serif`
+    `"FangSong"`
   );
 
   // Use state for grid selection

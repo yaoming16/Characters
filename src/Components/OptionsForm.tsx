@@ -111,9 +111,9 @@ function OptionsForm({
   let fontInfo = {
     text: [" FangSong (欢迎)", "Kaiti (欢迎)", "SimSun (欢迎)"],
     values: [
-      `"FangSong"`,
-      `"KaiTi"`,
-      `"SimSun"`,
+      `FangSong`,
+      `KaiTi`,
+      `SimSun`,
     ],
   };
 

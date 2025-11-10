@@ -132,7 +132,7 @@ function ReactPDFViewer({
   ] = allStates;
 
   const listCharacters = characters.split("").map((character) => (
-    <View key={uuidv4()} wrap={false}>
+    <View key={uuidv4()}>
       <View
         style={{
           marginTop: numberRowSpacing + 10,
@@ -195,7 +195,7 @@ function ReactPDFViewer({
         wrap={false}
         style={{
           marginTop: rowSpacing,
-          ...tw("flex flex-row "),
+          ...tw("flex flex-row"),
         }}
       >
         {[...Array(numberOfBoxesPerRow).keys()].map((index) => (
