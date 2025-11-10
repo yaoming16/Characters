@@ -1,4 +1,3 @@
-import html2pdf from "html2pdf.js";
 import Preview from "./Components/Preview";
 import OptionsForm from "./Components/OptionsForm";
 import Toggle from "./Components/Form/Toggle";
@@ -7,8 +6,11 @@ import { useState, useEffect } from "react";
 import React from "react";
 import ReactPDFViewer from "./Components/ReactPDFViewer";
 import { Modal } from "flowbite-react";
+import {Buffer} from 'buffer';
 
 function App() {
+   (window as any).Buffer = Buffer;
+
   // Fuction to check if there are no warnings and show the final previewer
   function changeStateIfNoWarnings(
     warningsArr: boolean[],
@@ -61,7 +63,7 @@ function App() {
 
   //Use State for the input that selects the Boxes per row
 
-  let [numberOfBoxesPerRow, setNumberOfBoxesPerRow] = useState(5);
+  let [numberOfBoxesPerRow, setNumberOfBoxesPerRow] = useState(8);
   let [warningNumberOfBoxesPerRow, setWarningNumberOfBoxesPerRow] =
     useState(false);
 

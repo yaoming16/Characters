@@ -132,7 +132,7 @@ function ReactPDFViewer({
   ] = allStates;
 
   const listCharacters = characters.split("").map((character) => (
-    <View key={uuidv4()} >
+    <View key={uuidv4()} wrap={false}>
       <View
         style={{
           marginTop: numberRowSpacing + 10,
@@ -161,21 +161,21 @@ function ReactPDFViewer({
           </Text>
         ) : null}
       </View>
-  <View>
-      {[...Array(numberOfRowsPerCharacter).keys()].map((index) =>
-        createOneLine(
-          character,
-          font,
-          numberOfBoxesPerRow,
-          numberPracticeSquares,
-          /* For the first character we send the spacing the user selected plus an extra so we can differentiate between the lines corresponding to  the same character*/
-          index === 0 ? numberRowSpacing + 10 : numberRowSpacing,
-          numberColumnSpacing,
-          index === 0 ? true : false,
-          widthOfTheSquaresInPx
-        )
-      )}
-  </View>
+      <View>
+          {[...Array(numberOfRowsPerCharacter).keys()].map((index) =>
+            createOneLine(
+              character,
+              font,
+              numberOfBoxesPerRow,
+              numberPracticeSquares,
+              /* For the first character we send the spacing the user selected plus an extra so we can differentiate between the lines corresponding to  the same character*/
+              index === 0 ? numberRowSpacing + 10 : numberRowSpacing,
+              numberColumnSpacing,
+              index === 0 ? true : false,
+              widthOfTheSquaresInPx
+            )
+          )}
+      </View>
     </View>
   ));
 
@@ -192,6 +192,7 @@ function ReactPDFViewer({
     return (
       <View
         key={uuidv4()}
+        wrap={false}
         style={{
           marginTop: rowSpacing,
           ...tw("flex flex-row "),
