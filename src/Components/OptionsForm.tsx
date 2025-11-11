@@ -110,11 +110,7 @@ function OptionsForm({
 
   let fontInfo = {
     text: [" FangSong (欢迎)", "Kaiti (欢迎)", "SimSun (欢迎)"],
-    values: [
-      `FangSong`,
-      `KaiTi`,
-      `SimSun`,
-    ],
+    values: [`FangSong`, `KaiTi`, `SimSun`],
   };
 
   // A list with the name of all the grid options/files
@@ -128,7 +124,7 @@ function OptionsForm({
       <InputWLabel
         type="text"
         className=""
-        onChange={(e) => setCharacters(e.target.value)}
+        onChange={(e) => setCharacters(e.target.value.trim())}
         text="Enter the characters you wish to practice"
         id="CharactersInput"
       ></InputWLabel>
