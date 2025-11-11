@@ -115,6 +115,10 @@ function App() {
   let [letterOpacity, setLetterOpacity] = useState(100);
   let [warningLetterOpacity, setWarningLetterOpacity] = useState(false);
 
+  // Option for how many lines the user wants the practice character to show
+  let [numberOfPracticeLines, setNumberOfPracticeLines] = useState(1);
+  let [warningNumberOfPracticeLines, setWarningNumberOfPracticeLines] = useState(false);
+
   //Use state for the font
   let [font, setFont] = useState("FangSong");
 
@@ -130,6 +134,7 @@ function App() {
   // Option to show the previewer
   let [showPreviewer, setShowPreviewer] = useState(true);
 
+
   // State to store the width of the squares
   const [widthOfTheSquaresInPx, setWidthOfTheSquaresInPx] = useState<number>(0);
   //calculateDivWidth();
@@ -139,6 +144,13 @@ function App() {
 
   // State for the modal
   const [openModal, setOpenModal] = useState(false);
+
+  // Remove practice lines warnig if rows per character increases to a value equal or higher than practice lines
+  useEffect(() => {
+    if (numberOfRowsPerCharacter >= numberOfPracticeLines) {
+      setWarningNumberOfPracticeLines(false);
+    }
+  }, [numberOfRowsPerCharacter, numberOfPracticeLines]);
 
   // Update width when previewer visibility changes or relevant props change
   useEffect(() => {
@@ -190,6 +202,12 @@ function App() {
       setWarningNumberPracticeSquares,
       numberPracticeSquares,
       setNumberPracticeSquares,
+    ],
+    [
+      warningNumberOfPracticeLines,
+      setWarningNumberOfPracticeLines,
+      numberOfPracticeLines,
+      setNumberOfPracticeLines,
     ],
     [
       warningLetterOpacity,
@@ -277,6 +295,8 @@ function App() {
     warningNumberMarginBottom,
     warningNumberRowSpacing,
     warningNumberColumnSpacing,
+    warningLetterOpacity,
+    warningNumberOfPracticeLines,
   ];
 
   // Style for the margins previewer

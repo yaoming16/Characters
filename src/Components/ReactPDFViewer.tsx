@@ -131,15 +131,18 @@ function ReactPDFViewer({
     letterOpacity,
   ] = allStates;
 
-  const listCharacters = characters.split("").map((character) => (
+  const listCharacters = characters.split("").map((character) => {
+    if (character !== " ") {
+      return (
     <View key={uuidv4()}>
       <View
         style={{
           marginTop: numberRowSpacing + 10,
+          ...tw("flex flex-row"),
         }}
       >
         {showDefinition ? (
-          <Text>
+          <Text style={tw(`border border-solid p-2 text-[0.8rem]`)}>
             <Text style={tw(`font-bold mr-2`)}>Definition:</Text>
             {returnInfoOrNotFound(
               CharactersInfo,
@@ -150,7 +153,7 @@ function ReactPDFViewer({
           </Text>
         ) : null}
         {showPinyin ? (
-          <Text>
+          <Text style={tw(`border border-solid p-2 text-[0.8rem]${showDefinition ? " border-l-0" : ""}`)}>
             <Text style={tw(`font-bold mr-2`)}>Pinyin:</Text>
             {returnInfoOrNotFound(
               CharactersInfo,
@@ -177,7 +180,9 @@ function ReactPDFViewer({
         )}
       </View>
     </View>
-  ));
+      )
+    }
+  });
 
   function createOneLine(
     character = "",

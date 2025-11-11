@@ -35,15 +35,16 @@ function OptionsForm({
   let [setCharacters, setFont, setGridName, setShowDefinition, setShowPinyin] =
     otherSetFunctions;
 
-  /* Function to check if it is a number and above 0. Then change the values and the warning */
+  /* Function to check if conditions are met for the input value. Then change the values and the warning */
   function checkNumbers(
     setFunction: React.Dispatch<React.SetStateAction<number>>,
     newState: number,
     setWarning: React.Dispatch<React.SetStateAction<boolean>>,
-    minVal = 1
+    minVal = 1,
+    maxVal = Infinity
   ): void {
     /* state is a number and above 0 */
-    if (newState >= minVal && !isNaN(newState)) {
+    if (newState >= minVal && !isNaN(newState) && newState <= maxVal) {
       setWarning(false);
     } else {
       setWarning(true);
@@ -51,14 +52,16 @@ function OptionsForm({
     setFunction(newState);
   }
 
-  //Function to change the value on the input
+  //Function to change the value on the input on change. If the value is not valid return empty string to clear the input
+  /*
   function valueNumberInput(newState: number): number | string {
-    if (newState > 0 || !isNaN(newState)) {
+    if (newState >= 0 && !isNaN(newState)) {
       return newState;
     } else {
       return "";
     }
   }
+*/
 
   /* allNumberInputsStates contains the states needed fot all number inputs as follows
           index 0: warning
@@ -69,7 +72,9 @@ function OptionsForm({
   function inputsHTML(
     infoArray: allNumberInputsStatesType[],
     textsArray: string[],
-    minVal = 1
+    warningTexts : string[],
+    minVal = 1,
+    maxVal = Infinity,
   ) {
     return infoArray.map((arrayWithInputStates, index) => (
       <InputWLabel
@@ -82,23 +87,45 @@ function OptionsForm({
             arrayWithInputStates[3],
             parseInt(e.target.value),
             arrayWithInputStates[1],
-            minVal
+            minVal,
+            textsArray[index] === "Letter Opacity" ? 100 : 
+            textsArray[index] === "Practice Lines" ? 
+            allNumberInputsStates[1][2] : Infinity,
           )
         }
-        step={index === 3 ? "10" : "1"}
+        step={
+          // If opacity input set step to 10 else 1
+          textsArray[index] === "Letter Opacity" ? "10" : "1"
+        }
         text={textsArray[index]}
-        value={valueNumberInput(arrayWithInputStates[2])}
+        value={arrayWithInputStates[2]}
         warning={arrayWithInputStates[0]}
-        warningMessage={`Please enter a valid number (>= ${minVal})`}
+        warningMessage={warningTexts[index]}
       ></InputWLabel>
     ));
   }
+
+  // warnings texts
+  let warningTexts = [
+    "Enter a number greater than or equal to 1",
+    "Enter a number greater than or equal to 1",
+    "Enter a number greater than or equal to 1",
+    "Enter a number greater than or equal to 1 and less than or equal to Rows Per Character",
+    "Enter a number between 0 and 100",
+    "Enter a number greater than or equal to 0",
+    "Enter a number greater than or equal to 0",
+    "Enter a number greater than or equal to 0",
+    "Enter a number greater than or equal to 0",
+    "Enter a number greater than or equal to 0",
+    "Enter a number greater than or equal to 0",
+  ];
 
   // Text for all inputs
   let numberInputTexts = [
     "Boxes Per Row",
     "Rows Per Character",
-    "Practice Squares",
+    "Practice Squares per line",
+    "Practice Lines",
     "Letter Opacity",
     "Margin Left",
     "Margin Right",
@@ -134,7 +161,8 @@ function OptionsForm({
 
       {inputsHTML(
         allNumberInputsStates.slice(0, 4),
-        numberInputTexts.slice(0, 4)
+        numberInputTexts.slice(0, 4),
+        warningTexts.slice(0,4)
       )}
 
       {/* We will add some other option 
@@ -174,7 +202,8 @@ function OptionsForm({
             {inputsHTML(
               allNumberInputsStates.slice(4),
               numberInputTexts.slice(4),
-              0
+              warningTexts.slice(4),
+              0,
             )}
           </Accordion.Content>
         </Accordion.Panel>
