@@ -98,6 +98,7 @@ interface PreviewPropsType {
     string,
     boolean,
     boolean,
+    number,
     number
   ];
   widthOfTheSquaresInPx: number;
@@ -129,58 +130,65 @@ function ReactPDFViewer({
     showDefinition,
     showPinyin,
     letterOpacity,
+    numberOfPracticeLines,
   ] = allStates;
 
   const listCharacters = characters.split("").map((character) => {
     if (character !== " ") {
       return (
-    <View key={uuidv4()}>
-      <View
-        style={{
-          marginTop: numberRowSpacing + 10,
-          ...tw("flex flex-row"),
-        }}
-      >
-        {showDefinition ? (
-          <Text style={tw(`border border-solid p-2 text-[0.8rem]`)}>
-            <Text style={tw(`font-bold mr-2`)}>Definition:</Text>
-            {returnInfoOrNotFound(
-              CharactersInfo,
-              character,
-              "definition",
-              "Could not find the character definition"
+        <View key={uuidv4()}>
+          <View
+            style={{
+              marginTop: numberRowSpacing + 10,
+              ...tw("flex flex-row"),
+            }}
+          >
+            {showDefinition ? (
+              <Text style={tw(`border border-solid p-2 text-[0.8rem]`)}>
+                <Text style={tw(`font-bold mr-2`)}>Definition:</Text>
+                {returnInfoOrNotFound(
+                  CharactersInfo,
+                  character,
+                  "definition",
+                  "Could not find the character definition"
+                )}
+              </Text>
+            ) : null}
+            {showPinyin ? (
+              <Text
+                style={tw(
+                  `border border-solid p-2 text-[0.8rem]${
+                    showDefinition ? " border-l-0" : ""
+                  }`
+                )}
+              >
+                <Text style={tw(`font-bold mr-2`)}>Pinyin:</Text>
+                {returnInfoOrNotFound(
+                  CharactersInfo,
+                  character,
+                  "pinyin",
+                  "Could not find the Pinyin"
+                )}
+              </Text>
+            ) : null}
+          </View>
+          <View>
+            {[...Array(numberOfRowsPerCharacter).keys()].map((index) =>
+              createOneLine(
+                character,
+                font,
+                numberOfBoxesPerRow,
+                numberPracticeSquares,
+                /* For the first character we send the spacing the user selected plus an extra so we can differentiate between the lines corresponding to  the same character*/
+                index === 0 ? numberRowSpacing + 10 : numberRowSpacing,
+                numberColumnSpacing,
+                index < numberOfPracticeLines ? true : false,
+                widthOfTheSquaresInPx
+              )
             )}
-          </Text>
-        ) : null}
-        {showPinyin ? (
-          <Text style={tw(`border border-solid p-2 text-[0.8rem]${showDefinition ? " border-l-0" : ""}`)}>
-            <Text style={tw(`font-bold mr-2`)}>Pinyin:</Text>
-            {returnInfoOrNotFound(
-              CharactersInfo,
-              character,
-              "pinyin",
-              "Could not find the Pinyin"
-            )}
-          </Text>
-        ) : null}
-      </View>
-      <View>
-        {[...Array(numberOfRowsPerCharacter).keys()].map((index) =>
-          createOneLine(
-            character,
-            font,
-            numberOfBoxesPerRow,
-            numberPracticeSquares,
-            /* For the first character we send the spacing the user selected plus an extra so we can differentiate between the lines corresponding to  the same character*/
-            index === 0 ? numberRowSpacing + 10 : numberRowSpacing,
-            numberColumnSpacing,
-            index === 0 ? true : false,
-            widthOfTheSquaresInPx
-          )
-        )}
-      </View>
-    </View>
-      )
+          </View>
+        </View>
+      );
     }
   });
 

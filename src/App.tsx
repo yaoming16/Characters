@@ -6,10 +6,10 @@ import { useState, useEffect } from "react";
 import React from "react";
 import ReactPDFViewer from "./Components/ReactPDFViewer";
 import { Modal } from "flowbite-react";
-import {Buffer} from 'buffer';
+import { Buffer } from "buffer";
 
 function App() {
-   (window as any).Buffer = Buffer;
+  (window as any).Buffer = Buffer;
 
   // Fuction to check if there are no warnings and show the final previewer
   function changeStateIfNoWarnings(
@@ -117,7 +117,8 @@ function App() {
 
   // Option for how many lines the user wants the practice character to show
   let [numberOfPracticeLines, setNumberOfPracticeLines] = useState(1);
-  let [warningNumberOfPracticeLines, setWarningNumberOfPracticeLines] = useState(false);
+  let [warningNumberOfPracticeLines, setWarningNumberOfPracticeLines] =
+    useState(false);
 
   //Use state for the font
   let [font, setFont] = useState("FangSong");
@@ -134,7 +135,6 @@ function App() {
   // Option to show the previewer
   let [showPreviewer, setShowPreviewer] = useState(true);
 
-
   // State to store the width of the squares
   const [widthOfTheSquaresInPx, setWidthOfTheSquaresInPx] = useState<number>(0);
   //calculateDivWidth();
@@ -147,7 +147,10 @@ function App() {
 
   // Remove practice lines warnig if rows per character increases to a value equal or higher than practice lines
   useEffect(() => {
-    if (numberOfRowsPerCharacter >= numberOfPracticeLines) {
+    if (
+      numberOfRowsPerCharacter >= numberOfPracticeLines &&
+      numberOfPracticeLines >= 1
+    ) {
       setWarningNumberOfPracticeLines(false);
     }
   }, [numberOfRowsPerCharacter, numberOfPracticeLines]);
@@ -267,6 +270,7 @@ function App() {
     string,
     boolean,
     boolean,
+    number,
     number
   ] = [
     characters,
@@ -280,6 +284,7 @@ function App() {
     showDefinition,
     showPinyin,
     letterOpacity,
+    numberOfPracticeLines,
   ];
 
   {

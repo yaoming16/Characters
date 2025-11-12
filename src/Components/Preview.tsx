@@ -65,6 +65,7 @@ interface PreviewPropsType {
     string,
     boolean,
     boolean,
+    number,
     number
   ];
   widthOfTheSquaresInPx: number;
@@ -88,6 +89,7 @@ function Preview({
     showDefinition,
     showPinyin,
     letterOpacity,
+    numberOfPracticeLines,
   ] = allStates;
 
   const listCharacters = characters.split("").map((character) => {
@@ -139,7 +141,7 @@ function Preview({
               /* For the first character we send the spacing the user selected plus an extra so we can differentiate between the lines corresponding to  the same character*/
               index === 0 ? numberRowSpacing + 10 : numberRowSpacing,
               numberColumnSpacing,
-              index === 0 ? true : false,
+              index < numberOfPracticeLines ? true : false,
               widthOfTheSquaresInPx
             )
           )}

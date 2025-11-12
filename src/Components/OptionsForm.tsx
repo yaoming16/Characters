@@ -72,9 +72,8 @@ function OptionsForm({
   function inputsHTML(
     infoArray: allNumberInputsStatesType[],
     textsArray: string[],
-    warningTexts : string[],
-    minVal = 1,
-    maxVal = Infinity,
+    warningTexts: string[],
+    minVal: number[]
   ) {
     return infoArray.map((arrayWithInputStates, index) => (
       <InputWLabel
@@ -87,10 +86,12 @@ function OptionsForm({
             arrayWithInputStates[3],
             parseInt(e.target.value),
             arrayWithInputStates[1],
-            minVal,
-            textsArray[index] === "Letter Opacity" ? 100 : 
-            textsArray[index] === "Practice Lines" ? 
-            allNumberInputsStates[1][2] : Infinity,
+            minVal[index],
+            textsArray[index] === "Letter Opacity"
+              ? 100
+              : textsArray[index] === "Practice Lines"
+              ? allNumberInputsStates[1][2]
+              : Infinity
           )
         }
         step={
@@ -105,11 +106,14 @@ function OptionsForm({
     ));
   }
 
+  // Mins for inputs
+  const minValues = [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0];
+
   // warnings texts
   let warningTexts = [
     "Enter a number greater than or equal to 1",
     "Enter a number greater than or equal to 1",
-    "Enter a number greater than or equal to 1",
+    "Enter a number greater than or equal to 0",
     "Enter a number greater than or equal to 1 and less than or equal to Rows Per Character",
     "Enter a number between 0 and 100",
     "Enter a number greater than or equal to 0",
@@ -162,7 +166,8 @@ function OptionsForm({
       {inputsHTML(
         allNumberInputsStates.slice(0, 4),
         numberInputTexts.slice(0, 4),
-        warningTexts.slice(0,4)
+        warningTexts.slice(0, 4),
+        minValues.slice(0, 4)
       )}
 
       {/* We will add some other option 
@@ -203,7 +208,7 @@ function OptionsForm({
               allNumberInputsStates.slice(4),
               numberInputTexts.slice(4),
               warningTexts.slice(4),
-              0,
+              minValues.slice(4)
             )}
           </Accordion.Content>
         </Accordion.Panel>
