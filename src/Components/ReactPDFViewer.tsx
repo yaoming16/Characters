@@ -2,6 +2,7 @@ import SquareReactPdf from "./SquareReactPdf";
 import { v4 as uuidv4 } from "uuid";
 import CharactersInfoImport from "../data/dictionary.json";
 import { createTw } from "react-pdf-tailwind";
+import { characterInfoType } from "../Types/types";
 
 import FangSong from "../Fonts/FangSong.ttf";
 import KaiTi from "../Fonts/KaiTi.ttf";
@@ -36,19 +37,6 @@ Font.register({
   family: "SimSun",
   src: SimSun,
 });
-
-type characterInfoType = {
-  character?: string;
-  definition?: string;
-  pinyin?: string[];
-  decomposition?: string;
-  etymology?: {
-    type?: string;
-    hint?: string;
-  };
-  radical?: string;
-  matches?: any[];
-};
 
 // This function is to return all the info of one character. Return an array where the first element is a boolean indicating if
 // the character was found and the second element is the character info or an empty object

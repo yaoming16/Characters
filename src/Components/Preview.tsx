@@ -1,21 +1,11 @@
 import Square from "./Square";
 import { v4 as uuidv4 } from "uuid";
+import { characterInfoType, characterSVGType } from "../Types/types";
 import CharactersInfoImport from "../data/dictionary.json";
+import characterSVGInfo from "../data/graphics.json";
 
 const CharactersInfo: characterInfoType[] = CharactersInfoImport.CharactersInfo;
-
-type characterInfoType = {
-  character?: string;
-  definition?: string;
-  pinyin?: string[];
-  decomposition?: string;
-  etymology?: {
-    type?: string;
-    hint?: string;
-  };
-  radical?: string;
-  matches?: any[];
-};
+//const characterSVGData: characterSVGType[] = characterSVGInfo.charactersSVGInfo as characterInfoType[];
 
 // This function is to return all the info of one character. Return an array where the first element is a boolean indicating if
 // the character was found and the second element is the character info or an empty object
