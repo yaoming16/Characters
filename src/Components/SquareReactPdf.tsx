@@ -1,17 +1,8 @@
 import { Text, View, Image } from "@react-pdf/renderer";
 import { createTw } from "react-pdf-tailwind";
+import { SquareReactType } from "../Types/types";
 
 const tw = createTw({});
-
-interface SquareReactPdfType {
-  character: string;
-  firstCharacter: boolean;
-  font: string;
-  columnSpacing: number;
-  gridName: string;
-  widthInPx: number;
-  letterOpacity: number;
-}
 
 function SquareReactPdf({
   character = "",
@@ -21,7 +12,7 @@ function SquareReactPdf({
   gridName,
   widthInPx,
   letterOpacity,
-}: SquareReactPdfType) {
+}: SquareReactType) {
 
   return (
     <View

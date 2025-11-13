@@ -1,12 +1,4 @@
-interface SquarePropsType {
-  character: string;
-  firstCharacter: boolean;
-  font: string;
-  columnSpacing: number;
-  gridName: string;
-  widthInPx: number;
-  letterOpacity: number;
-}
+import { SquareReactType } from "../Types/types";
 
 function Square({
   character = "",
@@ -16,7 +8,7 @@ function Square({
   gridName,
   widthInPx,
   letterOpacity,
-}: SquarePropsType) {
+}: SquareReactType) {
   return (
     <div
       className=""

@@ -16,3 +16,13 @@ export type characterSVGType = {
     strokes?: string[];
     medians?: string[]
 }
+
+export interface SquareReactType {
+  character: string;
+  firstCharacter: boolean;
+  font: string;
+  columnSpacing: number;
+  gridName: string;
+  widthInPx: number;
+  letterOpacity: number;
+}
