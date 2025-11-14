@@ -18,7 +18,8 @@ type OtherSetFunctionsType = [
   React.Dispatch<React.SetStateAction<string>>, // setFont
   React.Dispatch<React.SetStateAction<string>>, // setGridName
   React.Dispatch<React.SetStateAction<boolean>>, // setShowDefinition
-  React.Dispatch<React.SetStateAction<boolean>> // setShowPinyin
+  React.Dispatch<React.SetStateAction<boolean>>, // setShowPinyin
+  React.Dispatch<React.SetStateAction<boolean>>  // setShowStrokesOrder
 ];
 
 interface OptionsFormProps {
@@ -32,7 +33,7 @@ function OptionsForm({
   allNumberInputsStates,
   otherSetFunctions,
 }: OptionsFormProps) {
-  let [setCharacters, setFont, setGridName, setShowDefinition, setShowPinyin] =
+  let [setCharacters, setFont, setGridName, setShowDefinition, setShowPinyin, setShowStrokesOrder] =
     otherSetFunctions;
 
   /* Function to check if conditions are met for the input value. Then change the values and the warning */
@@ -184,11 +185,11 @@ function OptionsForm({
         ></RadioMod>
       </fieldset>
 
-      {/* Now we need an option  so the user can show te definition of the character or yhe pinyin*/}
+      {/* Now we need an option  so the user can show te definition of the character or the pinyin*/}
       <div className="flex flex-row justify-around">
         <CheckboxMod
-          setFunctions={[setShowDefinition, setShowPinyin]}
-          texts={["Show definition", "Show Pinyin"]}
+          setFunctions={[setShowDefinition, setShowPinyin, setShowStrokesOrder]}
+          texts={["Show definition", "Show Pinyin", "Show Strokes Order"]}
         ></CheckboxMod>
       </div>
 

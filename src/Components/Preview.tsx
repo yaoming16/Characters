@@ -1,9 +1,9 @@
 import Square from "./Square";
 import { v4 as uuidv4 } from "uuid";
-import { characterInfoType, characterSVGType } from "../Types/types";
+import { characterInfoType, characterSVGType, allStatesType } from "../Types/types";
 import CharactersInfoImport from "../data/dictionary.json";
 import characterSVGInfoImport from "../data/graphics.json";
-import {returnInfoOrNotFound} from "../Functions/previewerFunctions";
+import {returnInfoOrNotFound, createSVGStrokes} from "../Functions/previewerFunctions";
 
 const CharactersInfo: characterInfoType[] =
   CharactersInfoImport.CharactersInfo as characterInfoType[];
@@ -18,20 +18,7 @@ const characterSVGData: characterSVGType[] = (
 interface PreviewPropsType {
   id: string;
   className?: string;
-  allStates: [
-    string,
-    number,
-    number,
-    number,
-    string,
-    number,
-    number,
-    string,
-    boolean,
-    boolean,
-    number,
-    number
-  ];
+  allStates: allStatesType;
   widthOfTheSquaresInPx: number;
 }
 
@@ -54,12 +41,15 @@ function Preview({
     showPinyin,
     letterOpacity,
     numberOfPracticeLines,
+    showStrokesOrder,
   ] = allStates;
 
-  const listCharacters = characters.split("").map((character) => {
+  
+  const listCharacters = characters.split("").map((character, i) => {
+
     if (character !== " ") {
       return (
-        <div key={uuidv4()}>
+        <div key={`${character}-container-${i}`}>
           <div
             style={{
               marginTop: numberRowSpacing + 10 + "px",
@@ -95,6 +85,7 @@ function Preview({
                 "Could not find the Pinyin"
               )}
             </p>
+            {createSVGStrokes(character, characterSVGData, showStrokesOrder, false)}
           </div>
           {[...Array(numberOfRowsPerCharacter).keys()].map((index) =>
             createOneLine(
@@ -106,7 +97,8 @@ function Preview({
               index === 0 ? numberRowSpacing + 10 : numberRowSpacing,
               numberColumnSpacing,
               index < numberOfPracticeLines ? true : false,
-              widthOfTheSquaresInPx
+              widthOfTheSquaresInPx,
+              index
             )
           )}
         </div>
@@ -122,26 +114,27 @@ function Preview({
     rowSpacing: number,
     columnSpacing: number,
     firstLine = false,
-    widthOfTheSquaresInPx: number
+    widthOfTheSquaresInPx: number,
+    index: number
   ) {
     return (
       <div
-        key={uuidv4()}
+        key={`${character}-line-container-${index}`}
         className={"flex flex-row "}
         style={{
           marginTop: rowSpacing + "px",
         }}
       >
-        {[...Array(numberOfBoxesPerRow).keys()].map((index) => (
+        {[...Array(numberOfBoxesPerRow).keys()].map((i) => (
           // We need to have a character in the square only for the number of practice squares the user wants
           // We also need to know if it is the first character we show to show it bold
           <Square
             widthInPx={widthOfTheSquaresInPx}
             character={
-              index < numberPracticeSquares && firstLine ? character : ""
+              i < numberPracticeSquares && firstLine ? character : ""
             }
-            firstCharacter={index === 0 ? true : false}
-            key={uuidv4()}
+            firstCharacter={i === 0 ? true : false}
+            key={`${character}-square-${i}`}
             font={font}
             columnSpacing={columnSpacing}
             gridName={gridName}
@@ -153,7 +146,6 @@ function Preview({
   }
 
   return (
-    // We need to add the margin
     <div id={id} className={className}>
       <div>{listCharacters}</div>
     </div>

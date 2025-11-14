@@ -7,6 +7,7 @@ import React from "react";
 import ReactPDFViewer from "./Components/ReactPDFViewer";
 import { Modal } from "flowbite-react";
 import { Buffer } from "buffer";
+import {allStatesType} from "./Types/types";
 
 function App() {
   (window as any).Buffer = Buffer;
@@ -132,12 +133,14 @@ function App() {
   // Option to show the pinyin
   let [showPinyin, setShowPinyin] = useState(false);
 
+  // Option to show the strokes order
+  let [showStrokesOrder, setShowStrokesOrder] = useState(false);
+
   // Option to show the previewer
   let [showPreviewer, setShowPreviewer] = useState(true);
 
   // State to store the width of the squares
   const [widthOfTheSquaresInPx, setWidthOfTheSquaresInPx] = useState<number>(0);
-  //calculateDivWidth();
 
   // State to change between the previewer and the options form
   const [changeToPreviewer, setchangeToPreviewer] = useState(false);
@@ -259,20 +262,7 @@ function App() {
   {
     /* This one is to send the states to the previewer */
   }
-  let statesToShow: [
-    string,
-    number,
-    number,
-    number,
-    string,
-    number,
-    number,
-    string,
-    boolean,
-    boolean,
-    number,
-    number
-  ] = [
+  let statesToShow: allStatesType = [
     characters,
     numberOfBoxesPerRow,
     numberOfRowsPerCharacter,
@@ -285,6 +275,7 @@ function App() {
     showPinyin,
     letterOpacity,
     numberOfPracticeLines,
+    showStrokesOrder,
   ];
 
   {
@@ -354,6 +345,7 @@ function App() {
                   setGridName,
                   setShowDefinition,
                   setShowPinyin,
+                  setShowStrokesOrder,
                 ]}
               ></OptionsForm>
             </div>

@@ -2,8 +2,10 @@ import SquareReactPdf from "./SquareReactPdf";
 import { v4 as uuidv4 } from "uuid";
 import CharactersInfoImport from "../data/dictionary.json";
 import { createTw } from "react-pdf-tailwind";
-import { characterInfoType } from "../Types/types";
-import {returnInfoOrNotFound} from "../Functions/previewerFunctions";
+import { characterInfoType, allStatesType } from "../Types/types";
+import {returnInfoOrNotFound, createSVGStrokes} from "../Functions/previewerFunctions";
+import characterSVGInfoImport from "../data/graphics.json";
+import { characterSVGType } from "../Types/types";
 
 import FangSong from "../Fonts/FangSong.ttf";
 import KaiTi from "../Fonts/KaiTi.ttf";
@@ -11,6 +13,13 @@ import SimSun from "../Fonts/SimSun.ttf";
 
 const CharactersInfo: characterInfoType[] = CharactersInfoImport.CharactersInfo;
 const tw = createTw({});
+
+// Type assertion for graphics.json structure to avoid '{}' implicit type error
+const characterSVGData: characterSVGType[] = (
+  characterSVGInfoImport as {
+    charactersSVGInfo: characterSVGType[];
+  }
+).charactersSVGInfo;
 
 import {
   Page,
@@ -20,7 +29,6 @@ import {
   StyleSheet,
   PDFViewer,
   Font,
-  Canvas,
 } from "@react-pdf/renderer";
 
 // Register Chinese fonts for react-pdf
@@ -42,20 +50,7 @@ Font.register({
 interface PreviewPropsType {
   id: string;
   className?: string;
-  allStates: [
-    string,
-    number,
-    number,
-    number,
-    string,
-    number,
-    number,
-    string,
-    boolean,
-    boolean,
-    number,
-    number
-  ];
+  allStates: allStatesType;
   widthOfTheSquaresInPx: number;
   marginTop: number;
   marginRight: number;
@@ -86,12 +81,13 @@ function ReactPDFViewer({
     showPinyin,
     letterOpacity,
     numberOfPracticeLines,
+    showStrokesOrder,
   ] = allStates;
 
-  const listCharacters = characters.split("").map((character) => {
+  const listCharacters = characters.split("").map((character, i) => {
     if (character !== " ") {
       return (
-        <View key={uuidv4()}>
+        <View key={`${character}-container-PDF-${i}`}>
           <View
             style={{
               marginTop: numberRowSpacing + 10,
@@ -126,6 +122,7 @@ function ReactPDFViewer({
                 )}
               </Text>
             ) : null}
+            {createSVGStrokes(character, characterSVGData, showStrokesOrder, true)}
           </View>
           <View>
             {[...Array(numberOfRowsPerCharacter).keys()].map((index) =>
@@ -138,7 +135,8 @@ function ReactPDFViewer({
                 index === 0 ? numberRowSpacing + 10 : numberRowSpacing,
                 numberColumnSpacing,
                 index < numberOfPracticeLines ? true : false,
-                widthOfTheSquaresInPx
+                widthOfTheSquaresInPx,
+                index
               )
             )}
           </View>
@@ -155,27 +153,28 @@ function ReactPDFViewer({
     rowSpacing: number,
     columnSpacing: number,
     firstLine = false,
-    widthOfTheSquaresInPx: number
+    widthOfTheSquaresInPx: number,
+    index: number
   ) {
     return (
       <View
-        key={uuidv4()}
+        key={`${character}-line-PDF-container-${index}`}
         wrap={false}
         style={{
           marginTop: rowSpacing,
           ...tw("flex flex-row"),
         }}
       >
-        {[...Array(numberOfBoxesPerRow).keys()].map((index) => (
+        {[...Array(numberOfBoxesPerRow).keys()].map((i) => (
           // We need to have a character in the square only for the number of practice squares the user wants
           // We also need to know if it is the first character we show to show it bold
           <SquareReactPdf
-            key={uuidv4()}
+            key={`${character}-square-PDF-${i}`}
             widthInPx={widthOfTheSquaresInPx}
             character={
-              index < numberPracticeSquares && firstLine ? character : ""
+              i < numberPracticeSquares && firstLine ? character : ""
             }
-            firstCharacter={index === 0 ? true : false}
+            firstCharacter={i === 0 ? true : false}
             font={font}
             columnSpacing={columnSpacing}
             gridName={gridName}
@@ -189,10 +188,10 @@ function ReactPDFViewer({
   // Style for the pdf Download preview
   const styles = StyleSheet.create({
     page: {
-      paddingTop: `${marginTop}`,
-      paddingRight: `${marginRight}`,
-      paddingBottom: `${marginBottom}`,
-      paddingLeft: `${marginLeft}`,
+      paddingTop: marginTop,
+      paddingRight: marginRight,
+      paddingBottom: marginBottom,
+      paddingLeft: marginLeft,
     },
   });
 
@@ -202,7 +201,7 @@ function ReactPDFViewer({
     <PDFViewer style={{ width: "100%", height: "70vh" }}>
       <Document>
         <Page size="A4" style={styles.page}>
-          <View style={{ width: "595" }}>{listCharacters}</View>
+          <View style={{ width: 595 }}>{listCharacters}</View>
         </Page>
       </Document>
     </PDFViewer>

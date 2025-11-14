@@ -26,3 +26,19 @@ export interface SquareReactType {
   widthInPx: number;
   letterOpacity: number;
 }
+
+export type allStatesType = [
+    string,
+    number,
+    number,
+    number,
+    string,
+    number,
+    number,
+    string,
+    boolean,
+    boolean,
+    number,
+    number,
+    boolean,
+  ]
