@@ -54,7 +54,7 @@ export function returnInfoOrNotFound<T extends keyof characterInfoType | keyof c
 
 function createOneCharacterSVG(character: string, index: number, svgDataForCharacter: string[]) {
   return (
-  <svg viewBox="0 0 1024 1024" key={`${character}-stroke-${index}`} className={`border border-solid`}>
+  <svg viewBox="0 0 1024 1024" key={`${character}-stroke-${index}`} className={`border border-solid max-w-15 max-h-15`}>
     {svgDataForCharacter.map((stroke: string, strokeIndex: number) => (
       <g transform="scale(1, -1) translate(0, -900)" 
       key={`${character}-stroke-g-${strokeIndex}`} 
