@@ -1,5 +1,4 @@
 import SquareReactPdf from "./SquareReactPdf";
-import { v4 as uuidv4 } from "uuid";
 import CharactersInfoImport from "../data/dictionary.json";
 import { createTw } from "react-pdf-tailwind";
 import { characterInfoType, allStatesType } from "../Types/types";

@@ -1,5 +1,4 @@
 import Square from "./Square";
-import { v4 as uuidv4 } from "uuid";
 import { characterInfoType, characterSVGType, allStatesType } from "../Types/types";
 import CharactersInfoImport from "../data/dictionary.json";
 import characterSVGInfoImport from "../data/graphics.json";

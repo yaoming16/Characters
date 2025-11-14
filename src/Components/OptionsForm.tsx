@@ -1,5 +1,4 @@
 import InputWLabel from "./Form/InputWLabel";
-import { v4 as uuidv4 } from "uuid";
 import { Accordion } from "flowbite-react";
 import SelectMod from "./Form/SelectMod";
 import RadioMod from "./Form/RadioMod";
@@ -80,7 +79,7 @@ function OptionsForm({
       <InputWLabel
         className="mt-3"
         id={textsArray[index]}
-        key={uuidv4()}
+        key={`${textsArray[index]}-input-${index}`}
         type="number"
         onChange={(e) =>
           checkNumbers(

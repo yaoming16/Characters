@@ -52,7 +52,25 @@ export function returnInfoOrNotFound<T extends keyof characterInfoType | keyof c
   }
 }
 
-function createOneCharacterSVG(character: string, index: number, svgDataForCharacter: string[]) {
+function createOneCharacterSVG(character: string, index: number, svgDataForCharacter: string[], isPDF: boolean = false) {
+
+  if (isPDF) {
+    return (
+      <Svg viewBox="0 0 1024 1024" fill="black" key={`${character}-stroke-PDF-${index}`} style={{width: 60, height: 60, ...tw(`border border-solid`)}}>
+        {svgDataForCharacter.map((stroke: string, strokeIndex: number) => (
+        <G transform="scale(1, -1) translate(0, -900)" 
+        key={`${character}-stroke-g-PDF-${strokeIndex}`} 
+        opacity={strokeIndex <= index ? 1 : 0.2}
+        fill={strokeIndex === index ? "green" : "black"}>
+            <Path
+              d={stroke}
+              />
+        </G>
+        ))}
+      </Svg>
+    )
+  }
+
   return (
   <svg viewBox="0 0 1024 1024" key={`${character}-stroke-${index}`} className={`border border-solid max-w-15 max-h-15`}>
     {svgDataForCharacter.map((stroke: string, strokeIndex: number) => (
@@ -80,14 +98,7 @@ export function createSVGStrokes(character: string, characterSVGData : character
       svgAvailable ? (
         <View style={tw(`w-full flex flex-row`)}>
           {svgDataForCharacter.map((stroke: string, index: number) => (
-                <Svg viewBox="0 0 1024 1024" fill="black" key={`${character}-stroke-PDF-${index}`}>
-                  <G transform="scale(1, -1) translate(0, -900)">
-                      <Path
-                        d={stroke}
-                        />
-                  </G>
-                </Svg>
-              )
+                createOneCharacterSVG(character, index, svgDataForCharacter, true))
             )}
         </View>
           ) : svgDataForCharacter === " " && showStrokesOrder ? (
@@ -101,8 +112,7 @@ export function createSVGStrokes(character: string, characterSVGData : character
         svgAvailable ? (
           <div className="w-full flex flex-row ">
             {svgDataForCharacter.map((stroke: string, index: number) => (
-              createOneCharacterSVG(character, index, svgDataForCharacter)
-            )
+              createOneCharacterSVG(character, index, svgDataForCharacter))
             )}
           </div>
           ) : svgDataForCharacter === " " && showStrokesOrder ? (
