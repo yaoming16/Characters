@@ -42,6 +42,7 @@ function Preview({
     numberOfPracticeLines,
     showStrokesOrder,
     title,
+    titleFontSize,
   ] = allStates;
 
   
@@ -147,7 +148,11 @@ function Preview({
 
   return (
     <>
-      <p className="text-center text-[50px] font-bold text-wrap" style={{ fontFamily: font }}>{title}</p>
+      <p className="text-center font-bold wrap-break-word" 
+      style={{ fontFamily: font,
+       fontSize: titleFontSize + "px" }}>
+        {title}
+      </p>
       <div id={id} className={className}>
         <div>{listCharacters}</div>
       </div>

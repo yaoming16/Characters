@@ -139,9 +139,6 @@ function App() {
   // Option to show the previewer
   let [showPreviewer, setShowPreviewer] = useState(true);
 
-  //State for title of the page
-  let [title, setTitle] = useState("");
-
   // State to store the width of the squares
   const [widthOfTheSquaresInPx, setWidthOfTheSquaresInPx] = useState<number>(0);
 
@@ -150,6 +147,14 @@ function App() {
 
   // State for the modal
   const [openModal, setOpenModal] = useState(false);
+
+  // Title options
+  //State for title of the page
+  let [title, setTitle] = useState("");
+
+  // State for the title font size
+  let [titleFontSize, setTitleFontSize] = useState(24);
+  let [warningTitleFontSize, setWarningTitleFontSize] = useState(false);
 
   // Remove practice lines warnig if rows per character increases to a value equal or higher than practice lines
   useEffect(() => {
@@ -219,6 +224,12 @@ function App() {
       setNumberOfPracticeLines,
     ],
     [
+      warningTitleFontSize,
+      setWarningTitleFontSize,
+      titleFontSize,
+      setTitleFontSize,
+    ],
+    [
       warningLetterOpacity,
       setWarningLetterOpacity,
       letterOpacity,
@@ -280,6 +291,7 @@ function App() {
     numberOfPracticeLines,
     showStrokesOrder,
     title,
+    titleFontSize,
   ];
 
   {

@@ -88,11 +88,7 @@ function OptionsForm({
             parseInt(e.target.value),
             arrayWithInputStates[1],
             minVal[index],
-            textsArray[index] === "Letter Opacity"
-              ? 100
-              : textsArray[index] === "Practice Lines"
-              ? allNumberInputsStates[1][2]
-              : Infinity
+            maxValues[index],
           )
         }
         step={
@@ -108,14 +104,18 @@ function OptionsForm({
   }
 
   // Mins for inputs
-  const minValues = [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0];
+  const minValues = [1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0];
+
+  // Max for inputs 
+  const maxValues = [Infinity, Infinity, allNumberInputsStates[0][2], allNumberInputsStates[1][2], 500, 100, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity];
 
   // warnings texts
   let warningTexts = [
     "Enter a number greater than or equal to 1",
     "Enter a number greater than or equal to 1",
-    "Enter a number greater than or equal to 0",
+    "Enter a number greater than or equal to 0 and less than or equal to Boxes Per Row",
     "Enter a number greater than or equal to 1 and less than or equal to Rows Per Character",
+    "Enter a number between 0 and 500",
     "Enter a number between 0 and 100",
     "Enter a number greater than or equal to 0",
     "Enter a number greater than or equal to 0",
@@ -131,6 +131,7 @@ function OptionsForm({
     "Rows Per Character",
     "Practice Squares per line",
     "Practice Lines",
+    "Title Font Size",
     "Letter Opacity",
     "Margin Left",
     "Margin Right",
@@ -195,12 +196,33 @@ function OptionsForm({
       </fieldset>
 
       {/* Now we need an option  so the user can show te definition of the character or the pinyin*/}
-      <div className="flex flex-row justify-around">
+      <div className="flex flex-col justify-around">
         <CheckboxMod
           setFunctions={[setShowDefinition, setShowPinyin, setShowStrokesOrder]}
           texts={["Show definition", "Show Pinyin", "Show Strokes Order"]}
         ></CheckboxMod>
       </div>
+
+      {/* Title options */}
+      <Accordion
+        className="mt-10 bg-white "
+        alwaysOpen={false}
+        collapseAll={true}
+      >
+        <Accordion.Panel className="">
+          <Accordion.Title className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
+            Title options
+          </Accordion.Title>
+          <Accordion.Content className="dark:bg-white">
+            {inputsHTML(
+              allNumberInputsStates.slice(4, 5),
+              numberInputTexts.slice(4, 5),
+              warningTexts.slice(4, 5),
+              minValues.slice(4, 5)
+            )}
+          </Accordion.Content>
+        </Accordion.Panel>
+      </Accordion>
 
       {/* Here are the advanced options (Like margins and column and row spacing) */}
       <Accordion
@@ -213,12 +235,12 @@ function OptionsForm({
             Advanced Options
           </Accordion.Title>
           <Accordion.Content className="dark:bg-white">
-            {/*  Here we add the other inputs, for this options the minVal is 0 so we will specify to override the 1 default minVal*/}
+            {/*  Here we add the other inputs */}
             {inputsHTML(
-              allNumberInputsStates.slice(4),
-              numberInputTexts.slice(4),
-              warningTexts.slice(4),
-              minValues.slice(4)
+              allNumberInputsStates.slice(5),
+              numberInputTexts.slice(5),
+              warningTexts.slice(5),
+              minValues.slice(5)
             )}
           </Accordion.Content>
         </Accordion.Panel>
