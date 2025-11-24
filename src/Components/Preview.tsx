@@ -41,6 +41,7 @@ function Preview({
     letterOpacity,
     numberOfPracticeLines,
     showStrokesOrder,
+    title,
   ] = allStates;
 
   
@@ -145,9 +146,12 @@ function Preview({
   }
 
   return (
-    <div id={id} className={className}>
-      <div>{listCharacters}</div>
-    </div>
+    <>
+      <p className="text-center text-[50px] font-bold text-wrap" style={{ fontFamily: font }}>{title}</p>
+      <div id={id} className={className}>
+        <div>{listCharacters}</div>
+      </div>
+    </>
   );
 }
 

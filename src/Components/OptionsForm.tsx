@@ -1,5 +1,5 @@
 import InputWLabel from "./Form/InputWLabel";
-import { Accordion } from "flowbite-react";
+import { Accordion, TimelineTitle } from "flowbite-react";
 import SelectMod from "./Form/SelectMod";
 import RadioMod from "./Form/RadioMod";
 import CheckboxMod from "./Form/CheckboxMod";
@@ -18,7 +18,8 @@ type OtherSetFunctionsType = [
   React.Dispatch<React.SetStateAction<string>>, // setGridName
   React.Dispatch<React.SetStateAction<boolean>>, // setShowDefinition
   React.Dispatch<React.SetStateAction<boolean>>, // setShowPinyin
-  React.Dispatch<React.SetStateAction<boolean>>  // setShowStrokesOrder
+  React.Dispatch<React.SetStateAction<boolean>>,  // setShowStrokesOrder
+  React.Dispatch<React.SetStateAction<string>>,  // setTitle
 ];
 
 interface OptionsFormProps {
@@ -32,7 +33,7 @@ function OptionsForm({
   allNumberInputsStates,
   otherSetFunctions,
 }: OptionsFormProps) {
-  let [setCharacters, setFont, setGridName, setShowDefinition, setShowPinyin, setShowStrokesOrder] =
+  let [setCharacters, setFont, setGridName, setShowDefinition, setShowPinyin, setShowStrokesOrder, setTitle] =
     otherSetFunctions;
 
   /* Function to check if conditions are met for the input value. Then change the values and the warning */
@@ -43,7 +44,7 @@ function OptionsForm({
     minVal = 1,
     maxVal = Infinity
   ): void {
-    /* state is a number and above 0 */
+    /* state is a number above minVal and below maxVal */
     if (newState >= minVal && !isNaN(newState) && newState <= maxVal) {
       setWarning(false);
     } else {
@@ -158,6 +159,15 @@ function OptionsForm({
         onChange={(e) => setCharacters(e.target.value.trim())}
         text="Enter the characters you wish to practice"
         id="CharactersInput"
+      ></InputWLabel>
+
+      {/* Title input */}
+      <InputWLabel
+        type="text"
+        className="mt-3"
+        onChange={(e) => setTitle(e.target.value.trim())}
+        text="Enter the title for the practice sheet"
+        id="TitleInput"
       ></InputWLabel>
 
       {/* We need to have two arrays, one with the info of the important array and another with the one with the advance options. This is needed to put the advanced option in an acordeon

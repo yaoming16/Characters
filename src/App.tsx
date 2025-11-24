@@ -7,7 +7,7 @@ import React from "react";
 import ReactPDFViewer from "./Components/ReactPDFViewer";
 import { Modal } from "flowbite-react";
 import { Buffer } from "buffer";
-import {allStatesType} from "./Types/types";
+import { allStatesType } from "./Types/types";
 
 function App() {
   (window as any).Buffer = Buffer;
@@ -138,6 +138,9 @@ function App() {
 
   // Option to show the previewer
   let [showPreviewer, setShowPreviewer] = useState(true);
+
+  //State for title of the page
+  let [title, setTitle] = useState("");
 
   // State to store the width of the squares
   const [widthOfTheSquaresInPx, setWidthOfTheSquaresInPx] = useState<number>(0);
@@ -276,6 +279,7 @@ function App() {
     letterOpacity,
     numberOfPracticeLines,
     showStrokesOrder,
+    title,
   ];
 
   {
@@ -346,6 +350,7 @@ function App() {
                   setShowDefinition,
                   setShowPinyin,
                   setShowStrokesOrder,
+                  setTitle,
                 ]}
               ></OptionsForm>
             </div>
