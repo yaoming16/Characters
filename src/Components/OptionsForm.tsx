@@ -157,7 +157,6 @@ function OptionsForm({
     <div className={className}>
       <h2>Characters</h2>
 
-      {/* Input for Characters */}
       <InputWLabel
         type="text"
         className=""
@@ -174,6 +173,19 @@ function OptionsForm({
         text="Enter the title for the practice sheet"
         id="TitleInput"
       ></InputWLabel>
+      
+      {/* Main options */}
+      <Accordion
+        className="mt-10 bg-white "
+        alwaysOpen={false}
+        collapseAll={false}
+      >
+        <Accordion.Panel className="">
+          <Accordion.Title className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
+            Main Options
+          </Accordion.Title>
+          <Accordion.Content className="dark:bg-white">
+            {/* Input for Characters */}
 
       {/* We need to have two arrays, one with the info of the important array and another with the one with the advance options. This is needed to put the advanced option in an acordeon
       That is why we will call two times inputsHTML depending which inputs we want to show in that part*/}
@@ -200,12 +212,13 @@ function OptionsForm({
       </fieldset>
 
       {/* Now we need an option  so the user can show te definition of the character,the pinyin or stroke order*/}
-      <div className="flex flex-col justify-around">
-        <CheckboxMod
-          setFunctions={[setShowDefinition, setShowPinyin, setShowStrokesOrder]}
-          texts={["Show definition", "Show Pinyin", "Show Strokes Order"]}
-        ></CheckboxMod>
-      </div>
+      <CheckboxMod
+        setFunctions={[setShowDefinition, setShowPinyin, setShowStrokesOrder]}
+        texts={["Show definition", "Show Pinyin", "Show Strokes Order"]}
+      ></CheckboxMod>
+          </Accordion.Content>
+        </Accordion.Panel>
+      </Accordion>
 
       {/* Title options */}
       <Accordion
@@ -225,12 +238,10 @@ function OptionsForm({
               minValues.slice(4, 5)
             )}
             {/* Bold, italic, undeline options*/}
-            <div className="flex flex-col justify-around">
-              <CheckboxMod
-                setFunctions={[setTitleItalic, setTitleBold, setTitleUnderline]}
-                texts={["Italic", "Bold", "Underline"]}
-              ></CheckboxMod>
-            </div>
+            <CheckboxMod
+              setFunctions={[setTitleItalic, setTitleBold, setTitleUnderline]}
+              texts={["Italic", "Bold", "Underline"]}
+            ></CheckboxMod>
           </Accordion.Content>
         </Accordion.Panel>
       </Accordion>
