@@ -152,6 +152,15 @@ function App() {
   //State for title of the page
   let [title, setTitle] = useState("");
 
+  //italic
+  let [titleItalic, setTitleItalic] = useState(false);
+
+  //bold
+  let [titleBold, setTitleBold] = useState(false);
+
+  //undeline
+  let [titleUnderline, setTitleUnderline] = useState(false);
+
   // State for the title font size
   let [titleFontSize, setTitleFontSize] = useState(24);
   let [warningTitleFontSize, setWarningTitleFontSize] = useState(false);
@@ -292,6 +301,9 @@ function App() {
     showStrokesOrder,
     title,
     titleFontSize,
+    titleItalic,
+    titleBold,
+    titleUnderline,
   ];
 
   {
@@ -309,6 +321,7 @@ function App() {
     warningNumberColumnSpacing,
     warningLetterOpacity,
     warningNumberOfPracticeLines,
+    warningTitleFontSize,
   ];
 
   // Style for the margins previewer
@@ -363,6 +376,9 @@ function App() {
                   setShowPinyin,
                   setShowStrokesOrder,
                   setTitle,
+                  setTitleItalic,
+                  setTitleBold,
+                  setTitleUnderline,
                 ]}
               ></OptionsForm>
             </div>

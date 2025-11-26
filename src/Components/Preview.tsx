@@ -43,6 +43,9 @@ function Preview({
     showStrokesOrder,
     title,
     titleFontSize,
+    titleItalic,
+    titleBold,
+    titleUnderline,
   ] = allStates;
 
   
@@ -148,8 +151,8 @@ function Preview({
 
   return (
     <>
-      <p className="text-center font-bold wrap-break-word" 
-      style={{ fontFamily: font,
+      <p className={"text-center wrap-break-word " + (titleItalic ? "italic " : "") + (titleBold ? "font-bold " : "") + (titleUnderline ? "underline " : "")}
+      style={{ 
        fontSize: titleFontSize + "px" }}>
         {title}
       </p>

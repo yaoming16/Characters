@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { Label, Checkbox } from "flowbite-react";
-import { v4 as uuidv4 } from "uuid";
 
 interface CheckboxModProps {
   setFunctions: React.Dispatch<React.SetStateAction<boolean>>[];
@@ -12,16 +11,16 @@ export default function CheckboxMod ({ setFunctions, texts }: CheckboxModProps) 
     setFunctions.map((setFunction: React.Dispatch<React.SetStateAction<boolean>>, index : number) => (
       <div
         className="flex flex-row justify-between mt-5 items-center"
-        key={uuidv4()}
+        key={texts[index] + '-checkbox-' + index}
       >
         <Label
-          htmlFor={"showDefinitionInput" + index}
+          htmlFor={texts[index] + '-' + index}
           className="dark:text-black mr-2"
         >
           {texts[index]}
         </Label>
         <Checkbox
-          id={"showDefinitionInput" + index}
+          id={texts[index] + '-' + index}
           onChange={(e) => setFunction(e.target.checked)}
         ></Checkbox>
       </div>

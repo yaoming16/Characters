@@ -83,6 +83,9 @@ function ReactPDFViewer({
     showStrokesOrder,
     title,
     titleFontSize,
+    fontItalic,
+    fontBold,
+    fontUnderline,
   ] = allStates;
 
   const listCharacters = characters.split("").map((character, i) => {
@@ -203,9 +206,11 @@ function ReactPDFViewer({
       <Document>
         <Page size="A4" style={styles.page}>
           <Text style={{
-              fontFamily: font,
               fontSize: titleFontSize,
-              ...tw(`w-full text-center font-bold wrap-break-word`)}}>{title}</Text>
+              fontWeight: fontBold ? 'bold' : 'normal',
+              fontStyle: fontItalic ? 'italic' : 'normal',
+              textDecoration: fontUnderline ? 'underline' : 'none',
+              ...tw(`w-full text-center`)}}>{title}</Text>
           <View style={{ width: 595 }}>
             {listCharacters}
           </View>

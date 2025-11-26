@@ -20,6 +20,9 @@ type OtherSetFunctionsType = [
   React.Dispatch<React.SetStateAction<boolean>>, // setShowPinyin
   React.Dispatch<React.SetStateAction<boolean>>,  // setShowStrokesOrder
   React.Dispatch<React.SetStateAction<string>>,  // setTitle
+  React.Dispatch<React.SetStateAction<boolean>>, // setTitleItalic
+  React.Dispatch<React.SetStateAction<boolean>>, // setTitleBold
+  React.Dispatch<React.SetStateAction<boolean>>  // setTitleUnderline
 ];
 
 interface OptionsFormProps {
@@ -33,7 +36,8 @@ function OptionsForm({
   allNumberInputsStates,
   otherSetFunctions,
 }: OptionsFormProps) {
-  let [setCharacters, setFont, setGridName, setShowDefinition, setShowPinyin, setShowStrokesOrder, setTitle] =
+  let [setCharacters, setFont, setGridName, setShowDefinition, setShowPinyin, setShowStrokesOrder, 
+    setTitle, setTitleItalic, setTitleBold, setTitleUnderline] =
     otherSetFunctions;
 
   /* Function to check if conditions are met for the input value. Then change the values and the warning */
@@ -195,7 +199,7 @@ function OptionsForm({
         ></RadioMod>
       </fieldset>
 
-      {/* Now we need an option  so the user can show te definition of the character or the pinyin*/}
+      {/* Now we need an option  so the user can show te definition of the character,the pinyin or stroke order*/}
       <div className="flex flex-col justify-around">
         <CheckboxMod
           setFunctions={[setShowDefinition, setShowPinyin, setShowStrokesOrder]}
@@ -220,6 +224,13 @@ function OptionsForm({
               warningTexts.slice(4, 5),
               minValues.slice(4, 5)
             )}
+            {/* Bold, italic, undeline options*/}
+            <div className="flex flex-col justify-around">
+              <CheckboxMod
+                setFunctions={[setTitleItalic, setTitleBold, setTitleUnderline]}
+                texts={["Italic", "Bold", "Underline"]}
+              ></CheckboxMod>
+            </div>
           </Accordion.Content>
         </Accordion.Panel>
       </Accordion>
