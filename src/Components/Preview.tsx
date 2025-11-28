@@ -46,6 +46,7 @@ function Preview({
     titleItalic,
     titleBold,
     titleUnderline,
+    separationLine,
   ] = allStates;
 
   
@@ -81,7 +82,8 @@ function Preview({
                 (showDefinition ? "" : " border-l-1")
               }
             >
-              <span className="font-bold mr-2">Pinyin:</span>
+              <span className={
+                "font-bold mr-2"}>Pinyin:</span>
               {returnInfoOrNotFound(
                 CharactersInfo,
                 character,
@@ -105,6 +107,12 @@ function Preview({
               index
             )
           )}
+
+          {// Add a separation line between characters if the user selected it
+            separationLine && i < characters.split("").length - 1 ? (
+              <hr className="my-4 border-t-2 border-gray-300" />
+            ) : null
+          }
         </div>
       );
     }

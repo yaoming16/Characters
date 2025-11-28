@@ -86,6 +86,7 @@ function ReactPDFViewer({
     fontItalic,
     fontBold,
     fontUnderline,
+    separationLine,
   ] = allStates;
 
   const listCharacters = characters.split("").map((character, i) => {
@@ -144,6 +145,11 @@ function ReactPDFViewer({
               )
             )}
           </View>
+          {// Add a separation line between characters if the user selected it
+            separationLine && i < characters.split("").length - 1 ? (
+              <View style={tw("my-4 border-t-2 border-gray-300")} />
+            ) : null
+          }
         </View>
       );
     }
@@ -203,7 +209,7 @@ function ReactPDFViewer({
 
   return (
     <PDFViewer style={{ width: "100%", height: "70vh" }}>
-      <Document>
+      <Document style={{ width: 595 }}>
         <Page size="A4" style={styles.page}>
           <Text style={{
               fontSize: titleFontSize,
@@ -211,7 +217,7 @@ function ReactPDFViewer({
               fontStyle: fontItalic ? 'italic' : 'normal',
               textDecoration: fontUnderline ? 'underline' : 'none',
               ...tw(`w-full text-center`)}}>{title}</Text>
-          <View style={{ width: 595 }}>
+          <View >
             {listCharacters}
           </View>
         </Page>

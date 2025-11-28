@@ -45,5 +45,6 @@ export type allStatesType = [
     number,
     boolean,
     boolean,
+    boolean,
     boolean
   ]

@@ -140,13 +140,13 @@ function App() {
   let [showPreviewer, setShowPreviewer] = useState(true);
 
   // State to store the width of the squares
-  const [widthOfTheSquaresInPx, setWidthOfTheSquaresInPx] = useState<number>(0);
+  let [widthOfTheSquaresInPx, setWidthOfTheSquaresInPx] = useState<number>(0);
 
   // State to change between the previewer and the options form
-  const [changeToPreviewer, setchangeToPreviewer] = useState(false);
+  let [changeToPreviewer, setchangeToPreviewer] = useState(false);
 
   // State for the modal
-  const [openModal, setOpenModal] = useState(false);
+  let [openModal, setOpenModal] = useState(false);
 
   // Title options
   //State for title of the page
@@ -160,6 +160,9 @@ function App() {
 
   //undeline
   let [titleUnderline, setTitleUnderline] = useState(false);
+
+  //State for a separation line between characters squares
+  let [separationLine, setSeparationLine] = useState(false);
 
   // State for the title font size
   let [titleFontSize, setTitleFontSize] = useState(24);
@@ -304,6 +307,7 @@ function App() {
     titleItalic,
     titleBold,
     titleUnderline,
+    separationLine,
   ];
 
   {
@@ -379,6 +383,7 @@ function App() {
                   setTitleItalic,
                   setTitleBold,
                   setTitleUnderline,
+                  setSeparationLine,
                 ]}
               ></OptionsForm>
             </div>

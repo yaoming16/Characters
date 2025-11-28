@@ -22,7 +22,8 @@ type OtherSetFunctionsType = [
   React.Dispatch<React.SetStateAction<string>>,  // setTitle
   React.Dispatch<React.SetStateAction<boolean>>, // setTitleItalic
   React.Dispatch<React.SetStateAction<boolean>>, // setTitleBold
-  React.Dispatch<React.SetStateAction<boolean>>  // setTitleUnderline
+  React.Dispatch<React.SetStateAction<boolean>>,  // setTitleUnderline
+  React.Dispatch<React.SetStateAction<boolean>>  // setSeparationLine
 ];
 
 interface OptionsFormProps {
@@ -37,7 +38,7 @@ function OptionsForm({
   otherSetFunctions,
 }: OptionsFormProps) {
   let [setCharacters, setFont, setGridName, setShowDefinition, setShowPinyin, setShowStrokesOrder, 
-    setTitle, setTitleItalic, setTitleBold, setTitleUnderline] =
+    setTitle, setTitleItalic, setTitleBold, setTitleUnderline, setSeparationLine] =
     otherSetFunctions;
 
   /* Function to check if conditions are met for the input value. Then change the values and the warning */
@@ -78,7 +79,8 @@ function OptionsForm({
     infoArray: allNumberInputsStatesType[],
     textsArray: string[],
     warningTexts: string[],
-    minVal: number[]
+    minVal: number[],
+    maxVal: number[],
   ) {
     return infoArray.map((arrayWithInputStates, index) => (
       <InputWLabel
@@ -92,7 +94,7 @@ function OptionsForm({
             parseInt(e.target.value),
             arrayWithInputStates[1],
             minVal[index],
-            maxValues[index],
+            maxVal[index],
           )
         }
         step={
@@ -194,7 +196,8 @@ function OptionsForm({
         allNumberInputsStates.slice(0, 4),
         numberInputTexts.slice(0, 4),
         warningTexts.slice(0, 4),
-        minValues.slice(0, 4)
+        minValues.slice(0, 4),
+        maxValues.slice(0, 4)
       )}
 
       {/* We will add some other option 
@@ -228,19 +231,26 @@ function OptionsForm({
       >
         <Accordion.Panel className="">
           <Accordion.Title className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
-            Title options
+            Style options
           </Accordion.Title>
           <Accordion.Content className="dark:bg-white">
+            <h3 className="text-center">Title options</h3>
             {inputsHTML(
               allNumberInputsStates.slice(4, 5),
               numberInputTexts.slice(4, 5),
               warningTexts.slice(4, 5),
-              minValues.slice(4, 5)
+              minValues.slice(4, 5),
+              maxValues.slice(4, 5)
             )}
             {/* Bold, italic, undeline options*/}
             <CheckboxMod
               setFunctions={[setTitleItalic, setTitleBold, setTitleUnderline]}
               texts={["Italic", "Bold", "Underline"]}
+            ></CheckboxMod>
+            <h3 className="mt-5 text-center">Other options</h3>
+            <CheckboxMod
+              setFunctions={[setSeparationLine]}
+              texts={["Add separation line between different characters"]}
             ></CheckboxMod>
           </Accordion.Content>
         </Accordion.Panel>
@@ -262,7 +272,8 @@ function OptionsForm({
               allNumberInputsStates.slice(5),
               numberInputTexts.slice(5),
               warningTexts.slice(5),
-              minValues.slice(5)
+              minValues.slice(5),
+              maxValues.slice(5)
             )}
           </Accordion.Content>
         </Accordion.Panel>
