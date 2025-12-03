@@ -56,7 +56,7 @@ function createOneCharacterSVG(character: string, index: number, svgDataForChara
 
   if (isPDF) {
     return (
-      <Svg viewBox="0 0 1024 1024" fill="black" key={`${character}-stroke-PDF-${index}`} style={tw(`border border-solid min-w-12 min-h-12 w-12 h-12`)}>
+      <Svg viewBox="0 0 1024 1024" fill="black" key={`${character}-stroke-PDF-${index}`} style={tw(`border border-solid  w-12 h-12`)}>
         {svgDataForCharacter.map((stroke: string, strokeIndex: number) => (
         <G transform="scale(1, -1) translate(0, -900)" 
         key={`${character}-stroke-g-PDF-${strokeIndex}`} 
@@ -74,7 +74,7 @@ function createOneCharacterSVG(character: string, index: number, svgDataForChara
   return (
   <svg viewBox="0 0 1024 1024" key={`${character}-stroke-${index}`} className={`border border-solid min-w-12 min-h-12 w-12 h-12`}>
     {svgDataForCharacter.map((stroke: string, strokeIndex: number) => (
-      <g transform="scale(1, -1) translate(0, -900)" 
+      <g transform="scale(1, -1) translate(0, -900)"
       key={`${character}-stroke-g-${strokeIndex}`} 
       opacity={strokeIndex <= index ? 1 : 0.2}
       fill={strokeIndex === index ? "green" : "black"}>
