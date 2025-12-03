@@ -56,7 +56,7 @@ function createOneCharacterSVG(character: string, index: number, svgDataForChara
 
   if (isPDF) {
     return (
-      <Svg viewBox="0 0 1024 1024" fill="black" key={`${character}-stroke-PDF-${index}`} style={{width: 60, height: 60, ...tw(`border border-solid`)}}>
+      <Svg viewBox="0 0 1024 1024" fill="black" key={`${character}-stroke-PDF-${index}`} style={tw(`border border-solid min-w-12 min-h-12 w-12 h-12`)}>
         {svgDataForCharacter.map((stroke: string, strokeIndex: number) => (
         <G transform="scale(1, -1) translate(0, -900)" 
         key={`${character}-stroke-g-PDF-${strokeIndex}`} 
@@ -72,7 +72,7 @@ function createOneCharacterSVG(character: string, index: number, svgDataForChara
   }
 
   return (
-  <svg viewBox="0 0 1024 1024" key={`${character}-stroke-${index}`} className={`border border-solid max-w-15 max-h-15`}>
+  <svg viewBox="0 0 1024 1024" key={`${character}-stroke-${index}`} className={`border border-solid min-w-12 min-h-12 w-12 h-12`}>
     {svgDataForCharacter.map((stroke: string, strokeIndex: number) => (
       <g transform="scale(1, -1) translate(0, -900)" 
       key={`${character}-stroke-g-${strokeIndex}`} 
@@ -96,7 +96,7 @@ export function createSVGStrokes(character: string, characterSVGData : character
     // For react-pdf rendering
     return (
       svgAvailable ? (
-        <View style={tw(`w-full flex flex-row`)}>
+        <View style={tw(`w-full flex flex-row flex-wrap`)}>
           {svgDataForCharacter.map((stroke: string, index: number) => (
                 createOneCharacterSVG(character, index, svgDataForCharacter, true))
             )}
@@ -110,10 +110,10 @@ export function createSVGStrokes(character: string, characterSVGData : character
       // For web rendering
       return (
         svgAvailable ? (
-          <div className="w-full flex flex-row ">
+          <div className="w-full flex flex-row flex-wrap">
             {svgDataForCharacter.map((stroke: string, index: number) => (
-              createOneCharacterSVG(character, index, svgDataForCharacter))
-            )}
+              createOneCharacterSVG(character, index, svgDataForCharacter)
+            ))}
           </div>
           ) : svgDataForCharacter === " " && showStrokesOrder ? (
             <p className="border border-solid p-2 text-[0.8rem]">Stroke order not found</p>
