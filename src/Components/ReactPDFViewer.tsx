@@ -1,8 +1,11 @@
 import SquareReactPdf from "./SquareReactPdf";
 import { createTw } from "react-pdf-tailwind";
 import { allStatesType } from "../Types/types";
-import {returnInfoOrNotFound, createSVGStrokes} from "../Functions/previewerFunctions";
-import { useCharacterData } from "../hooks/useCharacterData";
+import {
+  returnInfoOrNotFound,
+  createSVGStrokes,
+} from "../Functions/previewerFunctions";
+import Loading from "./Loading";
 
 import FangSong from "../Fonts/FangSong.ttf";
 import KaiTi from "../Fonts/KaiTi.ttf";
@@ -41,6 +44,7 @@ interface PreviewPropsType {
   className?: string;
   allStates: allStatesType;
   widthOfTheSquaresInPx: number;
+  charactersInfoResponse : any,
   marginTop: number;
   marginRight: number;
   marginBottom: number;
@@ -52,12 +56,18 @@ function ReactPDFViewer({
   className = "",
   allStates,
   widthOfTheSquaresInPx,
+  charactersInfoResponse,
   marginTop,
   marginRight,
   marginBottom,
   marginLeft,
 }: PreviewPropsType) {
-  const { charactersInfo: CharactersInfo, characterSVGData, loading, error } = useCharacterData();
+  const {
+    charactersInfo: CharactersInfo,
+    characterSVGData,
+    loading,
+    error,
+  } = charactersInfoResponse
 
   let [
     characters,
@@ -81,28 +91,6 @@ function ReactPDFViewer({
     separationLine,
   ] = allStates;
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center p-8" style={{ height: "70vh" }}>
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading character data for PDF...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center p-8" style={{ height: "70vh" }}>
-        <div className="text-center text-red-600">
-          <p className="font-bold mb-2">Error loading character data</p>
-          <p className="text-sm">{error.message}</p>
-        </div>
-      </div>
-    );
-  }
-
   const listCharacters = characters.split("").map((character, i) => {
     if (character !== " ") {
       return (
@@ -120,7 +108,7 @@ function ReactPDFViewer({
                   CharactersInfo,
                   character,
                   "definition",
-                  "Could not find the character definition"
+                  "Could not find the character definition",
                 )}
               </Text>
             ) : null}
@@ -129,7 +117,7 @@ function ReactPDFViewer({
                 style={tw(
                   `border border-solid p-2 text-[0.8rem]${
                     showDefinition ? " border-l-0" : ""
-                  }`
+                  }`,
                 )}
               >
                 <Text style={tw(`font-bold mr-2`)}>Pinyin:</Text>
@@ -137,13 +125,18 @@ function ReactPDFViewer({
                   CharactersInfo,
                   character,
                   "pinyin",
-                  "Could not find the Pinyin"
+                  "Could not find the Pinyin",
                 )}
               </Text>
             ) : null}
           </View>
           <View>
-            {createSVGStrokes(character, characterSVGData, showStrokesOrder, true)}
+            {createSVGStrokes(
+              character,
+              characterSVGData,
+              showStrokesOrder,
+              true,
+            )}
           </View>
           <View>
             {[...Array(numberOfRowsPerCharacter).keys()].map((index) =>
@@ -157,11 +150,12 @@ function ReactPDFViewer({
                 numberColumnSpacing,
                 index < numberOfPracticeLines ? true : false,
                 widthOfTheSquaresInPx,
-                index
-              )
+                index,
+              ),
             )}
           </View>
-          {// Add a separation line between characters if the user selected it
+          {
+            // Add a separation line between characters if the user selected it
             separationLine && i < characters.split("").length - 1 ? (
               <View style={tw("my-4 border-t-2 border-gray-300")} />
             ) : null
@@ -180,7 +174,7 @@ function ReactPDFViewer({
     columnSpacing: number,
     firstLine = false,
     widthOfTheSquaresInPx: number,
-    index: number
+    index: number,
   ) {
     return (
       <View
@@ -197,9 +191,7 @@ function ReactPDFViewer({
           <SquareReactPdf
             key={`${character}-square-PDF-${i}`}
             widthInPx={widthOfTheSquaresInPx}
-            character={
-              i < numberPracticeSquares && firstLine ? character : ""
-            }
+            character={i < numberPracticeSquares && firstLine ? character : ""}
             firstCharacter={i === 0 ? true : false}
             font={font}
             columnSpacing={columnSpacing}
@@ -227,15 +219,19 @@ function ReactPDFViewer({
     <PDFViewer style={{ width: "100%", height: "70vh" }}>
       <Document style={{ width: 595 }}>
         <Page size="A4" style={styles.page}>
-          <Text style={{
+        <Loading error={error} loading={loading} characters={characters} />
+          <Text
+            style={{
               fontSize: titleFontSize,
-              fontWeight: fontBold ? 'bold' : 'normal',
-              fontStyle: fontItalic ? 'italic' : 'normal',
-              textDecoration: fontUnderline ? 'underline' : 'none',
-              ...tw(`w-full text-center`)}}>{title}</Text>
-          <View >
-            {listCharacters}
-          </View>
+              fontWeight: fontBold ? "bold" : "normal",
+              fontStyle: fontItalic ? "italic" : "normal",
+              textDecoration: fontUnderline ? "underline" : "none",
+              ...tw(`w-full text-center`),
+            }}
+          >
+            {title}
+          </Text>
+          <View>{listCharacters}</View>
         </Page>
       </Document>
     </PDFViewer>

@@ -14,7 +14,7 @@ type allNumberInputsStatesType = [
   boolean,
   React.Dispatch<React.SetStateAction<boolean>>,
   number,
-  React.Dispatch<React.SetStateAction<number>>
+  React.Dispatch<React.SetStateAction<number>>,
 ];
 
 type OtherSetFunctionsType = [
@@ -23,28 +23,40 @@ type OtherSetFunctionsType = [
   React.Dispatch<React.SetStateAction<string>>, // setGridName
   React.Dispatch<React.SetStateAction<boolean>>, // setShowDefinition
   React.Dispatch<React.SetStateAction<boolean>>, // setShowPinyin
-  React.Dispatch<React.SetStateAction<boolean>>,  // setShowStrokesOrder
-  React.Dispatch<React.SetStateAction<string>>,  // setTitle
+  React.Dispatch<React.SetStateAction<boolean>>, // setShowStrokesOrder
+  React.Dispatch<React.SetStateAction<string>>, // setTitle
   React.Dispatch<React.SetStateAction<boolean>>, // setTitleItalic
   React.Dispatch<React.SetStateAction<boolean>>, // setTitleBold
-  React.Dispatch<React.SetStateAction<boolean>>,  // setTitleUnderline
-  React.Dispatch<React.SetStateAction<boolean>>  // setSeparationLine
+  React.Dispatch<React.SetStateAction<boolean>>, // setTitleUnderline
+  React.Dispatch<React.SetStateAction<boolean>>, // setSeparationLine
 ];
 
 interface OptionsFormProps {
   className?: string;
   allNumberInputsStates: allNumberInputsStatesType[];
   otherSetFunctions: OtherSetFunctionsType;
+  charactersInfoResponse: any;
 }
 
 function OptionsForm({
   className,
   allNumberInputsStates,
   otherSetFunctions,
+  charactersInfoResponse,
 }: OptionsFormProps) {
-  let [setCharacters, setFont, setGridName, setShowDefinition, setShowPinyin, setShowStrokesOrder, 
-    setTitle, setTitleItalic, setTitleBold, setTitleUnderline, setSeparationLine] =
-    otherSetFunctions;
+  let [
+    setCharacters,
+    setFont,
+    setGridName,
+    setShowDefinition,
+    setShowPinyin,
+    setShowStrokesOrder,
+    setTitle,
+    setTitleItalic,
+    setTitleBold,
+    setTitleUnderline,
+    setSeparationLine,
+  ] = otherSetFunctions;
 
   /* Function to check if conditions are met for the input value. Then change the values and the warning */
   function checkNumbers(
@@ -52,7 +64,7 @@ function OptionsForm({
     newState: number,
     setWarning: React.Dispatch<React.SetStateAction<boolean>>,
     minVal = 1,
-    maxVal = Infinity
+    maxVal = Infinity,
   ): void {
     /* state is a number above minVal and below maxVal */
     if (newState >= minVal && !isNaN(newState) && newState <= maxVal) {
@@ -117,8 +129,21 @@ function OptionsForm({
   // Mins for inputs
   const minValues = [1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0];
 
-  // Max for inputs 
-  const maxValues = [Infinity, Infinity, allNumberInputsStates[0][2], allNumberInputsStates[1][2], 500, 100, Infinity, Infinity, Infinity, Infinity, Infinity, Infinity];
+  // Max for inputs
+  const maxValues = [
+    Infinity,
+    Infinity,
+    allNumberInputsStates[0][2],
+    allNumberInputsStates[1][2],
+    500,
+    100,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+    Infinity,
+  ];
 
   // warnings texts
   let warningTexts = [
@@ -180,12 +205,9 @@ function OptionsForm({
         text="Enter the title for the practice sheet"
         id="TitleInput"
       ></InputWLabel>
-      
+
       {/* Main options */}
-      <Accordion
-        className="mt-10 bg-white "
-        alwaysOpen={false}
-      >
+      <Accordion className="mt-10 bg-white " alwaysOpen={false}>
         <AccordionPanel className="">
           <AccordionTitle className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
             Main Options
@@ -193,45 +215,53 @@ function OptionsForm({
           <AccordionContent className="dark:bg-white">
             {/* Input for Characters */}
 
-      {/* We need to have two arrays, one with the info of the important array and another with the one with the advance options. This is needed to put the advanced option in an acordeon
+            {/* We need to have two arrays, one with the info of the important array and another with the one with the advance options. This is needed to put the advanced option in an acordeon
       That is why we will call two times inputsHTML depending which inputs we want to show in that part*/}
 
-      {inputsHTML(
-        allNumberInputsStates.slice(0, 4),
-        numberInputTexts.slice(0, 4),
-        warningTexts.slice(0, 4),
-        minValues.slice(0, 4),
-        maxValues.slice(0, 4)
-      )}
+            {inputsHTML(
+              allNumberInputsStates.slice(0, 4),
+              numberInputTexts.slice(0, 4),
+              warningTexts.slice(0, 4),
+              minValues.slice(0, 4),
+              maxValues.slice(0, 4),
+            )}
 
-      {/* We will add some other option 
+            {/* We will add some other option 
       First one is to change the font*/}
 
-      <SelectMod setFunction={setFont} selectInfo={fontInfo} id="fontSelect" />
+            <SelectMod
+              setFunction={setFont}
+              selectInfo={fontInfo}
+              id="fontSelect"
+            />
 
-      {/* We want an options to be able to select the bg grid */}
-      <fieldset className="flex flex-row justify-evenly mt-5 border-1 p-5">
-        <legend className="mb-5 text-center">Select the grid type</legend>
-        <RadioMod
-          options={gridOptions}
-          onChange={(e) => setGridName(e.target.value)}
-        ></RadioMod>
-      </fieldset>
+            {/* We want an options to be able to select the bg grid */}
+            <fieldset className="flex flex-row justify-evenly mt-5 border-1 p-5">
+              <legend className="mb-5 text-center">Select the grid type</legend>
+              <RadioMod
+                options={gridOptions}
+                onChange={(e) => setGridName(e.target.value)}
+              ></RadioMod>
+            </fieldset>
 
-      {/* Now we need an option  so the user can show te definition of the character,the pinyin or stroke order*/}
-      <CheckboxMod
-        setFunctions={[setShowDefinition, setShowPinyin, setShowStrokesOrder]}
-        texts={["Show definition", "Show Pinyin", "Show Strokes Order"]}
-      ></CheckboxMod>
+            {/* Now we need an option  so the user can show te definition of the character,the pinyin or stroke order*/}
+            {!charactersInfoResponse.loading &&
+            !charactersInfoResponse.error ? (
+              <CheckboxMod
+                setFunctions={[
+                  setShowDefinition,
+                  setShowPinyin,
+                  setShowStrokesOrder,
+                ]}
+                texts={["Show definition", "Show Pinyin", "Show Strokes Order"]}
+              ></CheckboxMod>
+            ) : null}
           </AccordionContent>
         </AccordionPanel>
       </Accordion>
 
       {/* Title options */}
-      <Accordion
-        className="mt-10 bg-white "
-        alwaysOpen={false}
-      >
+      <Accordion className="mt-10 bg-white " alwaysOpen={false}>
         <AccordionPanel className="">
           <AccordionTitle className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
             Style options
@@ -243,7 +273,7 @@ function OptionsForm({
               numberInputTexts.slice(4, 5),
               warningTexts.slice(4, 5),
               minValues.slice(4, 5),
-              maxValues.slice(4, 5)
+              maxValues.slice(4, 5),
             )}
             {/* Bold, italic, undeline options*/}
             <CheckboxMod
@@ -260,10 +290,7 @@ function OptionsForm({
       </Accordion>
 
       {/* Here are the advanced options (Like margins and column and row spacing) */}
-      <Accordion
-        className="mt-10 bg-white "
-        alwaysOpen={false}
-      >
+      <Accordion className="mt-10 bg-white " alwaysOpen={false}>
         <AccordionPanel className="">
           <AccordionTitle className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
             Advanced Options
@@ -275,7 +302,7 @@ function OptionsForm({
               numberInputTexts.slice(5),
               warningTexts.slice(5),
               minValues.slice(5),
-              maxValues.slice(5)
+              maxValues.slice(5),
             )}
           </AccordionContent>
         </AccordionPanel>

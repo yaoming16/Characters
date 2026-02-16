@@ -1,13 +1,17 @@
 import Square from "./Square";
 import { allStatesType } from "../Types/types";
-import {returnInfoOrNotFound, createSVGStrokes} from "../Functions/previewerFunctions";
-import { useCharacterData } from "../hooks/useCharacterData";
+import {
+  returnInfoOrNotFound,
+  createSVGStrokes,
+} from "../Functions/previewerFunctions";
+import Loading from "./Loading";
 
 interface PreviewPropsType {
   id: string;
   className?: string;
   allStates: allStatesType;
   widthOfTheSquaresInPx: number;
+  charactersInfoResponse : any
 }
 
 function Preview({
@@ -15,8 +19,14 @@ function Preview({
   className = "",
   allStates,
   widthOfTheSquaresInPx,
+  charactersInfoResponse
 }: PreviewPropsType) {
-  const { charactersInfo: CharactersInfo, characterSVGData, loading, error } = useCharacterData();
+  const {
+    charactersInfo: CharactersInfo,
+    characterSVGData,
+    loading,
+    error,
+  } = charactersInfoResponse
 
   let [
     characters,
@@ -40,30 +50,7 @@ function Preview({
     separationLine,
   ] = allStates;
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading character data...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <div className="text-center text-red-600">
-          <p className="font-bold mb-2">Error loading character data</p>
-          <p className="text-sm">{error.message}</p>
-        </div>
-      </div>
-    );
-  }
-
   const listCharacters = characters.split("").map((character, i) => {
-
     if (character !== " ") {
       return (
         <div key={`${character}-container-${i}`}>
@@ -84,7 +71,7 @@ function Preview({
                 CharactersInfo,
                 character,
                 "definition",
-                "Could not find the character definition"
+                "Could not find the character definition",
               )}
             </p>
             <p
@@ -94,18 +81,22 @@ function Preview({
                 (showDefinition ? "" : " border-l-1")
               }
             >
-              <span className={
-                "font-bold mr-2"}>Pinyin:</span>
+              <span className={"font-bold mr-2"}>Pinyin:</span>
               {returnInfoOrNotFound(
                 CharactersInfo,
                 character,
                 "pinyin",
-                "Could not find the Pinyin"
+                "Could not find the Pinyin",
               )}
             </p>
           </div>
           <div>
-            {createSVGStrokes(character, characterSVGData, showStrokesOrder, false)}
+            {createSVGStrokes(
+              character,
+              characterSVGData,
+              showStrokesOrder,
+              false,
+            )}
           </div>
           {[...Array(numberOfRowsPerCharacter).keys()].map((index) =>
             createOneLine(
@@ -118,11 +109,12 @@ function Preview({
               numberColumnSpacing,
               index < numberOfPracticeLines ? true : false,
               widthOfTheSquaresInPx,
-              index
-            )
+              index,
+            ),
           )}
 
-          {// Add a separation line between characters if the user selected it
+          {
+            // Add a separation line between characters if the user selected it
             separationLine && i < characters.split("").length - 1 ? (
               <hr className="my-4 border-t-2 border-gray-300" />
             ) : null
@@ -141,7 +133,7 @@ function Preview({
     columnSpacing: number,
     firstLine = false,
     widthOfTheSquaresInPx: number,
-    index: number
+    index: number,
   ) {
     return (
       <div
@@ -156,9 +148,7 @@ function Preview({
           // We also need to know if it is the first character we show to show it bold
           <Square
             widthInPx={widthOfTheSquaresInPx}
-            character={
-              i < numberPracticeSquares && firstLine ? character : ""
-            }
+            character={i < numberPracticeSquares && firstLine ? character : ""}
             firstCharacter={i === 0 ? true : false}
             key={`${character}-square-${i}`}
             font={font}
@@ -173,12 +163,21 @@ function Preview({
 
   return (
     <>
-      <p className={"text-center wrap-break-word " + (titleItalic ? "italic " : "") + (titleBold ? "font-bold " : "") + (titleUnderline ? "underline " : "")}
-      style={{ 
-       fontSize: titleFontSize + "px" }}>
+      <p
+        className={
+          "text-center wrap-break-word " +
+          (titleItalic ? "italic " : "") +
+          (titleBold ? "font-bold " : "") +
+          (titleUnderline ? "underline " : "")
+        }
+        style={{
+          fontSize: titleFontSize + "px",
+        }}
+      >
         {title}
       </p>
       <div id={id} className={className}>
+        <Loading error={error} loading={loading} characters={characters} />
         <div>{listCharacters}</div>
       </div>
     </>

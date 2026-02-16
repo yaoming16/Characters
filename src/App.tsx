@@ -8,6 +8,7 @@ import ReactPDFViewer from "./Components/ReactPDFViewer";
 import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Buffer } from "buffer";
 import { allStatesType } from "./Types/types";
+import { useCharacterData } from "./hooks/useCharacterData";
 
 function App() {
   (window as any).Buffer = Buffer;
@@ -15,7 +16,7 @@ function App() {
   // Fuction to check if there are no warnings and show the final previewer
   function changeStateIfNoWarnings(
     warningsArr: boolean[],
-    setFunction: React.Dispatch<React.SetStateAction<boolean>>
+    setFunction: React.Dispatch<React.SetStateAction<boolean>>,
   ): void {
     if (warningsArr.some((warning) => warning)) {
       console.error("Cannot generate PDF due to warnings.");
@@ -36,7 +37,7 @@ function App() {
     const spaceBetweenSquares = numberColumnSpacing * (numberOfBoxesPerRow - 1);
     const newWidth = Math.floor(
       (maxWidth - spaceBetweenSquares - numberMarginRight - numberMarginLeft) /
-        numberOfBoxesPerRow
+        numberOfBoxesPerRow,
     );
     return newWidth;
   }
@@ -57,6 +58,8 @@ function App() {
       return () => clearTimeout(timer);
     }
   }
+
+  const charactersInfoResponse = useCharacterData();
 
   // Use State for the input that selects the characters to show
 
@@ -209,7 +212,7 @@ function App() {
     boolean,
     React.Dispatch<React.SetStateAction<boolean>>,
     number,
-    React.Dispatch<React.SetStateAction<number>>
+    React.Dispatch<React.SetStateAction<number>>,
   ][] = [
     [
       warningNumberOfBoxesPerRow,
@@ -372,6 +375,7 @@ function App() {
               <OptionsForm
                 allNumberInputsStates={allNumberInputsStates}
                 className=""
+                charactersInfoResponse={charactersInfoResponse}
                 otherSetFunctions={[
                   setCharacters,
                   setFont,
@@ -411,6 +415,7 @@ function App() {
                   id={"previewer"}
                   allStates={statesToShow}
                   widthOfTheSquaresInPx={widthOfTheSquaresInPx}
+                  charactersInfoResponse={charactersInfoResponse}
                 ></Preview>
               ) : (
                 ""
@@ -449,6 +454,7 @@ function App() {
               id={"previewer"}
               allStates={statesToShow}
               widthOfTheSquaresInPx={calculateNewWidth(595)}
+              charactersInfoResponse={charactersInfoResponse}
               marginTop={numberMarginTop}
               marginRight={numberMarginRight}
               marginBottom={numberMarginBottom}
