@@ -153,3 +153,8 @@ Thumbs.db
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Large original data files (replaced with split versions)
+# The split files (graphics-part1.json, graphics-part2.json) ARE committed
+src/data/graphics.json
+src/data/dictionary.json

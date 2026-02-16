@@ -1,24 +1,15 @@
 import SquareReactPdf from "./SquareReactPdf";
-import CharactersInfoImport from "../data/dictionary.json";
 import { createTw } from "react-pdf-tailwind";
 import { characterInfoType, allStatesType } from "../Types/types";
 import {returnInfoOrNotFound, createSVGStrokes} from "../Functions/previewerFunctions";
-import characterSVGInfoImport from "../data/graphics.json";
 import { characterSVGType } from "../Types/types";
+import { useCharacterData } from "../hooks/useCharacterData";
 
 import FangSong from "../Fonts/FangSong.ttf";
 import KaiTi from "../Fonts/KaiTi.ttf";
 import SimSun from "../Fonts/SimSun.ttf";
 
-const CharactersInfo: characterInfoType[] = CharactersInfoImport.CharactersInfo;
 const tw = createTw({});
-
-// Type assertion for graphics.json structure to avoid '{}' implicit type error
-const characterSVGData: characterSVGType[] = (
-  characterSVGInfoImport as {
-    charactersSVGInfo: characterSVGType[];
-  }
-).charactersSVGInfo;
 
 import {
   Page,
@@ -67,6 +58,8 @@ function ReactPDFViewer({
   marginBottom,
   marginLeft,
 }: PreviewPropsType) {
+  const { charactersInfo: CharactersInfo, characterSVGData } = useCharacterData();
+
   let [
     characters,
     numberOfBoxesPerRow,
@@ -127,6 +120,8 @@ function ReactPDFViewer({
                 )}
               </Text>
             ) : null}
+          </View>
+          <View>
             {createSVGStrokes(character, characterSVGData, showStrokesOrder, true)}
           </View>
           <View>

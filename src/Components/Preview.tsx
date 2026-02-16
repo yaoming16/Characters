@@ -1,18 +1,7 @@
 import Square from "./Square";
 import { characterInfoType, characterSVGType, allStatesType } from "../Types/types";
-import CharactersInfoImport from "../data/dictionary.json";
-import characterSVGInfoImport from "../data/graphics.json";
 import {returnInfoOrNotFound, createSVGStrokes} from "../Functions/previewerFunctions";
-
-const CharactersInfo: characterInfoType[] =
-  CharactersInfoImport.CharactersInfo as characterInfoType[];
-
-// Type assertion for graphics.json structure to avoid '{}' implicit type error
-const characterSVGData: characterSVGType[] = (
-  characterSVGInfoImport as {
-    charactersSVGInfo: characterSVGType[];
-  }
-).charactersSVGInfo;
+import { useCharacterData } from "../hooks/useCharacterData";
 
 interface PreviewPropsType {
   id: string;
@@ -27,6 +16,8 @@ function Preview({
   allStates,
   widthOfTheSquaresInPx,
 }: PreviewPropsType) {
+  const { charactersInfo: CharactersInfo, characterSVGData } = useCharacterData();
+
   let [
     characters,
     numberOfBoxesPerRow,
@@ -49,7 +40,6 @@ function Preview({
     separationLine,
   ] = allStates;
 
-  
   const listCharacters = characters.split("").map((character, i) => {
 
     if (character !== " ") {
@@ -91,6 +81,8 @@ function Preview({
                 "Could not find the Pinyin"
               )}
             </p>
+          </div>
+          <div>
             {createSVGStrokes(character, characterSVGData, showStrokesOrder, false)}
           </div>
           {[...Array(numberOfRowsPerCharacter).keys()].map((index) =>
