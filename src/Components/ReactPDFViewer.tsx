@@ -1,8 +1,7 @@
 import SquareReactPdf from "./SquareReactPdf";
 import { createTw } from "react-pdf-tailwind";
-import { characterInfoType, allStatesType } from "../Types/types";
+import { allStatesType } from "../Types/types";
 import {returnInfoOrNotFound, createSVGStrokes} from "../Functions/previewerFunctions";
-import { characterSVGType } from "../Types/types";
 import { useCharacterData } from "../hooks/useCharacterData";
 
 import FangSong from "../Fonts/FangSong.ttf";

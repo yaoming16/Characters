@@ -1,5 +1,5 @@
 import Square from "./Square";
-import { characterInfoType, characterSVGType, allStatesType } from "../Types/types";
+import { allStatesType } from "../Types/types";
 import {returnInfoOrNotFound, createSVGStrokes} from "../Functions/previewerFunctions";
 import { useCharacterData } from "../hooks/useCharacterData";
 
