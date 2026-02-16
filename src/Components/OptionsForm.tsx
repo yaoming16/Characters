@@ -1,5 +1,10 @@
 import InputWLabel from "./Form/InputWLabel";
-import { Accordion, TimelineTitle } from "flowbite-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionPanel,
+  AccordionTitle,
+} from "flowbite-react";
 import SelectMod from "./Form/SelectMod";
 import RadioMod from "./Form/RadioMod";
 import CheckboxMod from "./Form/CheckboxMod";
@@ -180,13 +185,12 @@ function OptionsForm({
       <Accordion
         className="mt-10 bg-white "
         alwaysOpen={false}
-        collapseAll={false}
       >
-        <Accordion.Panel className="">
-          <Accordion.Title className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
+        <AccordionPanel className="">
+          <AccordionTitle className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
             Main Options
-          </Accordion.Title>
-          <Accordion.Content className="dark:bg-white">
+          </AccordionTitle>
+          <AccordionContent className="dark:bg-white">
             {/* Input for Characters */}
 
       {/* We need to have two arrays, one with the info of the important array and another with the one with the advance options. This is needed to put the advanced option in an acordeon
@@ -219,21 +223,20 @@ function OptionsForm({
         setFunctions={[setShowDefinition, setShowPinyin, setShowStrokesOrder]}
         texts={["Show definition", "Show Pinyin", "Show Strokes Order"]}
       ></CheckboxMod>
-          </Accordion.Content>
-        </Accordion.Panel>
+          </AccordionContent>
+        </AccordionPanel>
       </Accordion>
 
       {/* Title options */}
       <Accordion
         className="mt-10 bg-white "
         alwaysOpen={false}
-        collapseAll={true}
       >
-        <Accordion.Panel className="">
-          <Accordion.Title className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
+        <AccordionPanel className="">
+          <AccordionTitle className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
             Style options
-          </Accordion.Title>
-          <Accordion.Content className="dark:bg-white">
+          </AccordionTitle>
+          <AccordionContent className="dark:bg-white">
             <h3 className="text-center">Title options</h3>
             {inputsHTML(
               allNumberInputsStates.slice(4, 5),
@@ -252,21 +255,20 @@ function OptionsForm({
               setFunctions={[setSeparationLine]}
               texts={["Add separation line between different characters"]}
             ></CheckboxMod>
-          </Accordion.Content>
-        </Accordion.Panel>
+          </AccordionContent>
+        </AccordionPanel>
       </Accordion>
 
       {/* Here are the advanced options (Like margins and column and row spacing) */}
       <Accordion
         className="mt-10 bg-white "
         alwaysOpen={false}
-        collapseAll={true}
       >
-        <Accordion.Panel className="">
-          <Accordion.Title className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
+        <AccordionPanel className="">
+          <AccordionTitle className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
             Advanced Options
-          </Accordion.Title>
-          <Accordion.Content className="dark:bg-white">
+          </AccordionTitle>
+          <AccordionContent className="dark:bg-white">
             {/*  Here we add the other inputs */}
             {inputsHTML(
               allNumberInputsStates.slice(5),
@@ -275,8 +277,8 @@ function OptionsForm({
               minValues.slice(5),
               maxValues.slice(5)
             )}
-          </Accordion.Content>
-        </Accordion.Panel>
+          </AccordionContent>
+        </AccordionPanel>
       </Accordion>
     </div>
   );

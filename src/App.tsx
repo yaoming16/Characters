@@ -5,7 +5,7 @@ import DownloadButton from "./Components/Form/DownloadButton";
 import { useState, useEffect } from "react";
 import React from "react";
 import ReactPDFViewer from "./Components/ReactPDFViewer";
-import { Modal } from "flowbite-react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { Buffer } from "buffer";
 import { allStatesType } from "./Types/types";
 
@@ -442,8 +442,8 @@ function App() {
         }}
         className="!bg-black/70"
       >
-        <Modal.Header />
-        <Modal.Body>
+        <ModalHeader />
+        <ModalBody>
           <div className="overflow-auto border border-gray-300 rounded-lg shadow-lg p-5">
             <ReactPDFViewer
               id={"previewer"}
@@ -455,7 +455,7 @@ function App() {
               marginLeft={numberMarginLeft}
             ></ReactPDFViewer>
           </div>
-        </Modal.Body>
+        </ModalBody>
       </Modal>
     </>
   );
