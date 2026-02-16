@@ -16,7 +16,7 @@ function Preview({
   allStates,
   widthOfTheSquaresInPx,
 }: PreviewPropsType) {
-  const { charactersInfo: CharactersInfo, characterSVGData } = useCharacterData();
+  const { charactersInfo: CharactersInfo, characterSVGData, loading, error } = useCharacterData();
 
   let [
     characters,
@@ -39,6 +39,28 @@ function Preview({
     titleUnderline,
     separationLine,
   ] = allStates;
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading character data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="text-center text-red-600">
+          <p className="font-bold mb-2">Error loading character data</p>
+          <p className="text-sm">{error.message}</p>
+        </div>
+      </div>
+    );
+  }
 
   const listCharacters = characters.split("").map((character, i) => {
 
