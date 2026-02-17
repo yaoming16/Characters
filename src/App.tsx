@@ -207,6 +207,14 @@ function App() {
     };
   }, [openModal]);
 
+  // If screen is less than 1024px when the page loads we want the preview to start closed
+  useEffect(() => {
+    let viewportWidth  = window.innerWidth;
+    if (viewportWidth < 1024) {
+      setShowPreviewer(false);
+    }
+  }, [])
+
   // All states of number inputs will be stored here so is easier to send them  to the Options form
   let allNumberInputsStates: [
     boolean,
@@ -338,7 +346,8 @@ function App() {
 
   return (
     <>
-      <div className="border-gray-300 z-10">
+      <div className="border-gray-300 z-10 flex flex-col">
+      <h1 className="font-semibold mt-4 ml-auto mr-auto text-4xl font-[KaiTi]">Character Writing Practice</h1>
         <div
           id="container"
           className={`w-3/4 m-auto mt-10 mb-10 border border-gray-300 p-10 rounded-lg shadow-lg flex ${
