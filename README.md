@@ -4,7 +4,7 @@ A customizable web application for creating Chinese character practice sheets. P
 
 ## 🔗 Links
 
-- **Live Demo**: [Add your live preview link here]
+- **Live Demo**: [Characters Practice Sheet Generator](https://chinese-characters-6ln.pages.dev/)
 - **Author**: [Pablo Perez](https://github.com/yaoming16)
 
 ## 📸 Screenshots
