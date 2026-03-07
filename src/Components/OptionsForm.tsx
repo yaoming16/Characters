@@ -35,6 +35,7 @@ interface OptionsFormProps {
   className?: string;
   allNumberInputsStates: allNumberInputsStatesType[];
   otherSetFunctions: OtherSetFunctionsType;
+  characters: string;
   charactersInfoResponse: any;
 }
 
@@ -43,6 +44,7 @@ function OptionsForm({
   allNumberInputsStates,
   otherSetFunctions,
   charactersInfoResponse,
+  characters,
 }: OptionsFormProps) {
   let [
     setCharacters,
@@ -192,6 +194,7 @@ function OptionsForm({
       <InputWLabel
         type="text"
         className=""
+        value={characters}
         onChange={(e) => setCharacters(e.target.value.trim())}
         text="Enter the characters you wish to practice"
         id="CharactersInput"

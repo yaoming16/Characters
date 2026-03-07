@@ -63,7 +63,7 @@ function App() {
 
   // Use State for the input that selects the characters to show
 
-  let [characters, setCharacters] = useState("");
+  let [characters, setCharacters] = useState("你好");
 
   //Use State for the input that selects the Boxes per row
 
@@ -131,13 +131,13 @@ function App() {
   let [gridName, setGridName] = useState("basic-grid.jpg");
 
   // Option to show definition
-  let [showDefinition, setShowDefinition] = useState(false);
+  let [showDefinition, setShowDefinition] = useState(true);
 
   // Option to show the pinyin
-  let [showPinyin, setShowPinyin] = useState(false);
+  let [showPinyin, setShowPinyin] = useState(true);
 
   // Option to show the strokes order
-  let [showStrokesOrder, setShowStrokesOrder] = useState(false);
+  let [showStrokesOrder, setShowStrokesOrder] = useState(true);
 
   // Option to show the previewer
   let [showPreviewer, setShowPreviewer] = useState(true);
@@ -209,11 +209,11 @@ function App() {
 
   // If screen is less than 1024px when the page loads we want the preview to start closed
   useEffect(() => {
-    let viewportWidth  = window.innerWidth;
+    let viewportWidth = window.innerWidth;
     if (viewportWidth < 1024) {
       setShowPreviewer(false);
     }
-  }, [])
+  }, []);
 
   // All states of number inputs will be stored here so is easier to send them  to the Options form
   let allNumberInputsStates: [
@@ -347,7 +347,9 @@ function App() {
   return (
     <>
       <div className="border-gray-300 z-10 flex flex-col">
-      <h1 className="font-semibold mt-4 ml-auto mr-auto text-4xl font-[KaiTi]">Character Writing Practice</h1>
+        <h1 className="font-semibold mt-4 ml-auto mr-auto text-4xl font-[KaiTi]">
+          Character Writing Practice
+        </h1>
         <div
           id="container"
           className={`w-3/4 m-auto mt-10 mb-10 border border-gray-300 p-10 rounded-lg shadow-lg flex ${
@@ -385,6 +387,7 @@ function App() {
                 allNumberInputsStates={allNumberInputsStates}
                 className=""
                 charactersInfoResponse={charactersInfoResponse}
+                characters={characters}
                 otherSetFunctions={[
                   setCharacters,
                   setFont,
