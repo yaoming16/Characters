@@ -1,6 +1,7 @@
 interface InputProps {
   id: string;
   type: string;
+  lang?: string;
   required?: boolean;
   placeholder?: string;
   className?: string;
@@ -19,6 +20,7 @@ function Input({
   required,
   placeholder,
   className,
+  lang,
   onChange,
   value,
   min,
@@ -45,6 +47,7 @@ function Input({
         max={max}
         name={name}
         step={step}
+        lang={lang}
       />
     </div>
   );

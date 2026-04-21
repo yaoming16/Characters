@@ -4,6 +4,7 @@ import Input from "./Input";
 interface InputWLabelProps {
   id: string;
   type: string;
+  lang?: string;
   required?: boolean;
   placeholder?: string;
   classNameLabel?: string;
@@ -24,6 +25,7 @@ function InputWLabel({
   type,
   required,
   placeholder,
+  lang,
   classNameLabel = "",
   onChange,
   classNameInput = "",
@@ -56,6 +58,7 @@ function InputWLabel({
         max={max}
         warning={warning}
         step={step}
+        lang={lang}
       ></Input>
       {warning ? <p className="text-red-600">{warningMessage}</p> : null}
       {/*<FloatingLabel

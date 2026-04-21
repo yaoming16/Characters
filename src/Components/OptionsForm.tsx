@@ -198,6 +198,7 @@ function OptionsForm({
         onChange={(e) => setCharacters(e.target.value.trim())}
         text="Enter the characters you wish to practice"
         id="CharactersInput"
+        lang="zh-CN"
       ></InputWLabel>
 
       {/* Title input */}
