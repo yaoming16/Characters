@@ -9,8 +9,6 @@ A customizable web application for creating Chinese character practice sheets. P
 
 ## 📸 Screenshots
 
-_Add screenshots here to showcase the interface and generated practice sheets_
-
 ## ✨ Features
 
 ### Character Input & Display
