@@ -1,14 +1,17 @@
+import { useState, useEffect } from "react";
+import { Modal, ModalBody, ModalHeader } from "flowbite-react";
+import { Buffer } from "buffer";
+
+import { useTranslation } from "react-i18next";
+
+import { allStatesType } from "./Types/types";
+import { useCharacterData } from "./hooks/useCharacterData";
+
+import ReactPDFViewer from "./Components/ReactPDFViewer";
 import Preview from "./Components/Preview";
 import OptionsForm from "./Components/OptionsForm";
 import Toggle from "./Components/Form/Toggle";
 import DownloadButton from "./Components/Form/DownloadButton";
-import { useState, useEffect } from "react";
-import React from "react";
-import ReactPDFViewer from "./Components/ReactPDFViewer";
-import { Modal, ModalBody, ModalHeader } from "flowbite-react";
-import { Buffer } from "buffer";
-import { allStatesType } from "./Types/types";
-import { useCharacterData } from "./hooks/useCharacterData";
 
 function App() {
   (window as any).Buffer = Buffer;
@@ -34,10 +37,11 @@ function App() {
   }
 
   function calculateNewWidth(maxWidth: number): number {
-    const spaceBetweenSquares = numberColumnSpacing * (numberOfBoxesPerRow - 1);
+    const spaceBetweenSquares =
+      numberColumnSpacing * (numberOfSquaresPerRow - 1);
     const newWidth = Math.floor(
       (maxWidth - spaceBetweenSquares - numberMarginRight - numberMarginLeft) /
-        numberOfBoxesPerRow,
+        numberOfSquaresPerRow,
     );
     return newWidth;
   }
@@ -67,8 +71,8 @@ function App() {
 
   //Use State for the input that selects the Boxes per row
 
-  let [numberOfBoxesPerRow, setNumberOfBoxesPerRow] = useState(8);
-  let [warningNumberOfBoxesPerRow, setWarningNumberOfBoxesPerRow] =
+  let [numberOfSquaresPerRow, setNumberOfSquaresPerRow] = useState(8);
+  let [warningNumberOfSquaresPerRow, setWarningNumberOfSquaresPerRow] =
     useState(false);
 
   //Use State for the input that selects the rows per character
@@ -187,7 +191,7 @@ function App() {
   }, [
     changeToPreviewer,
     showPreviewer,
-    numberOfBoxesPerRow,
+    numberOfSquaresPerRow,
     numberColumnSpacing,
     numberMarginLeft,
     numberMarginRight,
@@ -215,93 +219,88 @@ function App() {
     }
   }, []);
 
-  // All states of number inputs will be stored here so is easier to send them  to the Options form
-  let allNumberInputsStates: [
-    boolean,
-    React.Dispatch<React.SetStateAction<boolean>>,
-    number,
-    React.Dispatch<React.SetStateAction<number>>,
-  ][] = [
-    [
-      warningNumberOfBoxesPerRow,
-      setWarningNumberOfBoxesPerRow,
-      numberOfBoxesPerRow,
-      setNumberOfBoxesPerRow,
-    ],
-    [
-      warningNumberOfRowsPerCharacter,
-      setWarningNumberOfRowsPerCharacter,
-      numberOfRowsPerCharacter,
-      setNumberOfRowsPerCharacter,
-    ],
-    [
-      warningNumberPracticeSquares,
-      setWarningNumberPracticeSquares,
-      numberPracticeSquares,
-      setNumberPracticeSquares,
-    ],
-    [
-      warningNumberOfPracticeLines,
-      setWarningNumberOfPracticeLines,
-      numberOfPracticeLines,
-      setNumberOfPracticeLines,
-    ],
-    [
-      warningTitleFontSize,
-      setWarningTitleFontSize,
-      titleFontSize,
-      setTitleFontSize,
-    ],
-    [
-      warningLetterOpacity,
-      setWarningLetterOpacity,
-      letterOpacity,
-      setLetterOpacity,
-    ],
-    [
-      warningNumberMarginLeft,
-      setWarningNumberMarginLeft,
-      numberMarginLeft,
-      setNumberMarginLeft,
-    ],
-    [
-      warningNumberMarginRight,
-      setWarningNumberMarginRight,
-      numberMarginRight,
-      setNumberMarginRight,
-    ],
-    [
-      warningNumberMarginTop,
-      setWarningNumberMarginTop,
-      numberMarginTop,
-      setNumberMarginTop,
-    ],
-    [
-      warningNumberMarginBottom,
-      setWarningNumberMarginBottom,
-      numberMarginBottom,
-      setNumberMarginBottom,
-    ],
-    [
-      warningNumberRowSpacing,
-      setWarningNumberRowSpacing,
-      numberRowSpacing,
-      setNumberRowSpacing,
-    ],
-    [
-      warningNumberColumnSpacing,
-      setWarningNumberColumnSpacing,
-      numberColumnSpacing,
-      setNumberColumnSpacing,
-    ],
-  ];
+  // All states of number inputs will be stored here as objects for clarity
+  let allNumberInputsStates = {
+    squaresPerRow: {
+      warning: warningNumberOfSquaresPerRow,
+      setWarning: setWarningNumberOfSquaresPerRow,
+      value: numberOfSquaresPerRow,
+      setValue: setNumberOfSquaresPerRow,
+    },
+    rowsPerCharacter: {
+      warning: warningNumberOfRowsPerCharacter,
+      setWarning: setWarningNumberOfRowsPerCharacter,
+      value: numberOfRowsPerCharacter,
+      setValue: setNumberOfRowsPerCharacter,
+    },
+    practiceSquaresPerLine: {
+      warning: warningNumberPracticeSquares,
+      setWarning: setWarningNumberPracticeSquares,
+      value: numberPracticeSquares,
+      setValue: setNumberPracticeSquares,
+    },
+    practiceLines: {
+      warning: warningNumberOfPracticeLines,
+      setWarning: setWarningNumberOfPracticeLines,
+      value: numberOfPracticeLines,
+      setValue: setNumberOfPracticeLines,
+    },
+    titleFontSize: {
+      warning: warningTitleFontSize,
+      setWarning: setWarningTitleFontSize,
+      value: titleFontSize,
+      setValue: setTitleFontSize,
+    },
+    letterOpacity: {
+      warning: warningLetterOpacity,
+      setWarning: setWarningLetterOpacity,
+      value: letterOpacity,
+      setValue: setLetterOpacity,
+    },
+    marginLeft: {
+      warning: warningNumberMarginLeft,
+      setWarning: setWarningNumberMarginLeft,
+      value: numberMarginLeft,
+      setValue: setNumberMarginLeft,
+    },
+    marginRight: {
+      warning: warningNumberMarginRight,
+      setWarning: setWarningNumberMarginRight,
+      value: numberMarginRight,
+      setValue: setNumberMarginRight,
+    },
+    marginTop: {
+      warning: warningNumberMarginTop,
+      setWarning: setWarningNumberMarginTop,
+      value: numberMarginTop,
+      setValue: setNumberMarginTop,
+    },
+    marginBottom: {
+      warning: warningNumberMarginBottom,
+      setWarning: setWarningNumberMarginBottom,
+      value: numberMarginBottom,
+      setValue: setNumberMarginBottom,
+    },
+    rowSpacing: {
+      warning: warningNumberRowSpacing,
+      setWarning: setWarningNumberRowSpacing,
+      value: numberRowSpacing,
+      setValue: setNumberRowSpacing,
+    },
+    columnSpacing: {
+      warning: warningNumberColumnSpacing,
+      setWarning: setWarningNumberColumnSpacing,
+      value: numberColumnSpacing,
+      setValue: setNumberColumnSpacing,
+    },
+  };
 
   {
     /* This one is to send the states to the previewer */
   }
   let statesToShow: allStatesType = [
     characters,
-    numberOfBoxesPerRow,
+    numberOfSquaresPerRow,
     numberOfRowsPerCharacter,
     numberPracticeSquares,
     font,
@@ -325,7 +324,7 @@ function App() {
     /* This array is to later check that every warning is false */
   }
   let warningArr = [
-    warningNumberOfBoxesPerRow,
+    warningNumberOfSquaresPerRow,
     warningNumberOfRowsPerCharacter,
     warningNumberPracticeSquares,
     warningNumberMarginLeft,
@@ -344,11 +343,16 @@ function App() {
     margin: `${numberMarginTop}px ${numberMarginRight}px ${numberMarginBottom}px ${numberMarginLeft}px`,
   };
 
+  const { t, i18n } = useTranslation("global");
+  function handleChangeLanguage(lang: string) {
+    i18n.changeLanguage(lang);
+  }
+
   return (
     <>
       <div className="border-gray-300 z-10 flex flex-col">
         <h1 className="font-semibold mt-4 ml-auto mr-auto text-4xl font-[KaiTi]">
-          Character Writing Practice
+          {t("main.title")}
         </h1>
         <div
           id="container"
@@ -375,12 +379,26 @@ function App() {
               />
               <Toggle
                 checked={changeToPreviewer}
-                label={changeToPreviewer ? "Previewer" : "Options"}
+                label={
+                  changeToPreviewer
+                    ? t("main.switchView.preview")
+                    : t("main.switchView.options")
+                }
                 onChange={() => {
                   setchangeToPreviewer(!changeToPreviewer);
                 }}
                 className={`${showPreviewer ? "!hidden " : ""}`}
               />
+              <button
+                type="button"
+                onClick={() =>
+                  handleChangeLanguage(i18n.language === "es" ? "en" : "es")
+                }
+                className="rounded px-2 py-1 text-mygreen transition-colors hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-mygreen focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
+                aria-label={t("aria.navBar.switchLanguage")}
+              >
+                {i18n.language === "es" ? "EN" : "ES"}
+              </button>
             </div>
             <div className={`${changeToPreviewer ? "hidden" : ""}`}>
               <OptionsForm
@@ -388,7 +406,7 @@ function App() {
                 className=""
                 charactersInfoResponse={charactersInfoResponse}
                 characters={characters}
-                otherSetFunctions={[
+                otherSetFunctions={{
                   setCharacters,
                   setFont,
                   setGridName,
@@ -400,7 +418,7 @@ function App() {
                   setTitleBold,
                   setTitleUnderline,
                   setSeparationLine,
-                ]}
+                }}
               ></OptionsForm>
             </div>
             {/* Download button that only appears when the previewer is shown or when we are in changeToPreviewer mode and the options form is hidden */}

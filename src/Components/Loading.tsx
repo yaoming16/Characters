@@ -1,10 +1,9 @@
 interface loadingError {
   loading: boolean;
   error: Error | null;
-  characters: string;
 }
 
-function Loading({ loading, error, characters }: loadingError) {
+function Loading({ loading, error }: loadingError) {
   if (loading) {
     return (
       <div
@@ -19,7 +18,7 @@ function Loading({ loading, error, characters }: loadingError) {
     );
   }
 
-  if (error && characters === "") {
+  if (error) {
     return (
       <div
         className="flex items-center justify-center p-8"

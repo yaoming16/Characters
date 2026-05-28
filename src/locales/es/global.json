@@ -1,0 +1,64 @@
+{
+  "optionsForm": {
+    "titles": {
+      "main": "Caracteres",
+      "titleOptions": "Opciones de título",
+      "otherOptions": "Otras opciones"
+    },
+    "accordionTitles": {
+      "mainOptions": "Opciones principales",
+      "advancedOptions": "Opciones Avanzadas",
+      "styleOptions": "Opciones de estilo"
+    },
+    "warnings": {
+      "rowsPerCharacter": "Ingrese un número mayor o igual a 1",
+      "practiceSquaresPerLine": "Ingrese un número mayor o igual a 0 y menor o igual a Cuadrados por Fila",
+      "practiceLines": "Ingrese un número mayor o igual a 1 y menor o igual a Filas por Carácter",
+      "titleFontSize": "Ingrese un número entre 0 y 500",
+      "letterOpacity": "Ingrese un número entre 0 y 100",
+      "marginLeft": "Ingrese un número mayor o igual a 0",
+      "marginRight": "Ingrese un número mayor o igual a 0",
+      "marginTop": "Ingrese un número mayor o igual a 0",
+      "marginBottom": "Ingrese un número mayor o igual a 0",
+      "rowSpacing": "Ingrese un número mayor o igual a 0",
+      "columnSpacing": "Ingrese un número mayor o igual a 0"
+    },
+    "numberInputsText" : {
+      "squaresPerRow": "Cuadrados por fila",
+      "rowsPerCharacter": "Filas por carácter",
+      "practiceSquaresPerLine": "Cuadrados de práctica por línea",
+      "practiceLines": "Líneas de práctica",
+      "titleFontSize": "Tamaño de fuente del título",
+      "letterOpacity": "Opacidad de la letra",
+      "marginLeft": "Margen izquierdo",
+      "marginRight": "Margen derecho",
+      "marginTop": "Margen superior",
+      "marginBottom": "Margen inferior",
+      "rowSpacing": "Espaciado de filas",
+      "columnSpacing": "Espaciado de columnas"
+    },
+    "otherInputsText": {
+      "charactersInput": "Ingrese los caracteres que desea practicar",
+      "titleInput": "Ingrese el título para la hoja de práctica",
+      "gridType": "Seleccione el tipo de cuadrícula",
+      "showDefinition": "Mostrar definición",
+      "showPinyin": "Mostrar Pinyin",
+      "showStrokesOrder": "Mostrar orden de trazos",
+      "italic": "Cursiva",
+      "bold": "Negrita",
+      "underline": "Subrayado",
+      "separationLine": "Agregar línea de separación entre diferentes caracteres"
+    }
+  },
+  "main": {
+    "title": "Hojas de práctica de caracteres chinos",
+    "switchView": {
+      "options": "Opciones",
+      "preview": "Vista previa"
+    }
+  },
+  "downloadBtn": {
+    "name": "Descargar",
+    "error": "Por favor, corrija los errores en el formulario de opciones para poder descargar el PDF"
+  }
+}

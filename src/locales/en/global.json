@@ -1,0 +1,67 @@
+{
+  "optionsForm": {
+    "titles": {
+      "main": "Characters",
+      "titleOptions": "Title options",
+      "otherOptions": "Other options"
+    },
+    "accordionTitles": {
+      "mainOptions": "Main options",
+      "advancedOptions": "Advanced options",
+      "styleOptions": "Style options"
+    },
+    "warnings": {
+      "squaresPerRow": "Enter a number greater than or equal to 1",
+      "rowsPerCharacter": "Enter a number greater than or equal to 1",
+      "practiceSquaresPerLine": "Enter a number greater than or equal to 0 and less than or equal to Squares per Row",
+      "practiceLines": "Enter a number greater than or equal to 1 and less than or equal to Rows per Character",
+      "titleFontSize": "Enter a number between 0 and 500",
+      "letterOpacity": "Enter a number between 0 and 100",
+      "marginLeft": "Enter a number greater than or equal to 0",
+      "marginRight": "Enter a number greater than or equal to 0",
+      "marginTop": "Enter a number greater than or equal to 0",
+      "marginBottom": "Enter a number greater than or equal to 0",
+      "rowSpacing": "Enter a number greater than or equal to 0",
+      "columnSpacing": "Enter a number greater than or equal to 0"
+    },
+    "numberInputsText" : {
+      "squaresPerRow": "Squares per row",
+      "rowsPerCharacter": "Rows per character",
+      "practiceSquaresPerLine": "Practice squares per line",
+      "practiceLines": "Practice lines",
+      "titleFontSize": "Title font size",
+      "letterOpacity": "Letter opacity",
+      "marginLeft": "Margin left",
+      "marginRight": "Margin right",
+      "marginTop": "Margin top",
+      "marginBottom": "Margin bottom",
+      "rowSpacing": "Row spacing",
+      "columnSpacing": "Column spacing"
+    },
+    "otherInputsText": {
+      "charactersInput": "Enter the characters you wish to practice",
+      "titleInput": "Enter the title for the practice sheet",
+      "gridType": "Select the grid type",
+      "showDefinition": "Show definition",
+      "showPinyin": "Show Pinyin",
+      "showStrokesOrder": "Show Strokes Order",
+      "italic": "Italic",
+      "bold": "Bold",
+      "underline": "Underline",
+      "separationLine": "Add separation line between different characters"
+    }
+  },
+
+    "main": {
+    "title": "Chinese Character Practice Sheets",
+    "switchView": {
+      "options": "Options",
+      "preview": "Preview"
+    }
+  },
+  "downloadBtn": {
+    "name": "Download",
+    "error": "Please fix the errors on the options form to be able to download the PDF"
+  }
+  
+}

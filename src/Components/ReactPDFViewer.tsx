@@ -4,7 +4,7 @@ import { allStatesType } from "../Types/types";
 import {
   returnInfoOrNotFound,
   createSVGStrokes,
-} from "../Functions/previewerFunctions";
+} from "../Aux/previewerFunctions";
 import Loading from "./Loading";
 
 import FangSong from "../Fonts/FangSong.ttf";
@@ -44,7 +44,7 @@ interface PreviewPropsType {
   className?: string;
   allStates: allStatesType;
   widthOfTheSquaresInPx: number;
-  charactersInfoResponse : any,
+  charactersInfoResponse: any;
   marginTop: number;
   marginRight: number;
   marginBottom: number;
@@ -67,7 +67,7 @@ function ReactPDFViewer({
     characterSVGData,
     loading,
     error,
-  } = charactersInfoResponse
+  } = charactersInfoResponse;
 
   let [
     characters,
@@ -219,7 +219,7 @@ function ReactPDFViewer({
     <PDFViewer style={{ width: "100%", height: "70vh" }}>
       <Document style={{ width: 595 }}>
         <Page size="A4" style={styles.page}>
-        <Loading error={error} loading={loading} characters={characters} />
+          <Loading error={error} loading={loading} characters={characters} />
           <Text
             style={{
               fontSize: titleFontSize,

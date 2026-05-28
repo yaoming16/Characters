@@ -3,7 +3,7 @@ import { allStatesType } from "../Types/types";
 import {
   returnInfoOrNotFound,
   createSVGStrokes,
-} from "../Functions/previewerFunctions";
+} from "../Aux/previewerFunctions";
 import Loading from "./Loading";
 
 interface PreviewPropsType {
@@ -11,7 +11,7 @@ interface PreviewPropsType {
   className?: string;
   allStates: allStatesType;
   widthOfTheSquaresInPx: number;
-  charactersInfoResponse : any
+  charactersInfoResponse: any;
 }
 
 function Preview({
@@ -19,14 +19,14 @@ function Preview({
   className = "",
   allStates,
   widthOfTheSquaresInPx,
-  charactersInfoResponse
+  charactersInfoResponse,
 }: PreviewPropsType) {
   const {
     charactersInfo: CharactersInfo,
     characterSVGData,
     loading,
     error,
-  } = charactersInfoResponse
+  } = charactersInfoResponse;
 
   let [
     characters,
@@ -177,7 +177,7 @@ function Preview({
         {title}
       </p>
       <div id={id} className={className}>
-        <Loading error={error} loading={loading} characters={characters} />
+        <Loading error={error} loading={loading} />
         <div>{listCharacters}</div>
       </div>
     </>

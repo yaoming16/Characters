@@ -1,40 +1,35 @@
 import InputWLabel from "./Form/InputWLabel";
+import { useTranslation } from "react-i18next";
 import {
   Accordion,
   AccordionContent,
   AccordionPanel,
   AccordionTitle,
 } from "flowbite-react";
+
 import SelectMod from "./Form/SelectMod";
 import RadioMod from "./Form/RadioMod";
 import CheckboxMod from "./Form/CheckboxMod";
 
-// Tuple type for each allNumberInputsStates element
-type allNumberInputsStatesType = [
-  boolean,
-  React.Dispatch<React.SetStateAction<boolean>>,
-  number,
-  React.Dispatch<React.SetStateAction<number>>,
-];
+import type {
+  OtherSetFunctions,
+  allNumberInputsStatesType,
+} from "../Types/types";
 
-type OtherSetFunctionsType = [
-  React.Dispatch<React.SetStateAction<string>>, // setCharacters
-  React.Dispatch<React.SetStateAction<string>>, // setFont
-  React.Dispatch<React.SetStateAction<string>>, // setGridName
-  React.Dispatch<React.SetStateAction<boolean>>, // setShowDefinition
-  React.Dispatch<React.SetStateAction<boolean>>, // setShowPinyin
-  React.Dispatch<React.SetStateAction<boolean>>, // setShowStrokesOrder
-  React.Dispatch<React.SetStateAction<string>>, // setTitle
-  React.Dispatch<React.SetStateAction<boolean>>, // setTitleItalic
-  React.Dispatch<React.SetStateAction<boolean>>, // setTitleBold
-  React.Dispatch<React.SetStateAction<boolean>>, // setTitleUnderline
-  React.Dispatch<React.SetStateAction<boolean>>, // setSeparationLine
-];
+import {
+  createMainInputsInfo,
+  createStyleInputsInfo,
+  createExtraOptionsInputsInfo,
+  fontInfo,
+  gridOptions,
+} from "../Aux/InputsInfo";
+
+import { inputsHTML } from "../Aux/optionsFormFunctions";
 
 interface OptionsFormProps {
   className?: string;
-  allNumberInputsStates: allNumberInputsStatesType[];
-  otherSetFunctions: OtherSetFunctionsType;
+  allNumberInputsStates: allNumberInputsStatesType;
+  otherSetFunctions: OtherSetFunctions;
   characters: string;
   charactersInfoResponse: any;
 }
@@ -46,7 +41,9 @@ function OptionsForm({
   charactersInfoResponse,
   characters,
 }: OptionsFormProps) {
-  let [
+  const { t } = useTranslation("global");
+
+  const {
     setCharacters,
     setFont,
     setGridName,
@@ -58,145 +55,23 @@ function OptionsForm({
     setTitleBold,
     setTitleUnderline,
     setSeparationLine,
-  ] = otherSetFunctions;
+  } = otherSetFunctions;
 
-  /* Function to check if conditions are met for the input value. Then change the values and the warning */
-  function checkNumbers(
-    setFunction: React.Dispatch<React.SetStateAction<number>>,
-    newState: number,
-    setWarning: React.Dispatch<React.SetStateAction<boolean>>,
-    minVal = 1,
-    maxVal = Infinity,
-  ): void {
-    /* state is a number above minVal and below maxVal */
-    if (newState >= minVal && !isNaN(newState) && newState <= maxVal) {
-      setWarning(false);
-    } else {
-      setWarning(true);
-    }
-    setFunction(newState);
-  }
-
-  //Function to change the value on the input on change. If the value is not valid return empty string to clear the input
-  /*
-  function valueNumberInput(newState: number): number | string {
-    if (newState >= 0 && !isNaN(newState)) {
-      return newState;
-    } else {
-      return "";
-    }
-  }
-*/
-
-  /* allNumberInputsStates contains the states needed fot all number inputs as follows
-          index 0: warning
-          index 1: setWarning
-          index 2: value needed  (state)
-          index 3: setState 
-      This function return the HTML for the input from the arry with the info of the desired input. The array must be of the format described above*/
-  function inputsHTML(
-    infoArray: allNumberInputsStatesType[],
-    textsArray: string[],
-    warningTexts: string[],
-    minVal: number[],
-    maxVal: number[],
-  ) {
-    return infoArray.map((arrayWithInputStates, index) => (
-      <InputWLabel
-        className="mt-3"
-        id={textsArray[index]}
-        key={`${textsArray[index]}-input-${index}`}
-        type="number"
-        onChange={(e) =>
-          checkNumbers(
-            arrayWithInputStates[3],
-            parseInt(e.target.value),
-            arrayWithInputStates[1],
-            minVal[index],
-            maxVal[index],
-          )
-        }
-        step={
-          // If opacity input set step to 10 else 1
-          textsArray[index] === "Letter Opacity" ? "10" : "1"
-        }
-        text={textsArray[index]}
-        value={arrayWithInputStates[2]}
-        warning={arrayWithInputStates[0]}
-        warningMessage={warningTexts[index]}
-      ></InputWLabel>
-    ));
-  }
-
-  // Mins for inputs
-  const minValues = [1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0];
-
-  // Max for inputs
-  const maxValues = [
-    Infinity,
-    Infinity,
-    allNumberInputsStates[0][2],
-    allNumberInputsStates[1][2],
-    500,
-    100,
-    Infinity,
-    Infinity,
-    Infinity,
-    Infinity,
-    Infinity,
-    Infinity,
-  ];
-
-  // warnings texts
-  let warningTexts = [
-    "Enter a number greater than or equal to 1",
-    "Enter a number greater than or equal to 1",
-    "Enter a number greater than or equal to 0 and less than or equal to Boxes Per Row",
-    "Enter a number greater than or equal to 1 and less than or equal to Rows Per Character",
-    "Enter a number between 0 and 500",
-    "Enter a number between 0 and 100",
-    "Enter a number greater than or equal to 0",
-    "Enter a number greater than or equal to 0",
-    "Enter a number greater than or equal to 0",
-    "Enter a number greater than or equal to 0",
-    "Enter a number greater than or equal to 0",
-    "Enter a number greater than or equal to 0",
-  ];
-
-  // Text for all inputs
-  let numberInputTexts = [
-    "Boxes Per Row",
-    "Rows Per Character",
-    "Practice Squares per line",
-    "Practice Lines",
-    "Title Font Size",
-    "Letter Opacity",
-    "Margin Left",
-    "Margin Right",
-    "Margin Top",
-    "Margin Bottom",
-    "Row Spacing",
-    "Column Spacing",
-  ];
-
-  let fontInfo = {
-    text: [" FangSong (欢迎)", "Kaiti (欢迎)", "SimSun (欢迎)"],
-    values: [`FangSong`, `KaiTi`, `SimSun`],
-  };
-
-  // A list with the name of all the grid options/files
-  let gridOptions = ["basic-grid.jpg", "cross.jpg", "square.jpg"];
+  //Create main input information array using the function from the aux file.
+  const mainInputsInfo = createMainInputsInfo(allNumberInputsStates, t);
+  const styleInputsInfo = createStyleInputsInfo(t);
+  const extraOptionsInputsInfo = createExtraOptionsInputsInfo(t);
 
   return (
     <div className={className}>
-      <h2>Characters</h2>
+      <h2>{t("optionsForm.titles.main")}</h2>
 
       <InputWLabel
         type="text"
         className=""
         value={characters}
         onChange={(e) => setCharacters(e.target.value.trim())}
-        text="Enter the characters you wish to practice"
+        text={t("optionsForm.otherInputsText.charactersInput")}
         id="CharactersInput"
         lang="zh-CN"
       ></InputWLabel>
@@ -206,7 +81,7 @@ function OptionsForm({
         type="text"
         className="mt-3"
         onChange={(e) => setTitle(e.target.value.trim())}
-        text="Enter the title for the practice sheet"
+        text={t("optionsForm.otherInputsText.titleInput")}
         id="TitleInput"
       ></InputWLabel>
 
@@ -214,25 +89,14 @@ function OptionsForm({
       <Accordion className="mt-10 bg-white " alwaysOpen={false}>
         <AccordionPanel className="">
           <AccordionTitle className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
-            Main Options
+            {t("optionsForm.accordionTitles.mainOptions")}
           </AccordionTitle>
           <AccordionContent className="dark:bg-white">
             {/* Input for Characters */}
-
-            {/* We need to have two arrays, one with the info of the important array and another with the one with the advance options. This is needed to put the advanced option in an acordeon
-      That is why we will call two times inputsHTML depending which inputs we want to show in that part*/}
-
-            {inputsHTML(
-              allNumberInputsStates.slice(0, 4),
-              numberInputTexts.slice(0, 4),
-              warningTexts.slice(0, 4),
-              minValues.slice(0, 4),
-              maxValues.slice(0, 4),
-            )}
+            {inputsHTML(mainInputsInfo, allNumberInputsStates)}
 
             {/* We will add some other option 
       First one is to change the font*/}
-
             <SelectMod
               setFunction={setFont}
               selectInfo={fontInfo}
@@ -241,7 +105,9 @@ function OptionsForm({
 
             {/* We want an options to be able to select the bg grid */}
             <fieldset className="flex flex-row justify-evenly mt-5 border-1 p-5">
-              <legend className="mb-5 text-center">Select the grid type</legend>
+              <legend className="mb-5 text-center">
+                {t("optionsForm.otherInputsText.gridType")}
+              </legend>
               <RadioMod
                 options={gridOptions}
                 onChange={(e) => setGridName(e.target.value)}
@@ -257,7 +123,11 @@ function OptionsForm({
                   setShowPinyin,
                   setShowStrokesOrder,
                 ]}
-                texts={["Show definition", "Show Pinyin", "Show Strokes Order"]}
+                texts={[
+                  t("optionsForm.otherInputsText.showDefinition"),
+                  t("optionsForm.otherInputsText.showPinyin"),
+                  t("optionsForm.otherInputsText.showStrokesOrder"),
+                ]}
               ></CheckboxMod>
             ) : null}
           </AccordionContent>
@@ -268,26 +138,28 @@ function OptionsForm({
       <Accordion className="mt-10 bg-white " alwaysOpen={false}>
         <AccordionPanel className="">
           <AccordionTitle className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
-            Style options
+            {t("optionsForm.accordionTitles.styleOptions")}
           </AccordionTitle>
           <AccordionContent className="dark:bg-white">
-            <h3 className="text-center">Title options</h3>
-            {inputsHTML(
-              allNumberInputsStates.slice(4, 5),
-              numberInputTexts.slice(4, 5),
-              warningTexts.slice(4, 5),
-              minValues.slice(4, 5),
-              maxValues.slice(4, 5),
-            )}
+            <h3 className="text-center">
+              {t("optionsForm.titles.titleOptions")}
+            </h3>
+            {inputsHTML(styleInputsInfo, allNumberInputsStates)}
             {/* Bold, italic, undeline options*/}
             <CheckboxMod
               setFunctions={[setTitleItalic, setTitleBold, setTitleUnderline]}
-              texts={["Italic", "Bold", "Underline"]}
+              texts={[
+                t("optionsForm.otherInputsText.italic"),
+                t("optionsForm.otherInputsText.bold"),
+                t("optionsForm.otherInputsText.underline"),
+              ]}
             ></CheckboxMod>
-            <h3 className="mt-5 text-center">Other options</h3>
+            <h3 className="mt-5 text-center">
+              {t("optionsForm.titles.otherOptions")}
+            </h3>
             <CheckboxMod
               setFunctions={[setSeparationLine]}
-              texts={["Add separation line between different characters"]}
+              texts={[t("optionsForm.otherInputsText.separationLine")]}
             ></CheckboxMod>
           </AccordionContent>
         </AccordionPanel>
@@ -297,17 +169,11 @@ function OptionsForm({
       <Accordion className="mt-10 bg-white " alwaysOpen={false}>
         <AccordionPanel className="">
           <AccordionTitle className="text-center bg-white dark:text-black text-black dark:bg-white dark:hover:bg-grey-500  dark:focus:ring-gray-100 dark:focus:bg-white ">
-            Advanced Options
+            {t("optionsForm.accordionTitles.advancedOptions")}
           </AccordionTitle>
           <AccordionContent className="dark:bg-white">
             {/*  Here we add the other inputs */}
-            {inputsHTML(
-              allNumberInputsStates.slice(5),
-              numberInputTexts.slice(5),
-              warningTexts.slice(5),
-              minValues.slice(5),
-              maxValues.slice(5),
-            )}
+            {inputsHTML(extraOptionsInputsInfo, allNumberInputsStates)}
           </AccordionContent>
         </AccordionPanel>
       </Accordion>

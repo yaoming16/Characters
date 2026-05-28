@@ -1,6 +1,5 @@
 import { Label } from "flowbite-react";
 import { useRef } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 interface SelectModProps {
   setFunction: React.Dispatch<React.SetStateAction<string>>,
@@ -16,7 +15,7 @@ function SelectMod({ setFunction, selectInfo, id } : SelectModProps) {
   let options = useRef(
     selectInfo.values.map((value, index) => (
       <option
-        key={uuidv4()}
+        key={value + index}
         className="dark:text-black"
         value={value}
         style={{
@@ -36,10 +35,9 @@ function SelectMod({ setFunction, selectInfo, id } : SelectModProps) {
     >
       <Label
         htmlFor={id}
-        value="Select the font"
         className="text-black"
         style={{ color: "black" }}
-      />
+      > Select the font </Label>
 
       <select
         id={id}
