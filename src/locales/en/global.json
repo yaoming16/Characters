@@ -44,24 +44,60 @@
       "gridType": "Select the grid type",
       "showDefinition": "Show definition",
       "showPinyin": "Show Pinyin",
+      "showRadical": "Show Radical",
+      "showDecomposition": "Show Decomposition",
       "showStrokesOrder": "Show Strokes Order",
       "italic": "Italic",
       "bold": "Bold",
       "underline": "Underline",
-      "separationLine": "Add separation line between different characters"
+      "separationLine": "Add separation line between different characters",
+      "fontSelect": "Select the font"
     }
   },
 
-    "main": {
-    "title": "Chinese Character Practice Sheets",
-    "switchView": {
-      "options": "Options",
-      "preview": "Preview"
+  "main": {
+  "title": "Chinese Character Practice Sheets",
+  "switchView": {
+    "options": "Options",
+    "preview": "Preview",
+    "showPreviewer": "Show Previewer"
     }
   },
+
+  "header": {
+    "practice": "Practice Sheet",
+    "dictionary": "Dictionary"
+  },
+
+  "dictionary": {
+    "title": "Dictionary",
+    "search": "Search for a character",
+    "empty": "No character selected",
+    "character": "Character"
+  },
+
   "downloadBtn": {
     "name": "Download",
     "error": "Please fix the errors on the options form to be able to download the PDF"
+  },
+
+  "loading": {
+    "default": "Loading characters data...",
+    "errorDictionary": "Error loading data, The dictionary will be disabled. Please reload the page to try again.",
+    "errorPracticeSheet": "Error loading data. Definitions, Pinyin and stroke orders will be disabled. Type a character to generate a practice sheet or reload the page to try again to get character data."
+  },
+
+  "other": {
+    "definition": "Definition",
+    "definitionNotFound": "Definition not found",
+    "pinyin": "Pinyin",
+    "pinyinNotFound": "Pinyin not found",
+    "strokesOrder": "Strokes Order",
+    "strokesOrderNotFound": "Strokes Order not found",
+    "radical": "Radical",
+    "radicalNotFound": "Radical not found",
+    "decomposition": "Decomposition",
+    "decompositionNotFound": "Decomposition not found"
   }
-  
+
 }

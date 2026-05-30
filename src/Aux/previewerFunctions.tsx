@@ -1,5 +1,5 @@
 import { characterInfoType, characterSVGType } from "../Types/types";
-import {Svg, G, Path, Text, View} from "@react-pdf/renderer";
+import { Svg, G, Path, Text, View } from "@react-pdf/renderer";
 import { createTw } from "react-pdf-tailwind";
 
 const tw = createTw({});
@@ -8,7 +8,7 @@ const tw = createTw({});
 // the character was found and the second element is the character info or an empty object
 function findCharacterInfo(
   CharactersInfo: characterInfoType[] | characterSVGType[],
-  character: string
+  character: string,
 ): [boolean, {}] | [boolean, characterInfoType] | [boolean, characterSVGType] {
   let found = false;
   let data: {} | characterInfoType = {};
@@ -27,23 +27,28 @@ export function returnInfoOrNotFound<T extends keyof characterInfoType>(
   CharactersInfo: characterInfoType[],
   character: string,
   infoNeeded: T,
-  errorMessage: string
+  errorMessage: string,
 ): characterInfoType[T] | string;
 
 export function returnInfoOrNotFound<K extends keyof characterSVGType>(
   CharactersInfo: characterSVGType[],
   character: string,
   infoNeeded: K,
-  errorMessage: string
+  errorMessage: string,
 ): characterSVGType[K] | string;
 
 // Implementation
-export function returnInfoOrNotFound<T extends keyof characterInfoType | keyof characterSVGType>(
+export function returnInfoOrNotFound<
+  T extends keyof characterInfoType | keyof characterSVGType,
+>(
   CharactersInfo: characterInfoType[] | characterSVGType[],
   character: string,
   infoNeeded: T,
-  errorMessage: string
-): characterInfoType[keyof characterInfoType] | characterSVGType[keyof characterSVGType] | string {
+  errorMessage: string,
+):
+  | characterInfoType[keyof characterInfoType]
+  | characterSVGType[keyof characterSVGType]
+  | string {
   let characterInfo = findCharacterInfo(CharactersInfo, character);
   if (characterInfo[0]) {
     return (characterInfo[1] as any)[infoNeeded];
@@ -52,71 +57,129 @@ export function returnInfoOrNotFound<T extends keyof characterInfoType | keyof c
   }
 }
 
-function createOneCharacterSVG(character: string, index: number, svgDataForCharacter: string[], isPDF: boolean = false) {
-
+function createOneCharacterSVG(
+  character: string,
+  index: number,
+  svgDataForCharacter: string[],
+  isPDF: boolean = false,
+) {
   if (isPDF) {
     return (
-      <Svg viewBox="0 0 1024 1024" fill="black" key={`${character}-stroke-PDF-${index}`} style={tw(`border border-solid  w-12 h-12`)}>
+      <Svg
+        viewBox="0 0 1024 1024"
+        fill="black"
+        key={`${character}-stroke-PDF-${index}`}
+        style={tw(`border border-solid  w-12 h-12`)}
+      >
         {svgDataForCharacter.map((stroke: string, strokeIndex: number) => (
-        <G transform="scale(1, -1) translate(0, -900)" 
-        key={`${character}-stroke-g-PDF-${strokeIndex}`} 
-        opacity={strokeIndex <= index ? 1 : 0.2}
-        fill={strokeIndex === index ? "green" : "black"}>
-            <Path
-              d={stroke}
-              />
-        </G>
+          <G
+            transform="scale(1, -1) translate(0, -900)"
+            key={`${character}-stroke-g-PDF-${strokeIndex}`}
+            opacity={strokeIndex <= index ? 1 : 0.2}
+            fill={strokeIndex === index ? "green" : "black"}
+          >
+            <Path d={stroke} />
+          </G>
         ))}
       </Svg>
-    )
+    );
   }
 
   return (
-  <svg viewBox="0 0 1024 1024" key={`${character}-stroke-${index}`} className={`border border-solid min-w-12 min-h-12 w-12 h-12`}>
-    {svgDataForCharacter.map((stroke: string, strokeIndex: number) => (
-      <g transform="scale(1, -1) translate(0, -900)"
-      key={`${character}-stroke-g-${strokeIndex}`} 
-      opacity={strokeIndex <= index ? 1 : 0.2}
-      fill={strokeIndex === index ? "green" : "black"}>
-          <path
-            d={stroke}
-            />
-      </g>
-    ))}
-  </svg>
-  )
+    <svg
+      viewBox="0 0 1024 1024"
+      key={`${character}-stroke-${index}`}
+      className={`border border-solid min-w-12 min-h-12 w-12 h-12`}
+    >
+      {svgDataForCharacter.map((stroke: string, strokeIndex: number) => (
+        <g
+          transform="scale(1, -1) translate(0, -900)"
+          key={`${character}-stroke-g-${strokeIndex}`}
+          opacity={strokeIndex <= index ? 1 : 0.2}
+          fill={strokeIndex === index ? "green" : "black"}
+        >
+          <path d={stroke} />
+        </g>
+      ))}
+    </svg>
+  );
 }
 
+export function createSVGStrokes(
+  character: string,
+  characterSVGData: characterSVGType[],
+  showStrokesOrder: boolean,
+  isPDF: boolean = false,
+  errorMessage: string,
+) {
+  const svgDataForCharacter = showStrokesOrder
+    ? returnInfoOrNotFound(characterSVGData, character, "strokes", " ")
+    : null;
+  const svgAvailable =
+    svgDataForCharacter !== " " &&
+    svgDataForCharacter !== null &&
+    Array.isArray(svgDataForCharacter);
 
-export function createSVGStrokes(character: string, characterSVGData : characterSVGType[], showStrokesOrder: boolean, isPDF: boolean = false) {
-  const svgDataForCharacter = showStrokesOrder ? returnInfoOrNotFound(characterSVGData, character, "strokes", " "): null;
-  const svgAvailable = svgDataForCharacter !== " " && svgDataForCharacter !== null && Array.isArray(svgDataForCharacter);
-  
   if (isPDF) {
     // For react-pdf rendering
-    return (
-      svgAvailable ? (
-        <View style={tw(`w-full flex flex-row flex-wrap`)}>
-          {svgDataForCharacter.map((stroke: string, index: number) => (
-                createOneCharacterSVG(character, index, svgDataForCharacter, true))
-            )}
-        </View>
-          ) : svgDataForCharacter === " " && showStrokesOrder ? (
-            <Text style={tw(`border border-solid p-2 text-[0.8rem]`)}>Stroke order not found</Text>
-            ) : null
-          );
-      }
-      
-      // For web rendering
-      return (
-        svgAvailable ? (
-          <div className="w-full flex flex-row flex-wrap">
-            {svgDataForCharacter.map((stroke: string, index: number) => (
-              createOneCharacterSVG(character, index, svgDataForCharacter)
-            ))}
-          </div>
-          ) : svgDataForCharacter === " " && showStrokesOrder ? (
-            <p className="border border-solid p-2 text-[0.8rem]">Stroke order not found</p>
-          ) : null
-        );
+    return svgAvailable ? (
+      <View style={tw(`w-full flex flex-row flex-wrap`)}>
+        {svgDataForCharacter.map((stroke: string, index: number) =>
+          createOneCharacterSVG(character, index, svgDataForCharacter, true),
+        )}
+      </View>
+    ) : svgDataForCharacter === " " && showStrokesOrder ? (
+      <Text style={tw(`border border-solid p-2 text-[0.8rem]`)}>
+        {errorMessage}
+      </Text>
+    ) : null;
+  }
+
+  // For web rendering
+  return svgAvailable ? (
+    <div className="w-full flex flex-row flex-wrap">
+      {svgDataForCharacter.map((stroke: string, index: number) =>
+        createOneCharacterSVG(character, index, svgDataForCharacter),
+      )}
+    </div>
+  ) : svgDataForCharacter === " " && showStrokesOrder ? (
+    <p className="border border-solid p-2 text-[0.8rem]">{errorMessage}</p>
+  ) : null;
+}
+
+export function allUsedCharacterInfo(
+  character: string,
+  CharactersInfo: characterInfoType[],
+  errorMessages: any,
+) {
+  const definition = returnInfoOrNotFound(
+    CharactersInfo,
+    character,
+    "definition",
+    errorMessages.definitionNotFound,
+  );
+  const pinyin = returnInfoOrNotFound(
+    CharactersInfo,
+    character,
+    "pinyin",
+    errorMessages.pinyinNotFound,
+  );
+  const decomposition = returnInfoOrNotFound(
+    CharactersInfo,
+    character,
+    "decomposition",
+    errorMessages.decompositionNotFound,
+  );
+  const radical = returnInfoOrNotFound(
+    CharactersInfo,
+    character,
+    "radical",
+    errorMessages.radicalNotFound,
+  );
+  return {
+    definition,
+    pinyin,
+    decomposition,
+    radical,
+  };
 }

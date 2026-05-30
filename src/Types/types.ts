@@ -38,6 +38,8 @@ export type allStatesType = [
   string,
   boolean,
   boolean,
+  boolean,
+  boolean,
   number,
   number,
   boolean,
@@ -76,6 +78,8 @@ export interface OtherSetFunctions {
   setGridName: Dispatch<SetStateAction<string>>;
   setShowDefinition: Dispatch<SetStateAction<boolean>>;
   setShowPinyin: Dispatch<SetStateAction<boolean>>;
+  setShowRadical: Dispatch<SetStateAction<boolean>>;
+  setShowDecomposition: Dispatch<SetStateAction<boolean>>;
   setShowStrokesOrder: Dispatch<SetStateAction<boolean>>;
   setTitle: Dispatch<SetStateAction<string>>;
   setTitleItalic: Dispatch<SetStateAction<boolean>>;

@@ -1,6 +1,6 @@
 import { Text, View, Image } from "@react-pdf/renderer";
 import { createTw } from "react-pdf-tailwind";
-import { SquareReactType } from "../Types/types";
+import { SquareReactType } from "../../Types/types";
 
 const tw = createTw({});
 
@@ -13,7 +13,6 @@ function SquareReactPdf({
   widthInPx,
   letterOpacity,
 }: SquareReactType) {
-
   return (
     <View
       style={{

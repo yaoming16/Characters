@@ -1,15 +1,17 @@
 import SquareReactPdf from "./SquareReactPdf";
 import { createTw } from "react-pdf-tailwind";
-import { allStatesType } from "../Types/types";
+import { allStatesType } from "../../Types/types";
 import {
-  returnInfoOrNotFound,
+  allUsedCharacterInfo,
   createSVGStrokes,
-} from "../Aux/previewerFunctions";
-import Loading from "./Loading";
+} from "../../Aux/previewerFunctions";
+import Loading from "./../General/Loading";
 
-import FangSong from "../Fonts/FangSong.ttf";
-import KaiTi from "../Fonts/KaiTi.ttf";
-import SimSun from "../Fonts/SimSun.ttf";
+import FangSong from "../../Fonts/FangSong.ttf";
+import KaiTi from "../../Fonts/KaiTi.ttf";
+import SimSun from "../../Fonts/SimSun.ttf";
+
+import { useTranslation } from "react-i18next";
 
 const tw = createTw({});
 
@@ -80,6 +82,8 @@ function ReactPDFViewer({
     gridName,
     showDefinition,
     showPinyin,
+    showRadical,
+    showDecomposition,
     letterOpacity,
     numberOfPracticeLines,
     showStrokesOrder,
@@ -91,7 +95,20 @@ function ReactPDFViewer({
     separationLine,
   ] = allStates;
 
+  const { t } = useTranslation("global");
+  const errorMessages = {
+    definitionNotFound: t("other.definitionNotFound"),
+    pinyinNotFound: t("other.pinyinNotFound"),
+    decompositionNotFound: t("other.decompositionNotFound"),
+    radicalNotFound: t("other.radicalNotFound"),
+  };
+
   const listCharacters = characters.split("").map((character, i) => {
+    const { definition, pinyin, decomposition, radical } = allUsedCharacterInfo(
+      character,
+      CharactersInfo,
+      errorMessages,
+    );
     if (character !== " ") {
       return (
         <View key={`${character}-container-PDF-${i}`}>
@@ -101,18 +118,15 @@ function ReactPDFViewer({
               ...tw("flex flex-row"),
             }}
           >
-            {showDefinition ? (
+            {showDefinition && (
               <Text style={tw(`border border-solid p-2 text-[0.8rem]`)}>
-                <Text style={tw(`font-bold mr-2`)}>Definition:</Text>
-                {returnInfoOrNotFound(
-                  CharactersInfo,
-                  character,
-                  "definition",
-                  "Could not find the character definition",
-                )}
+                <Text style={tw(`font-bold mr-2`)}>
+                  {t("other.definition")}:
+                </Text>
+                {definition}
               </Text>
-            ) : null}
-            {showPinyin ? (
+            )}
+            {showPinyin && (
               <Text
                 style={tw(
                   `border border-solid p-2 text-[0.8rem]${
@@ -120,15 +134,36 @@ function ReactPDFViewer({
                   }`,
                 )}
               >
-                <Text style={tw(`font-bold mr-2`)}>Pinyin:</Text>
-                {returnInfoOrNotFound(
-                  CharactersInfo,
-                  character,
-                  "pinyin",
-                  "Could not find the Pinyin",
-                )}
+                <Text style={tw(`font-bold mr-2`)}>{t("other.pinyin")}:</Text>
+                {pinyin}
               </Text>
-            ) : null}
+            )}
+            {showRadical && (
+              <Text
+                style={tw(
+                  `border border-solid p-2 text-[0.8rem]${
+                    showPinyin ? " border-l-0" : ""
+                  }`,
+                )}
+              >
+                <Text style={tw(`font-bold mr-2`)}>{t("other.radical")}:</Text>
+                {radical}
+              </Text>
+            )}
+            {showDecomposition && (
+              <Text
+                style={tw(
+                  `border border-solid p-2 text-[0.8rem]${
+                    showRadical ? " border-l-0" : ""
+                  }`,
+                )}
+              >
+                <Text style={tw(`font-bold mr-2`)}>
+                  {t("other.decomposition")}:
+                </Text>
+                {decomposition}
+              </Text>
+            )}
           </View>
           <View>
             {createSVGStrokes(
@@ -136,6 +171,7 @@ function ReactPDFViewer({
               characterSVGData,
               showStrokesOrder,
               true,
+              t("other.strokesOrderNotFound"),
             )}
           </View>
           <View>
@@ -219,7 +255,7 @@ function ReactPDFViewer({
     <PDFViewer style={{ width: "100%", height: "70vh" }}>
       <Document style={{ width: 595 }}>
         <Page size="A4" style={styles.page}>
-          <Loading error={error} loading={loading} characters={characters} />
+          <Loading error={error} loading={loading} />
           <Text
             style={{
               fontSize: titleFontSize,

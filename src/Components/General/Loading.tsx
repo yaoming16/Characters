@@ -1,9 +1,14 @@
+import { useTranslation } from "react-i18next";
+
 interface loadingError {
   loading: boolean;
   error: Error | null;
+  isDictionary?: boolean;
 }
 
-function Loading({ loading, error }: loadingError) {
+function Loading({ loading, error, isDictionary = false }: loadingError) {
+  const { t } = useTranslation("global");
+
   if (loading) {
     return (
       <div
@@ -12,7 +17,7 @@ function Loading({ loading, error }: loadingError) {
       >
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading character data for PDF...</p>
+          <p className="text-gray-600">{t("loading.default")}</p>
         </div>
       </div>
     );
@@ -26,9 +31,9 @@ function Loading({ loading, error }: loadingError) {
       >
         <div className="text-center text-red-600">
           <p className="font-bold mb-2">
-            Error loading character data. Definitions, Pinyin and stroke orders
-            will be disabled. Type a character to generate a practice sheet or
-            reload the page to try again to get character data.
+            {isDictionary
+              ? t("loading.errorDictionary")
+              : t("loading.errorPracticeSheet")}
           </p>
           <p className="text-sm">{error.message}</p>
         </div>

@@ -1,10 +1,12 @@
 import Square from "./Square";
-import { allStatesType } from "../Types/types";
+import { allStatesType } from "../../Types/types";
 import {
-  returnInfoOrNotFound,
+  allUsedCharacterInfo,
   createSVGStrokes,
-} from "../Aux/previewerFunctions";
-import Loading from "./Loading";
+} from "../../Aux/previewerFunctions";
+import { useTranslation } from "react-i18next";
+
+import Loading from "../General/Loading";
 
 interface PreviewPropsType {
   id: string;
@@ -39,6 +41,8 @@ function Preview({
     gridName,
     showDefinition,
     showPinyin,
+    showRadical,
+    showDecomposition,
     letterOpacity,
     numberOfPracticeLines,
     showStrokesOrder,
@@ -50,7 +54,21 @@ function Preview({
     separationLine,
   ] = allStates;
 
+  const { t } = useTranslation("global");
+
+  const errorMessages = {
+    definitionNotFound: t("other.definitionNotFound"),
+    pinyinNotFound: t("other.pinyinNotFound"),
+    decompositionNotFound: t("other.decompositionNotFound"),
+    radicalNotFound: t("other.radicalNotFound"),
+  };
+
   const listCharacters = characters.split("").map((character, i) => {
+    const { definition, pinyin, decomposition, radical } = allUsedCharacterInfo(
+      character,
+      CharactersInfo,
+      errorMessages,
+    );
     if (character !== " ") {
       return (
         <div key={`${character}-container-${i}`}>
@@ -66,13 +84,8 @@ function Preview({
                 (showDefinition ? "" : " hidden")
               }
             >
-              <span className="font-bold mr-2">Definition:</span>
-              {returnInfoOrNotFound(
-                CharactersInfo,
-                character,
-                "definition",
-                "Could not find the character definition",
-              )}
+              <span className="font-bold mr-2">{t("other.definition")}:</span>
+              {definition}
             </p>
             <p
               className={
@@ -81,13 +94,30 @@ function Preview({
                 (showDefinition ? "" : " border-l-1")
               }
             >
-              <span className={"font-bold mr-2"}>Pinyin:</span>
-              {returnInfoOrNotFound(
-                CharactersInfo,
-                character,
-                "pinyin",
-                "Could not find the Pinyin",
-              )}
+              <span className={"font-bold mr-2"}>{t("other.pinyin")}:</span>
+              {pinyin}
+            </p>
+            <p
+              className={
+                "border border-solid p-2 text-[0.8rem] border-l-0 " +
+                (showRadical ? "" : " hidden") +
+                (showPinyin ? "" : " border-l-1")
+              }
+            >
+              <span className={"font-bold mr-2"}>{t("other.radical")}:</span>
+              {radical}
+            </p>
+            <p
+              className={
+                "border border-solid p-2 text-[0.8rem] border-l-0 " +
+                (showDecomposition ? "" : " hidden") +
+                (showRadical ? "" : " border-l-1")
+              }
+            >
+              <span className={"font-bold mr-2"}>
+                {t("other.decomposition")}:
+              </span>
+              {decomposition}
             </p>
           </div>
           <div>
@@ -96,6 +126,7 @@ function Preview({
               characterSVGData,
               showStrokesOrder,
               false,
+              t("other.strokesOrderNotFound"),
             )}
           </div>
           {[...Array(numberOfRowsPerCharacter).keys()].map((index) =>
@@ -161,6 +192,10 @@ function Preview({
     );
   }
 
+  if (loading) {
+    return <Loading error={error} loading={loading} />;
+  }
+
   return (
     <>
       <p
@@ -177,7 +212,7 @@ function Preview({
         {title}
       </p>
       <div id={id} className={className}>
-        <Loading error={error} loading={loading} />
+        {error && <Loading error={error} loading={loading} />}
         <div>{listCharacters}</div>
       </div>
     </>

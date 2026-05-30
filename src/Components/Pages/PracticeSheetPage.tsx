@@ -4,14 +4,14 @@ import { Buffer } from "buffer";
 
 import { useTranslation } from "react-i18next";
 
-import { allStatesType } from "./Types/types";
-import { useCharacterData } from "./hooks/useCharacterData";
+import { allStatesType } from "../../Types/types";
+import { useCharacterData } from "../../hooks/useCharacterData";
 
-import ReactPDFViewer from "./Components/ReactPDFViewer";
-import Preview from "./Components/Preview";
-import OptionsForm from "./Components/OptionsForm";
-import Toggle from "./Components/Form/Toggle";
-import DownloadButton from "./Components/Form/DownloadButton";
+import ReactPDFViewer from "../PraticeSheetComp/ReactPDFViewer";
+import Preview from "../PraticeSheetComp/Preview";
+import OptionsForm from "../PraticeSheetComp/OptionsForm";
+import Toggle from "../Form/Toggle";
+import DownloadButton from "../Form/DownloadButton";
 
 function App() {
   (window as any).Buffer = Buffer;
@@ -139,6 +139,12 @@ function App() {
 
   // Option to show the pinyin
   let [showPinyin, setShowPinyin] = useState(true);
+
+  // Option to show the radical
+  let [showRadical, setShowRadical] = useState(true);
+
+  // Option to show the decomposition
+  let [showDecomposition, setShowDecomposition] = useState(true);
 
   // Option to show the strokes order
   let [showStrokesOrder, setShowStrokesOrder] = useState(true);
@@ -309,6 +315,8 @@ function App() {
     gridName,
     showDefinition,
     showPinyin,
+    showRadical,
+    showDecomposition,
     letterOpacity,
     numberOfPracticeLines,
     showStrokesOrder,
@@ -343,10 +351,7 @@ function App() {
     margin: `${numberMarginTop}px ${numberMarginRight}px ${numberMarginBottom}px ${numberMarginLeft}px`,
   };
 
-  const { t, i18n } = useTranslation("global");
-  function handleChangeLanguage(lang: string) {
-    i18n.changeLanguage(lang);
-  }
+  const { t } = useTranslation("global");
 
   return (
     <>
@@ -368,7 +373,7 @@ function App() {
             <div className="mb-5 flex flex-row justify-around">
               <Toggle
                 checked={showPreviewer}
-                label="Show Previewer"
+                label={t("main.switchView.showPreviewer")}
                 onChange={() => {
                   setShowPreviewer(!showPreviewer);
                   if (changeToPreviewer) {
@@ -389,16 +394,6 @@ function App() {
                 }}
                 className={`${showPreviewer ? "!hidden " : ""}`}
               />
-              <button
-                type="button"
-                onClick={() =>
-                  handleChangeLanguage(i18n.language === "es" ? "en" : "es")
-                }
-                className="rounded px-2 py-1 text-mygreen transition-colors hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-mygreen focus-visible:ring-offset-2 focus-visible:ring-offset-navy"
-                aria-label={t("aria.navBar.switchLanguage")}
-              >
-                {i18n.language === "es" ? "EN" : "ES"}
-              </button>
             </div>
             <div className={`${changeToPreviewer ? "hidden" : ""}`}>
               <OptionsForm
@@ -412,6 +407,8 @@ function App() {
                   setGridName,
                   setShowDefinition,
                   setShowPinyin,
+                  setShowRadical,
+                  setShowDecomposition,
                   setShowStrokesOrder,
                   setTitle,
                   setTitleItalic,

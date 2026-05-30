@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { characterInfoType, characterSVGType } from '../Types/types';
+import { useState, useEffect } from "react";
+import { characterInfoType, characterSVGType } from "../Types/types";
 
 interface CharacterData {
   charactersInfo: characterInfoType[];
@@ -10,22 +10,33 @@ interface CharacterData {
 
 export function useCharacterData(): CharacterData {
   const [charactersInfo, setCharactersInfo] = useState<characterInfoType[]>([]);
-  const [characterSVGData, setCharacterSVGData] = useState<characterSVGType[]>([]);
+  const [characterSVGData, setCharacterSVGData] = useState<characterSVGType[]>(
+    [],
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     const loadData = async () => {
       try {
+        //throw new Error("Simulated error loading character data");
         // Load from public directory (served as static assets, not bundled)
-        const [dictionaryResponse, graphicsPart1Response, graphicsPart2Response] = await Promise.all([
-          fetch('/data/dictionary.json'),
-          fetch('/data/graphics-part1.json'),
-          fetch('/data/graphics-part2.json')
+        const [
+          dictionaryResponse,
+          graphicsPart1Response,
+          graphicsPart2Response,
+        ] = await Promise.all([
+          fetch("/data/dictionary.json"),
+          fetch("/data/graphics-part1.json"),
+          fetch("/data/graphics-part2.json"),
         ]);
 
-        if (!dictionaryResponse.ok || !graphicsPart1Response.ok || !graphicsPart2Response.ok) {
-          throw new Error('Failed to load character data');
+        if (
+          !dictionaryResponse.ok ||
+          !graphicsPart1Response.ok ||
+          !graphicsPart2Response.ok
+        ) {
+          throw new Error("Failed to load character data");
         }
 
         const dictionaryData = await dictionaryResponse.json();
@@ -35,7 +46,7 @@ export function useCharacterData(): CharacterData {
         // Merge both parts of graphics data
         const combinedGraphicsData = [
           ...graphicsPart1Data.charactersSVGInfo,
-          ...graphicsPart2Data.charactersSVGInfo
+          ...graphicsPart2Data.charactersSVGInfo,
         ];
 
         setCharactersInfo(dictionaryData.CharactersInfo);

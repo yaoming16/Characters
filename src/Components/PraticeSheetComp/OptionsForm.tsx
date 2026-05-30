@@ -1,4 +1,4 @@
-import InputWLabel from "./Form/InputWLabel";
+import InputWLabel from "../Form/InputWLabel";
 import { useTranslation } from "react-i18next";
 import {
   Accordion,
@@ -7,14 +7,14 @@ import {
   AccordionTitle,
 } from "flowbite-react";
 
-import SelectMod from "./Form/SelectMod";
-import RadioMod from "./Form/RadioMod";
-import CheckboxMod from "./Form/CheckboxMod";
+import SelectMod from "../Form/SelectMod";
+import RadioMod from "../Form/RadioMod";
+import CheckboxMod from "../Form/CheckboxMod";
 
 import type {
   OtherSetFunctions,
   allNumberInputsStatesType,
-} from "../Types/types";
+} from "../../Types/types";
 
 import {
   createMainInputsInfo,
@@ -22,9 +22,9 @@ import {
   createExtraOptionsInputsInfo,
   fontInfo,
   gridOptions,
-} from "../Aux/InputsInfo";
+} from "../../Aux/InputsInfo";
 
-import { inputsHTML } from "../Aux/optionsFormFunctions";
+import { inputsHTML } from "../../Aux/optionsFormFunctions";
 
 interface OptionsFormProps {
   className?: string;
@@ -50,6 +50,8 @@ function OptionsForm({
     setShowDefinition,
     setShowPinyin,
     setShowStrokesOrder,
+    setShowRadical,
+    setShowDecomposition,
     setTitle,
     setTitleItalic,
     setTitleBold,
@@ -100,6 +102,7 @@ function OptionsForm({
             <SelectMod
               setFunction={setFont}
               selectInfo={fontInfo}
+              label={t("optionsForm.otherInputsText.fontSelect")}
               id="fontSelect"
             />
 
@@ -121,11 +124,15 @@ function OptionsForm({
                 setFunctions={[
                   setShowDefinition,
                   setShowPinyin,
+                  setShowRadical,
+                  setShowDecomposition,
                   setShowStrokesOrder,
                 ]}
                 texts={[
                   t("optionsForm.otherInputsText.showDefinition"),
                   t("optionsForm.otherInputsText.showPinyin"),
+                  t("optionsForm.otherInputsText.showRadical"),
+                  t("optionsForm.otherInputsText.showDecomposition"),
                   t("optionsForm.otherInputsText.showStrokesOrder"),
                 ]}
               ></CheckboxMod>

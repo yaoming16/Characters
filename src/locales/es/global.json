@@ -43,22 +43,59 @@
       "gridType": "Seleccione el tipo de cuadrícula",
       "showDefinition": "Mostrar definición",
       "showPinyin": "Mostrar Pinyin",
+      "showRadical": "Mostrar radical",
+      "showDecomposition": "Mostrar descomposición",
       "showStrokesOrder": "Mostrar orden de trazos",
       "italic": "Cursiva",
       "bold": "Negrita",
       "underline": "Subrayado",
-      "separationLine": "Agregar línea de separación entre diferentes caracteres"
+      "separationLine": "Agregar línea de separación entre diferentes caracteres",
+      "fontSelect": "Seleccione la fuente"
     }
   },
+
   "main": {
     "title": "Hojas de práctica de caracteres chinos",
     "switchView": {
       "options": "Opciones",
-      "preview": "Vista previa"
+      "preview": "Vista previa",
+      "showPreviewer": "Mostrar vista previa"
     }
   },
+
+  "header": {
+    "practice": "Hoja de práctica",
+    "dictionary": "Diccionario"
+  },
+
+  "dictionary": {
+    "title": "Diccionario",
+    "search": "Buscar un carácter",
+    "empty": "No se ha seleccionado ningún carácter",
+    "character": "Carácter"
+  },
+
   "downloadBtn": {
     "name": "Descargar",
     "error": "Por favor, corrija los errores en el formulario de opciones para poder descargar el PDF"
+  },
+
+  "loading": {
+    "default": "Cargando datos de caracteres...",
+    "errorDictionary": "Error al cargar datos, el diccionario estará deshabilitado. Por favor, recargue la página para intentar nuevamente.",
+    "errorPracticeSheet": "Error al cargar datos. Las definiciones, Pinyin y órdenes de trazos estarán deshabilitados. Escriba un carácter para generar una hoja de práctica o recargue la página para intentar nuevamente obtener datos de caracteres."
+  },
+
+  "other": {
+    "definition": "Definición",
+    "definitionNotFound": "Definición no encontrada",
+    "pinyin": "Pinyin",
+    "pinyinNotFound": "Pinyin no encontrado",
+    "strokesOrder": "Orden de trazos",
+    "strokesOrderNotFound": "Orden de trazos no encontrado",
+    "radical": "Radical",
+    "radicalNotFound": "Radical no encontrado",
+    "decomposition": "Decomposición",
+    "decompositionNotFound": "Decomposición no encontrada"
   }
 }
