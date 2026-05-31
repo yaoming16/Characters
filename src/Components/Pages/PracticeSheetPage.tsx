@@ -401,6 +401,7 @@ function App() {
                 className=""
                 charactersInfoResponse={charactersInfoResponse}
                 characters={characters}
+                pinyinDic={charactersInfoResponse.pinyinDic}
                 otherSetFunctions={{
                   setCharacters,
                   setFont,

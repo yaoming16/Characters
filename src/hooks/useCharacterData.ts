@@ -4,6 +4,7 @@ import { characterInfoType, characterSVGType } from "../Types/types";
 interface CharacterData {
   charactersInfo: characterInfoType[];
   characterSVGData: characterSVGType[];
+  pinyinDic: any;
   loading: boolean;
   error: Error | null;
 }
@@ -13,6 +14,7 @@ export function useCharacterData(): CharacterData {
   const [characterSVGData, setCharacterSVGData] = useState<characterSVGType[]>(
     [],
   );
+  const [pinyinDic, setPinyinDic] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -25,21 +27,25 @@ export function useCharacterData(): CharacterData {
           dictionaryResponse,
           graphicsPart1Response,
           graphicsPart2Response,
+          pinyinDictionaryResponse,
         ] = await Promise.all([
           fetch("/data/dictionary.json"),
           fetch("/data/graphics-part1.json"),
           fetch("/data/graphics-part2.json"),
+          fetch("/data/pinyin-dict.json"),
         ]);
 
         if (
           !dictionaryResponse.ok ||
           !graphicsPart1Response.ok ||
-          !graphicsPart2Response.ok
+          !graphicsPart2Response.ok ||
+          !pinyinDictionaryResponse.ok
         ) {
           throw new Error("Failed to load character data");
         }
 
         const dictionaryData = await dictionaryResponse.json();
+        const pinyinDictionaryData = await pinyinDictionaryResponse.json();
         const graphicsPart1Data = await graphicsPart1Response.json();
         const graphicsPart2Data = await graphicsPart2Response.json();
 
@@ -51,8 +57,10 @@ export function useCharacterData(): CharacterData {
 
         setCharactersInfo(dictionaryData.CharactersInfo);
         setCharacterSVGData(combinedGraphicsData);
+        setPinyinDic(pinyinDictionaryData);
         setLoading(false);
       } catch (err) {
+        console.error("Error loading character data:", err);
         setError(err as Error);
         setLoading(false);
       }
@@ -61,5 +69,5 @@ export function useCharacterData(): CharacterData {
     loadData();
   }, []);
 
-  return { charactersInfo, characterSVGData, loading, error };
+  return { charactersInfo, characterSVGData, pinyinDic, loading, error };
 }

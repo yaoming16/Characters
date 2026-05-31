@@ -32,6 +32,7 @@ interface OptionsFormProps {
   otherSetFunctions: OtherSetFunctions;
   characters: string;
   charactersInfoResponse: any;
+  pinyinDic: any;
 }
 
 function OptionsForm({
@@ -40,6 +41,7 @@ function OptionsForm({
   otherSetFunctions,
   charactersInfoResponse,
   characters,
+  pinyinDic,
 }: OptionsFormProps) {
   const { t } = useTranslation("global");
 
@@ -64,9 +66,19 @@ function OptionsForm({
   const styleInputsInfo = createStyleInputsInfo(t);
   const extraOptionsInputsInfo = createExtraOptionsInputsInfo(t);
 
+  //Function to get recommendations
+  function getRecommendations() {
+    let recommendations = [];
+    if (pinyinDic && pinyinDic[characters]) {
+      recommendations = pinyinDic[characters];
+    }
+    return recommendations;
+  }
+
   return (
     <div className={className}>
       <h2>{t("optionsForm.titles.main")}</h2>
+      {getRecommendations().length > 0 && <div>{getRecommendations()}</div>}
 
       <InputWLabel
         type="text"
