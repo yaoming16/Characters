@@ -12,6 +12,7 @@ import RadioMod from "../Form/RadioMod";
 import CheckboxMod from "../Form/CheckboxMod";
 
 import type {
+  CheckboxModOption,
   OtherSetFunctions,
   allNumberInputsStatesType,
 } from "../../Types/types";
@@ -30,6 +31,17 @@ interface OptionsFormProps {
   className?: string;
   allNumberInputsStates: allNumberInputsStatesType;
   otherSetFunctions: OtherSetFunctions;
+  checkboxStates: {
+    showDefinition: boolean;
+    showPinyin: boolean;
+    showRadical: boolean;
+    showDecomposition: boolean;
+    showStrokesOrder: boolean;
+    titleItalic: boolean;
+    titleBold: boolean;
+    titleUnderline: boolean;
+    separationLine: boolean;
+  };
   characters: string;
   charactersInfoResponse: any;
   pinyinDic: any;
@@ -39,6 +51,7 @@ function OptionsForm({
   className,
   allNumberInputsStates,
   otherSetFunctions,
+  checkboxStates,
   charactersInfoResponse,
   characters,
   pinyinDic,
@@ -60,6 +73,60 @@ function OptionsForm({
     setTitleUnderline,
     setSeparationLine,
   } = otherSetFunctions;
+
+  const mainCheckboxOptions: CheckboxModOption[] = [
+    {
+      checked: checkboxStates.showDefinition,
+      setFunction: setShowDefinition,
+      text: t("optionsForm.otherInputsText.showDefinition"),
+    },
+    {
+      checked: checkboxStates.showPinyin,
+      setFunction: setShowPinyin,
+      text: t("optionsForm.otherInputsText.showPinyin"),
+    },
+    {
+      checked: checkboxStates.showRadical,
+      setFunction: setShowRadical,
+      text: t("optionsForm.otherInputsText.showRadical"),
+    },
+    {
+      checked: checkboxStates.showDecomposition,
+      setFunction: setShowDecomposition,
+      text: t("optionsForm.otherInputsText.showDecomposition"),
+    },
+    {
+      checked: checkboxStates.showStrokesOrder,
+      setFunction: setShowStrokesOrder,
+      text: t("optionsForm.otherInputsText.showStrokesOrder"),
+    },
+  ];
+
+  const titleCheckboxOptions: CheckboxModOption[] = [
+    {
+      checked: checkboxStates.titleItalic,
+      setFunction: setTitleItalic,
+      text: t("optionsForm.otherInputsText.italic"),
+    },
+    {
+      checked: checkboxStates.titleBold,
+      setFunction: setTitleBold,
+      text: t("optionsForm.otherInputsText.bold"),
+    },
+    {
+      checked: checkboxStates.titleUnderline,
+      setFunction: setTitleUnderline,
+      text: t("optionsForm.otherInputsText.underline"),
+    },
+  ];
+
+  const otherCheckboxOptions: CheckboxModOption[] = [
+    {
+      checked: checkboxStates.separationLine,
+      setFunction: setSeparationLine,
+      text: t("optionsForm.otherInputsText.separationLine"),
+    },
+  ];
 
   //Create main input information array using the function from the aux file.
   const mainInputsInfo = createMainInputsInfo(allNumberInputsStates, t);
@@ -132,22 +199,7 @@ function OptionsForm({
             {/* Now we need an option  so the user can show te definition of the character,the pinyin or stroke order*/}
             {!charactersInfoResponse.loading &&
             !charactersInfoResponse.error ? (
-              <CheckboxMod
-                setFunctions={[
-                  setShowDefinition,
-                  setShowPinyin,
-                  setShowRadical,
-                  setShowDecomposition,
-                  setShowStrokesOrder,
-                ]}
-                texts={[
-                  t("optionsForm.otherInputsText.showDefinition"),
-                  t("optionsForm.otherInputsText.showPinyin"),
-                  t("optionsForm.otherInputsText.showRadical"),
-                  t("optionsForm.otherInputsText.showDecomposition"),
-                  t("optionsForm.otherInputsText.showStrokesOrder"),
-                ]}
-              ></CheckboxMod>
+              <CheckboxMod options={mainCheckboxOptions}></CheckboxMod>
             ) : null}
           </AccordionContent>
         </AccordionPanel>
@@ -165,21 +217,11 @@ function OptionsForm({
             </h3>
             {inputsHTML(styleInputsInfo, allNumberInputsStates)}
             {/* Bold, italic, undeline options*/}
-            <CheckboxMod
-              setFunctions={[setTitleItalic, setTitleBold, setTitleUnderline]}
-              texts={[
-                t("optionsForm.otherInputsText.italic"),
-                t("optionsForm.otherInputsText.bold"),
-                t("optionsForm.otherInputsText.underline"),
-              ]}
-            ></CheckboxMod>
+            <CheckboxMod options={titleCheckboxOptions}></CheckboxMod>
             <h3 className="mt-5 text-center">
               {t("optionsForm.titles.otherOptions")}
             </h3>
-            <CheckboxMod
-              setFunctions={[setSeparationLine]}
-              texts={[t("optionsForm.otherInputsText.separationLine")]}
-            ></CheckboxMod>
+            <CheckboxMod options={otherCheckboxOptions}></CheckboxMod>
           </AccordionContent>
         </AccordionPanel>
       </Accordion>

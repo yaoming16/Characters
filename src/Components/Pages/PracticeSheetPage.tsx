@@ -401,6 +401,17 @@ function App() {
                 className=""
                 charactersInfoResponse={charactersInfoResponse}
                 characters={characters}
+                checkboxStates={{
+                  showDefinition,
+                  showPinyin,
+                  showRadical,
+                  showDecomposition,
+                  showStrokesOrder,
+                  titleItalic,
+                  titleBold,
+                  titleUnderline,
+                  separationLine,
+                }}
                 pinyinDic={charactersInfoResponse.pinyinDic}
                 otherSetFunctions={{
                   setCharacters,

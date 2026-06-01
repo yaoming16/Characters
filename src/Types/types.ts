@@ -87,3 +87,9 @@ export interface OtherSetFunctions {
   setTitleUnderline: Dispatch<SetStateAction<boolean>>;
   setSeparationLine: Dispatch<SetStateAction<boolean>>;
 }
+
+export interface CheckboxModOption {
+  checked: boolean;
+  setFunction: Dispatch<SetStateAction<boolean>>;
+  text: string;
+}
