@@ -1,44 +1,50 @@
 import { Text, View, Image } from "@react-pdf/renderer";
 import { createTw } from "react-pdf-tailwind";
 import { SquareReactType } from "../../Types/types";
+import {usePracticeSheet} from "../../context/PracticePageContext";
 
 const tw = createTw({});
 
 function SquareReactPdf({
   character = "",
   firstCharacter = false,
-  font,
-  columnSpacing,
-  gridName,
-  widthInPx,
-  letterOpacity,
 }: SquareReactType) {
+  const ps = usePracticeSheet();
+
+  const {
+    font,
+    columnSpacing,
+    gridName,
+    letterOpacity,
+    widthOfTheSquaresInPx,
+  } = ps;
+
   return (
     <View
       style={{
         marginRight: columnSpacing,
-        width: widthInPx,
-        height: widthInPx,
+        width: widthOfTheSquaresInPx,
+        height: widthOfTheSquaresInPx,
       }}
     >
       <Image
         src={gridName}
         style={{
-          width: widthInPx,
-          height: widthInPx,
+          width: widthOfTheSquaresInPx,
+          height: widthOfTheSquaresInPx,
           ...tw("absolute opacity-50"),
         }}
       ></Image>
       <View
         style={{
-          width: widthInPx,
-          height: widthInPx,
+          width: widthOfTheSquaresInPx,
+          height: widthOfTheSquaresInPx,
           ...tw("flex relative justify-center items-center"),
         }}
       >
         <Text
           style={{
-            fontSize: Math.floor(widthInPx * 0.7),
+            fontSize: Math.floor(widthOfTheSquaresInPx * 0.7),
             fontFamily: font,
             fontWeight: firstCharacter ? "400" : "normal",
             color: firstCharacter

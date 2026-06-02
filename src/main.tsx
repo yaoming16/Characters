@@ -12,6 +12,8 @@ import PracticeSheetPage from "./Components/Pages/PracticeSheetPage";
 import DictionaryPage from "./Components/Pages/DictionaryPage";
 import App from "./Components/Pages/App";
 
+import {PracticeSheetProvider} from "./context/PracticePageContext";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -19,7 +21,10 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <PracticeSheetPage />,
+        element: (
+          <PracticeSheetPage />
+      )
+        ,
       },
       {
         path: "dictionary",
@@ -33,7 +38,9 @@ const rootElement = document.getElementById("root");
 if (rootElement) {
   createRoot(rootElement).render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <PracticeSheetProvider>
+        <RouterProvider router={router} />
+      </PracticeSheetProvider>
     </StrictMode>,
   );
 }

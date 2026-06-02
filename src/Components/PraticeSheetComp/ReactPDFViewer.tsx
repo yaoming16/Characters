@@ -1,6 +1,5 @@
 import SquareReactPdf from "./SquareReactPdf";
 import { createTw } from "react-pdf-tailwind";
-import { allStatesType } from "../../Types/types";
 import {
   allUsedCharacterInfo,
   createSVGStrokes,
@@ -12,6 +11,8 @@ import KaiTi from "../../Fonts/KaiTi.ttf";
 import SimSun from "../../Fonts/SimSun.ttf";
 
 import { useTranslation } from "react-i18next";
+
+import { usePracticeSheet } from "../../context/PracticePageContext";
 
 const tw = createTw({});
 
@@ -44,26 +45,15 @@ Font.register({
 interface PreviewPropsType {
   id: string;
   className?: string;
-  allStates: allStatesType;
-  widthOfTheSquaresInPx: number;
   charactersInfoResponse: any;
-  marginTop: number;
-  marginRight: number;
-  marginBottom: number;
-  marginLeft: number;
 }
 
 function ReactPDFViewer({
   id,
   className = "",
-  allStates,
-  widthOfTheSquaresInPx,
   charactersInfoResponse,
-  marginTop,
-  marginRight,
-  marginBottom,
-  marginLeft,
 }: PreviewPropsType) {
+  
   const {
     charactersInfo: CharactersInfo,
     characterSVGData,
@@ -71,9 +61,11 @@ function ReactPDFViewer({
     error,
   } = charactersInfoResponse;
 
-  let [
+  const ps = usePracticeSheet();
+
+  const {
     characters,
-    numberOfBoxesPerRow,
+    numberOfSquaresPerRow,
     numberOfRowsPerCharacter,
     numberPracticeSquares,
     font,
@@ -89,11 +81,16 @@ function ReactPDFViewer({
     showStrokesOrder,
     title,
     titleFontSize,
-    fontItalic,
-    fontBold,
-    fontUnderline,
+    titleItalic,
+    titleBold,
+    titleUnderline,
     separationLine,
-  ] = allStates;
+    numberMarginTop,
+    numberMarginRight,
+    numberMarginBottom,
+    numberMarginLeft,
+    widthOfTheSquaresInPx
+  } = ps;
 
   const { t } = useTranslation("global");
   const errorMessages = {
@@ -178,14 +175,9 @@ function ReactPDFViewer({
             {[...Array(numberOfRowsPerCharacter).keys()].map((index) =>
               createOneLine(
                 character,
-                font,
-                numberOfBoxesPerRow,
-                numberPracticeSquares,
                 /* For the first character we send the spacing the user selected plus an extra so we can differentiate between the lines corresponding to  the same character*/
                 index === 0 ? numberRowSpacing + 10 : numberRowSpacing,
-                numberColumnSpacing,
                 index < numberOfPracticeLines ? true : false,
-                widthOfTheSquaresInPx,
                 index,
               ),
             )}
@@ -203,13 +195,8 @@ function ReactPDFViewer({
 
   function createOneLine(
     character = "",
-    font: string,
-    numberOfBoxesPerRow: number,
-    numberPracticeSquares: number,
     rowSpacing: number,
-    columnSpacing: number,
     firstLine = false,
-    widthOfTheSquaresInPx: number,
     index: number,
   ) {
     return (
@@ -221,18 +208,13 @@ function ReactPDFViewer({
           ...tw("flex flex-row"),
         }}
       >
-        {[...Array(numberOfBoxesPerRow).keys()].map((i) => (
+        {[...Array(numberOfSquaresPerRow).keys()].map((i) => (
           // We need to have a character in the square only for the number of practice squares the user wants
           // We also need to know if it is the first character we show to show it bold
           <SquareReactPdf
             key={`${character}-square-PDF-${i}`}
-            widthInPx={widthOfTheSquaresInPx}
             character={i < numberPracticeSquares && firstLine ? character : ""}
             firstCharacter={i === 0 ? true : false}
-            font={font}
-            columnSpacing={columnSpacing}
-            gridName={gridName}
-            letterOpacity={letterOpacity}
           />
         ))}
       </View>
@@ -242,10 +224,10 @@ function ReactPDFViewer({
   // Style for the pdf Download preview
   const styles = StyleSheet.create({
     page: {
-      paddingTop: marginTop,
-      paddingRight: marginRight,
-      paddingBottom: marginBottom,
-      paddingLeft: marginLeft,
+      paddingTop: numberMarginTop,
+      paddingRight: numberMarginRight,
+      paddingBottom: numberMarginBottom,
+      paddingLeft: numberMarginLeft,
     },
   });
 
@@ -259,9 +241,9 @@ function ReactPDFViewer({
           <Text
             style={{
               fontSize: titleFontSize,
-              fontWeight: fontBold ? "bold" : "normal",
-              fontStyle: fontItalic ? "italic" : "normal",
-              textDecoration: fontUnderline ? "underline" : "none",
+              fontWeight: titleBold ? "bold" : "normal",
+              fontStyle: titleItalic ? "italic" : "normal",
+              textDecoration: titleUnderline ? "underline" : "none",
               ...tw(`w-full text-center`),
             }}
           >

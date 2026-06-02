@@ -1,26 +1,24 @@
 import Square from "./Square";
-import { allStatesType } from "../../Types/types";
 import {
   allUsedCharacterInfo,
   createSVGStrokes,
 } from "../../Aux/previewerFunctions";
+
 import { useTranslation } from "react-i18next";
+
+import { usePracticeSheet } from "../../context/PracticePageContext";
 
 import Loading from "../General/Loading";
 
 interface PreviewPropsType {
   id: string;
   className?: string;
-  allStates: allStatesType;
-  widthOfTheSquaresInPx: number;
   charactersInfoResponse: any;
 }
 
 function Preview({
   id,
   className = "",
-  allStates,
-  widthOfTheSquaresInPx,
   charactersInfoResponse,
 }: PreviewPropsType) {
   const {
@@ -30,20 +28,18 @@ function Preview({
     error,
   } = charactersInfoResponse;
 
-  let [
+  const ps = usePracticeSheet();
+
+  const {
     characters,
-    numberOfBoxesPerRow,
+    numberOfSquaresPerRow,
     numberOfRowsPerCharacter,
     numberPracticeSquares,
-    font,
     numberRowSpacing,
-    numberColumnSpacing,
-    gridName,
     showDefinition,
     showPinyin,
     showRadical,
     showDecomposition,
-    letterOpacity,
     numberOfPracticeLines,
     showStrokesOrder,
     title,
@@ -52,7 +48,7 @@ function Preview({
     titleBold,
     titleUnderline,
     separationLine,
-  ] = allStates;
+   } = ps;
 
   const { t } = useTranslation("global");
 
@@ -132,14 +128,9 @@ function Preview({
           {[...Array(numberOfRowsPerCharacter).keys()].map((index) =>
             createOneLine(
               character,
-              font,
-              numberOfBoxesPerRow,
-              numberPracticeSquares,
               /* For the first character we send the spacing the user selected plus an extra so we can differentiate between the lines corresponding to  the same character*/
               index === 0 ? numberRowSpacing + 10 : numberRowSpacing,
-              numberColumnSpacing,
               index < numberOfPracticeLines ? true : false,
-              widthOfTheSquaresInPx,
               index,
             ),
           )}
@@ -157,13 +148,8 @@ function Preview({
 
   function createOneLine(
     character = "",
-    font: string,
-    numberOfBoxesPerRow: number,
-    numberPracticeSquares: number,
     rowSpacing: number,
-    columnSpacing: number,
     firstLine = false,
-    widthOfTheSquaresInPx: number,
     index: number,
   ) {
     return (
@@ -174,18 +160,13 @@ function Preview({
           marginTop: rowSpacing + "px",
         }}
       >
-        {[...Array(numberOfBoxesPerRow).keys()].map((i) => (
+        {[...Array(numberOfSquaresPerRow).keys()].map((i) => (
           // We need to have a character in the square only for the number of practice squares the user wants
           // We also need to know if it is the first character we show to show it bold
           <Square
-            widthInPx={widthOfTheSquaresInPx}
             character={i < numberPracticeSquares && firstLine ? character : ""}
             firstCharacter={i === 0 ? true : false}
             key={`${character}-square-${i}`}
-            font={font}
-            columnSpacing={columnSpacing}
-            gridName={gridName}
-            letterOpacity={letterOpacity}
           ></Square>
         ))}
       </div>

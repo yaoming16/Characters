@@ -13,8 +13,6 @@ import CheckboxMod from "../Form/CheckboxMod";
 
 import type {
   CheckboxModOption,
-  OtherSetFunctions,
-  allNumberInputsStatesType,
 } from "../../Types/types";
 
 import {
@@ -26,37 +24,21 @@ import {
 } from "../../Aux/InputsInfo";
 
 import { inputsHTML } from "../../Aux/optionsFormFunctions";
+import { usePracticeSheet } from "../../context/PracticePageContext";
 
 interface OptionsFormProps {
   className?: string;
-  allNumberInputsStates: allNumberInputsStatesType;
-  otherSetFunctions: OtherSetFunctions;
-  checkboxStates: {
-    showDefinition: boolean;
-    showPinyin: boolean;
-    showRadical: boolean;
-    showDecomposition: boolean;
-    showStrokesOrder: boolean;
-    titleItalic: boolean;
-    titleBold: boolean;
-    titleUnderline: boolean;
-    separationLine: boolean;
-  };
-  characters: string;
   charactersInfoResponse: any;
   pinyinDic: any;
 }
 
 function OptionsForm({
   className,
-  allNumberInputsStates,
-  otherSetFunctions,
-  checkboxStates,
   charactersInfoResponse,
-  characters,
   pinyinDic,
 }: OptionsFormProps) {
   const { t } = useTranslation("global");
+  const ps = usePracticeSheet();
 
   const {
     setCharacters,
@@ -72,31 +54,45 @@ function OptionsForm({
     setTitleBold,
     setTitleUnderline,
     setSeparationLine,
-  } = otherSetFunctions;
+    showDefinition,
+    showPinyin,
+    showRadical,
+    showDecomposition,
+    showStrokesOrder,
+    titleItalic,
+    titleBold,
+    titleUnderline,
+    separationLine,
+    characters,
+    numberOfRowsPerCharacter,
+    numberOfSquaresPerRow,
+  } = ps;
+
+  
 
   const mainCheckboxOptions: CheckboxModOption[] = [
     {
-      checked: checkboxStates.showDefinition,
+      checked: showDefinition,
       setFunction: setShowDefinition,
       text: t("optionsForm.otherInputsText.showDefinition"),
     },
     {
-      checked: checkboxStates.showPinyin,
+      checked: showPinyin,
       setFunction: setShowPinyin,
       text: t("optionsForm.otherInputsText.showPinyin"),
     },
     {
-      checked: checkboxStates.showRadical,
+      checked: showRadical,
       setFunction: setShowRadical,
       text: t("optionsForm.otherInputsText.showRadical"),
     },
     {
-      checked: checkboxStates.showDecomposition,
+      checked: showDecomposition,
       setFunction: setShowDecomposition,
       text: t("optionsForm.otherInputsText.showDecomposition"),
     },
     {
-      checked: checkboxStates.showStrokesOrder,
+      checked: showStrokesOrder,
       setFunction: setShowStrokesOrder,
       text: t("optionsForm.otherInputsText.showStrokesOrder"),
     },
@@ -104,17 +100,17 @@ function OptionsForm({
 
   const titleCheckboxOptions: CheckboxModOption[] = [
     {
-      checked: checkboxStates.titleItalic,
+      checked: titleItalic,
       setFunction: setTitleItalic,
       text: t("optionsForm.otherInputsText.italic"),
     },
     {
-      checked: checkboxStates.titleBold,
+      checked: titleBold,
       setFunction: setTitleBold,
       text: t("optionsForm.otherInputsText.bold"),
     },
     {
-      checked: checkboxStates.titleUnderline,
+      checked: titleUnderline,
       setFunction: setTitleUnderline,
       text: t("optionsForm.otherInputsText.underline"),
     },
@@ -122,14 +118,14 @@ function OptionsForm({
 
   const otherCheckboxOptions: CheckboxModOption[] = [
     {
-      checked: checkboxStates.separationLine,
+      checked: separationLine,
       setFunction: setSeparationLine,
       text: t("optionsForm.otherInputsText.separationLine"),
     },
   ];
 
   //Create main input information array using the function from the aux file.
-  const mainInputsInfo = createMainInputsInfo(allNumberInputsStates, t);
+  const mainInputsInfo = createMainInputsInfo(numberOfSquaresPerRow, numberOfRowsPerCharacter, t);
   const styleInputsInfo = createStyleInputsInfo(t);
   const extraOptionsInputsInfo = createExtraOptionsInputsInfo(t);
 
@@ -174,7 +170,7 @@ function OptionsForm({
           </AccordionTitle>
           <AccordionContent className="dark:bg-white">
             {/* Input for Characters */}
-            {inputsHTML(mainInputsInfo, allNumberInputsStates)}
+            {inputsHTML(mainInputsInfo, ps)}
 
             {/* We will add some other option 
       First one is to change the font*/}
@@ -215,7 +211,7 @@ function OptionsForm({
             <h3 className="text-center">
               {t("optionsForm.titles.titleOptions")}
             </h3>
-            {inputsHTML(styleInputsInfo, allNumberInputsStates)}
+            {inputsHTML(styleInputsInfo, ps)}
             {/* Bold, italic, undeline options*/}
             <CheckboxMod options={titleCheckboxOptions}></CheckboxMod>
             <h3 className="mt-5 text-center">
@@ -234,7 +230,7 @@ function OptionsForm({
           </AccordionTitle>
           <AccordionContent className="dark:bg-white">
             {/*  Here we add the other inputs */}
-            {inputsHTML(extraOptionsInputsInfo, allNumberInputsStates)}
+            {inputsHTML(extraOptionsInputsInfo, ps)}
           </AccordionContent>
         </AccordionPanel>
       </Accordion>

@@ -1,21 +1,28 @@
-import { SquareReactType } from "../Types/types";
+import { SquareReactType } from "../../Types/types";
+
+import { usePracticeSheet } from "../../context/PracticePageContext";
 
 function Square({
   character = "",
   firstCharacter = false,
-  font,
-  columnSpacing,
-  gridName,
-  widthInPx,
-  letterOpacity,
 }: SquareReactType) {
+
+  const ps = usePracticeSheet();
+  const {
+    font,
+    gridName,
+    widthOfTheSquaresInPx,
+    numberColumnSpacing,
+    letterOpacity
+  } = ps;
+
   return (
     <div
       className=""
       style={{
-        marginRight: columnSpacing + "px",
-        width: widthInPx + "px",
-        height: widthInPx + "px",
+        marginRight: numberColumnSpacing + "px",
+        width: widthOfTheSquaresInPx + "px",
+        height: widthOfTheSquaresInPx + "px",
       }}
     >
       <img
@@ -23,8 +30,8 @@ function Square({
         src={gridName}
         alt="grid"
         style={{
-          width: widthInPx + "px",
-          height: widthInPx + "px",
+          width: widthOfTheSquaresInPx + "px",
+          height: widthOfTheSquaresInPx + "px",
         }}
       ></img>
       {/*<svg  xmlns="http://www.w3.org/2000/svg" version="1.1" width={widthInPx} height={widthInPx} viewBox="0 0 234 234" className={`absolute opacity-50`}>
@@ -44,13 +51,13 @@ function Square({
         className="flex relative justify-center items-center"
         style={{
           fontFamily: font,
-          width: widthInPx + "px",
-          height: widthInPx + "px",
+          width: widthOfTheSquaresInPx + "px",
+          height: widthOfTheSquaresInPx + "px",
         }}
       >
         <p
           style={{
-            fontSize: Math.floor(widthInPx * 0.7) + "px",
+            fontSize: Math.floor(widthOfTheSquaresInPx * 0.7) + "px",
             fontFamily: font,
             fontWeight: firstCharacter ? "400" : "",
             textRendering: "optimizeLegibility",
