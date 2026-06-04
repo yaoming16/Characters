@@ -1,7 +1,7 @@
 import InputWLabel from "../Components/Form/InputWLabel";
 import type {
   NumberInputInfoType,
-  PracticeSheetContextType
+  PracticeSheetContextType,
 } from "../Types/types";
 
 /* Function to check if conditions are met for the input value. Then change the values and the warning */
@@ -21,7 +21,7 @@ export function checkNumbers(
   setFunction(newState);
 }
 
-function capitalizeFirstLetter(str : string): string {
+function capitalizeFirstLetter(str: string): string {
   if (!str) return str; // Handle empty strings safely
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -35,18 +35,23 @@ export function inputsHTML(
   ps: PracticeSheetContextType,
 ) {
   return infoArray.map((inputInfo, index) => {
-    const setKey = (`set${capitalizeFirstLetter(
+    const setKey = `set${capitalizeFirstLetter(
       inputInfo.name as string,
-    )}`) as keyof PracticeSheetContextType;
-    const setWarningKey = (`set${capitalizeFirstLetter(
+    )}` as keyof PracticeSheetContextType;
+    const setWarningKey = `set${capitalizeFirstLetter(
       inputInfo.warningName as string,
-    )}`) as keyof PracticeSheetContextType;
+    )}` as keyof PracticeSheetContextType;
+
+    const valueKey = inputInfo.name as keyof PracticeSheetContextType;
+    const warningKey = inputInfo.warningName as keyof PracticeSheetContextType;
 
     const setFunc = ps[setKey] as React.Dispatch<React.SetStateAction<number>>;
-    const setWarn = ps[setWarningKey] as React.Dispatch<React.SetStateAction<boolean>>;
+    const setWarn = ps[setWarningKey] as React.Dispatch<
+      React.SetStateAction<boolean>
+    >;
 
-    const value = ps[inputInfo.name] as number;
-    const warning = ps[inputInfo.warningName] as boolean;
+    const value = ps[valueKey] as number;
+    const warning = ps[warningKey] as boolean;
 
     return (
       <InputWLabel

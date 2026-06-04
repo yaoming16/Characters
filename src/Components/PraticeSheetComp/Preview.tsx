@@ -60,7 +60,7 @@ function Preview({
   };
 
   const listCharacters = characters.split("").map((character, i) => {
-    const { definition, pinyin, decomposition, radical } = allUsedCharacterInfo(
+    const { pinyin, decomposition, radical } = allUsedCharacterInfo(
       character,
       CharactersInfo,
       errorMessages,
@@ -81,7 +81,7 @@ function Preview({
               }
             >
               <span className="font-bold mr-2">{t("other.definition")}:</span>
-              {definition}
+              {t(`definitions.${character}`)}
             </p>
             <p
               className={

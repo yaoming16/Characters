@@ -159,7 +159,7 @@ function PracticePageContent({}) {
             <div className="overflow-auto border border-gray-300 rounded-lg shadow-lg p-5">
               <ReactPDFViewer
                 id={"previewer"}
-                //widthOfTheSquaresInPx={calculateNewWidth(595, ps)}
+                widthOfTheSquaresInPx={calculateNewWidth(595, ps)}
                 charactersInfoResponse={charactersInfoResponse}
               ></ReactPDFViewer>
             </div>

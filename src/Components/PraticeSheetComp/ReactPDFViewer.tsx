@@ -46,12 +46,14 @@ interface PreviewPropsType {
   id: string;
   className?: string;
   charactersInfoResponse: any;
+  widthOfTheSquaresInPx: number;
 }
 
 function ReactPDFViewer({
   id,
   className = "",
   charactersInfoResponse,
+  widthOfTheSquaresInPx
 }: PreviewPropsType) {
   
   const {
@@ -68,15 +70,12 @@ function ReactPDFViewer({
     numberOfSquaresPerRow,
     numberOfRowsPerCharacter,
     numberPracticeSquares,
-    font,
     numberRowSpacing,
     numberColumnSpacing,
-    gridName,
     showDefinition,
     showPinyin,
     showRadical,
     showDecomposition,
-    letterOpacity,
     numberOfPracticeLines,
     showStrokesOrder,
     title,
@@ -89,7 +88,9 @@ function ReactPDFViewer({
     numberMarginRight,
     numberMarginBottom,
     numberMarginLeft,
-    widthOfTheSquaresInPx
+    font,
+    gridName,
+    letterOpacity,
   } = ps;
 
   const { t } = useTranslation("global");
@@ -101,7 +102,7 @@ function ReactPDFViewer({
   };
 
   const listCharacters = characters.split("").map((character, i) => {
-    const { definition, pinyin, decomposition, radical } = allUsedCharacterInfo(
+    const { pinyin, decomposition, radical } = allUsedCharacterInfo(
       character,
       CharactersInfo,
       errorMessages,
@@ -120,7 +121,7 @@ function ReactPDFViewer({
                 <Text style={tw(`font-bold mr-2`)}>
                   {t("other.definition")}:
                 </Text>
-                {definition}
+                {t(`definitions.${character}`)}
               </Text>
             )}
             {showPinyin && (
@@ -215,6 +216,11 @@ function ReactPDFViewer({
             key={`${character}-square-PDF-${i}`}
             character={i < numberPracticeSquares && firstLine ? character : ""}
             firstCharacter={i === 0 ? true : false}
+            font={font}
+            columnSpacing={numberColumnSpacing}
+            gridName={gridName}
+            letterOpacity={letterOpacity}
+            widthOfTheSquaresInPx={widthOfTheSquaresInPx}
           />
         ))}
       </View>

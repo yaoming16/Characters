@@ -152,12 +152,6 @@ export function allUsedCharacterInfo(
   CharactersInfo: characterInfoType[],
   errorMessages: any,
 ) {
-  const definition = returnInfoOrNotFound(
-    CharactersInfo,
-    character,
-    "definition",
-    errorMessages.definitionNotFound,
-  );
   const pinyin = returnInfoOrNotFound(
     CharactersInfo,
     character,
@@ -177,7 +171,6 @@ export function allUsedCharacterInfo(
     errorMessages.radicalNotFound,
   );
   return {
-    definition,
     pinyin,
     decomposition,
     radical,

@@ -1,23 +1,26 @@
 import { Text, View, Image } from "@react-pdf/renderer";
 import { createTw } from "react-pdf-tailwind";
 import { SquareReactType } from "../../Types/types";
-import {usePracticeSheet} from "../../context/PracticePageContext";
 
 const tw = createTw({});
+
+interface SquareReactPdfProps extends SquareReactType {
+  font: string;
+  columnSpacing: number;
+  gridName: string;
+  letterOpacity: number;
+  widthOfTheSquaresInPx: number;
+}
 
 function SquareReactPdf({
   character = "",
   firstCharacter = false,
-}: SquareReactType) {
-  const ps = usePracticeSheet();
-
-  const {
-    font,
-    columnSpacing,
-    gridName,
-    letterOpacity,
-    widthOfTheSquaresInPx,
-  } = ps;
+  font,
+  columnSpacing,
+  gridName,
+  letterOpacity,
+  widthOfTheSquaresInPx,
+}: SquareReactPdfProps) {
 
   return (
     <View
