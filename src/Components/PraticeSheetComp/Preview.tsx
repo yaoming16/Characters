@@ -48,7 +48,7 @@ function Preview({
     titleBold,
     titleUnderline,
     separationLine,
-   } = ps;
+  } = ps;
 
   const { t } = useTranslation("global");
 
@@ -72,11 +72,11 @@ function Preview({
             style={{
               marginTop: numberRowSpacing + 10 + "px",
             }}
-            className="flex flex-row"
+            className="flex flex-row flex-wrap gap-2"
           >
             <p
               className={
-                "border border-solid p-2 text-[0.8rem] " +
+                "border-b-1 p-2 text-[0.8rem] " +
                 (showDefinition ? "" : " hidden")
               }
             >
@@ -85,9 +85,7 @@ function Preview({
             </p>
             <p
               className={
-                "border border-solid p-2 text-[0.8rem] border-l-0 " +
-                (showPinyin ? "" : " hidden") +
-                (showDefinition ? "" : " border-l-1")
+                "border-b-1 p-2 text-[0.8rem] " + (showPinyin ? "" : " hidden")
               }
             >
               <span className={"font-bold mr-2"}>{t("other.pinyin")}:</span>
@@ -95,9 +93,7 @@ function Preview({
             </p>
             <p
               className={
-                "border border-solid p-2 text-[0.8rem] border-l-0 " +
-                (showRadical ? "" : " hidden") +
-                (showPinyin ? "" : " border-l-1")
+                "border-b-1 p-2 text-[0.8rem] " + (showRadical ? "" : " hidden")
               }
             >
               <span className={"font-bold mr-2"}>{t("other.radical")}:</span>
@@ -105,9 +101,8 @@ function Preview({
             </p>
             <p
               className={
-                "border border-solid p-2 text-[0.8rem] border-l-0 " +
-                (showDecomposition ? "" : " hidden") +
-                (showRadical ? "" : " border-l-1")
+                "border-b-1 p-2 text-[0.8rem] " +
+                (showDecomposition ? "" : " hidden")
               }
             >
               <span className={"font-bold mr-2"}>
@@ -116,7 +111,7 @@ function Preview({
               {decomposition}
             </p>
           </div>
-          <div>
+          <div className="mt-2">
             {createSVGStrokes(
               character,
               characterSVGData,

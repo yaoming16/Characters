@@ -54,6 +54,7 @@ function OptionsForm({
     setTitleBold,
     setTitleUnderline,
     setSeparationLine,
+    gridName,
     showDefinition,
     showPinyin,
     showRadical,
@@ -182,12 +183,13 @@ function OptionsForm({
             />
 
             {/* We want an options to be able to select the bg grid */}
-            <fieldset className="flex flex-row justify-evenly mt-5 border-1 p-5">
-              <legend className="mb-5 text-center">
+            <fieldset className="flex flex-col items-center justify-center gap-4 mt-5 border-1 p-5">
+              <legend className="mb-5 text-center mx-auto">
                 {t("optionsForm.otherInputsText.gridType")}
               </legend>
               <RadioMod
                 options={gridOptions}
+                currentValue={gridName}
                 onChange={(e) => setGridName(e.target.value)}
               ></RadioMod>
             </fieldset>

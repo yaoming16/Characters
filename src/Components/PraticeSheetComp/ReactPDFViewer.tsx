@@ -53,9 +53,8 @@ function ReactPDFViewer({
   id,
   className = "",
   charactersInfoResponse,
-  widthOfTheSquaresInPx
+  widthOfTheSquaresInPx,
 }: PreviewPropsType) {
-  
   const {
     charactersInfo: CharactersInfo,
     characterSVGData,
@@ -113,57 +112,43 @@ function ReactPDFViewer({
           <View
             style={{
               marginTop: numberRowSpacing + 10,
-              ...tw("flex flex-row"),
+              ...tw("flex flex-row flex-wrap gap-2"),
             }}
           >
             {showDefinition && (
-              <Text style={tw(`border border-solid p-2 text-[0.8rem]`)}>
+              <Text style={tw(`border-b-[1px] p-2 text-[0.8rem]`)}>
                 <Text style={tw(`font-bold mr-2`)}>
                   {t("other.definition")}:
                 </Text>
+                {"  "}
                 {t(`definitions.${character}`)}
               </Text>
             )}
             {showPinyin && (
-              <Text
-                style={tw(
-                  `border border-solid p-2 text-[0.8rem]${
-                    showDefinition ? " border-l-0" : ""
-                  }`,
-                )}
-              >
+              <Text style={tw(`border-b-[1px] p-2 text-[0.8rem]`)}>
                 <Text style={tw(`font-bold mr-2`)}>{t("other.pinyin")}:</Text>
+                {"  "}
                 {pinyin}
               </Text>
             )}
             {showRadical && (
-              <Text
-                style={tw(
-                  `border border-solid p-2 text-[0.8rem]${
-                    showPinyin ? " border-l-0" : ""
-                  }`,
-                )}
-              >
+              <Text style={tw(`border-b-[1px] p-2 text-[0.8rem]`)}>
                 <Text style={tw(`font-bold mr-2`)}>{t("other.radical")}:</Text>
+                {"  "}
                 {radical}
               </Text>
             )}
             {showDecomposition && (
-              <Text
-                style={tw(
-                  `border border-solid p-2 text-[0.8rem]${
-                    showRadical ? " border-l-0" : ""
-                  }`,
-                )}
-              >
+              <Text style={tw(`border-b-[1px] p-2 text-[0.8rem]`)}>
                 <Text style={tw(`font-bold mr-2`)}>
                   {t("other.decomposition")}:
                 </Text>
+                {"  "}
                 {decomposition}
               </Text>
             )}
           </View>
-          <View>
+          <View style={tw("mt-2")}>
             {createSVGStrokes(
               character,
               characterSVGData,
