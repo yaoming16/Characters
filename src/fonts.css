@@ -2,16 +2,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
 
 @font-face {
-  font-family: FangSong; /* set name */
-  src: url(./Fonts/FangSong.ttf); /* url of the font */
+  font-family: FangSong; 
+  src: url(./Fonts/FangSong.ttf); 
 }
 
 @font-face {
-  font-family: KaiTi; /* set name */
-  src: url(./Fonts/KaiTi.ttf); /* url of the font */
+  font-family: KaiTi; 
+  src: url(./Fonts/KaiTi.ttf); 
 }
 
 @font-face {
-  font-family: SimSun; /* set name */
-  src: url(./Fonts/SimSun.ttf); /* url of the font */
+  font-family: SimSun; 
+  src: url(./Fonts/SimSun.ttf); 
+}
+
+@font-face {
+  font-family: NotoSansSC; 
+  src: url(./Fonts/NotoSansSC-Regular.ttf);
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "NotoSansSC";
+  src: url('/fonts/NotoSansSC-Bold.ttf') format('truetype');
+  font-weight: 700;
 }

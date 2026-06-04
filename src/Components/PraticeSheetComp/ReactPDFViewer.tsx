@@ -9,6 +9,8 @@ import Loading from "./../General/Loading";
 import FangSong from "../../Fonts/FangSong.ttf";
 import KaiTi from "../../Fonts/KaiTi.ttf";
 import SimSun from "../../Fonts/SimSun.ttf";
+import NotoReg from "../../Fonts/NotoSansSC-Regular.ttf";
+import NotoBold from "../../Fonts/NotoSansSC-Bold.ttf";
 
 import { useTranslation } from "react-i18next";
 
@@ -40,6 +42,14 @@ Font.register({
 Font.register({
   family: "SimSun",
   src: SimSun,
+});
+
+Font.register({
+  family: "NotoSansSC",
+  fonts: [
+    { src: NotoReg, fontWeight: "normal" },
+    { src: NotoBold, fontWeight: "bold" },
+  ]
 });
 
 interface PreviewPropsType {
@@ -111,6 +121,7 @@ function ReactPDFViewer({
         <View key={`${character}-container-PDF-${i}`}>
           <View
             style={{
+              fontFamily: "NotoSansSC",
               marginTop: numberRowSpacing + 10,
               ...tw("flex flex-row flex-wrap gap-2"),
             }}
@@ -125,22 +136,22 @@ function ReactPDFViewer({
               </Text>
             )}
             {showPinyin && (
-              <Text style={tw(`border-b-[1px] p-2 text-[0.8rem]`)}>
-                <Text style={tw(`font-bold mr-2`)}>{t("other.pinyin")}:</Text>
+              <Text style={tw(`border-b-[1px] p-2 text-[1rem]`)}>
+                <Text style={tw(`font-bold mr-2 text-[0.8rem]`)}>{t("other.pinyin")}:</Text>
                 {"  "}
                 {pinyin}
               </Text>
             )}
             {showRadical && (
-              <Text style={tw(`border-b-[1px] p-2 text-[0.8rem]`)}>
-                <Text style={tw(`font-bold mr-2`)}>{t("other.radical")}:</Text>
+              <Text style={tw(`border-b-[1px] p-2 text-[1rem]`)}>
+                <Text style={tw(`font-bold mr-2 text-[0.8rem]`)}>{t("other.radical")}:</Text>
                 {"  "}
                 {radical}
               </Text>
             )}
             {showDecomposition && (
-              <Text style={tw(`border-b-[1px] p-2 text-[0.8rem]`)}>
-                <Text style={tw(`font-bold mr-2`)}>
+              <Text style={tw(`border-b-[1px] p-2 text-[1rem]`)}>
+                <Text style={tw(`font-bold mr-2 text-[0.8rem]`)}>
                   {t("other.decomposition")}:
                 </Text>
                 {"  "}

@@ -70,13 +70,14 @@ function Preview({
         <div key={`${character}-container-${i}`}>
           <div
             style={{
+              fontFamily: "NotoSansSC, serif",
               marginTop: numberRowSpacing + 10 + "px",
             }}
-            className="flex flex-row flex-wrap gap-2"
+            className="flex flex-row flex-wrap gap-2 "
           >
             <p
               className={
-                "border-b-1 p-2 text-[0.8rem] " +
+                "border-b-1 p-2 text-[0.8rem]" +
                 (showDefinition ? "" : " hidden")
               }
             >
@@ -85,27 +86,27 @@ function Preview({
             </p>
             <p
               className={
-                "border-b-1 p-2 text-[0.8rem] " + (showPinyin ? "" : " hidden")
+                "border-b-1 p-2 text-[1rem] " + (showPinyin ? "" : " hidden")
               }
             >
-              <span className={"font-bold mr-2"}>{t("other.pinyin")}:</span>
+              <span className="font-bold mr-2 text-[0.8rem]">{t("other.pinyin")}:</span>
               {pinyin}
             </p>
             <p
               className={
-                "border-b-1 p-2 text-[0.8rem] " + (showRadical ? "" : " hidden")
+                "border-b-1 p-2 text-[1rem] " + (showRadical ? "" : " hidden")
               }
             >
-              <span className={"font-bold mr-2"}>{t("other.radical")}:</span>
+              <span className="font-bold mr-2 text-[0.8rem]">{t("other.radical")}:</span>
               {radical}
             </p>
             <p
               className={
-                "border-b-1 p-2 text-[0.8rem] " +
+                "border-b-1 p-2 text-[1rem] " +
                 (showDecomposition ? "" : " hidden")
               }
             >
-              <span className={"font-bold mr-2"}>
+              <span className={"font-bold mr-2 text-[0.8rem]"}>
                 {t("other.decomposition")}:
               </span>
               {decomposition}
