@@ -10,6 +10,7 @@ import {
 import SelectMod from "../Form/SelectMod";
 import RadioMod from "../Form/RadioMod";
 import CheckboxMod from "../Form/CheckboxMod";
+import Recommendations from "../General/Recommendations";
 
 import type {
   CheckboxModOption,
@@ -29,13 +30,11 @@ import { usePracticeSheet } from "../../context/PracticePageContext";
 interface OptionsFormProps {
   className?: string;
   charactersInfoResponse: any;
-  pinyinDic: any;
 }
 
 function OptionsForm({
   className,
   charactersInfoResponse,
-  pinyinDic,
 }: OptionsFormProps) {
   const { t } = useTranslation("global");
   const ps = usePracticeSheet();
@@ -125,24 +124,17 @@ function OptionsForm({
     },
   ];
 
+  const pinyinDic = charactersInfoResponse.pinyinDic;
+
   //Create main input information array using the function from the aux file.
   const mainInputsInfo = createMainInputsInfo(numberOfSquaresPerRow, numberOfRowsPerCharacter, t);
   const styleInputsInfo = createStyleInputsInfo(t);
   const extraOptionsInputsInfo = createExtraOptionsInputsInfo(t);
 
-  //Function to get recommendations
-  function getRecommendations() {
-    let recommendations = [];
-    if (pinyinDic && pinyinDic[characters]) {
-      recommendations = pinyinDic[characters];
-    }
-    return recommendations;
-  }
 
   return (
     <div className={className}>
       <h2>{t("optionsForm.titles.main")}</h2>
-      {getRecommendations().length > 0 && <div>{getRecommendations()}</div>}
 
       <InputWLabel
         type="text"
@@ -153,6 +145,8 @@ function OptionsForm({
         id="CharactersInput"
         lang="zh-CN"
       ></InputWLabel>
+
+      <Recommendations characters={characters} pinyinDic={pinyinDic} setCharacters={setCharacters}></Recommendations>
 
       {/* Title input */}
       <InputWLabel

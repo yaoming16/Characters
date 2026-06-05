@@ -97,7 +97,6 @@ function PracticePageContent({}) {
                 <OptionsForm
                   className=""
                   charactersInfoResponse={charactersInfoResponse}
-                  pinyinDic={charactersInfoResponse.pinyinDic}
                 ></OptionsForm>
               </div>
               {/* Download button that only appears when the previewer is shown or when we are in changeToPreviewer mode and the options form is hidden */}

@@ -1,1 +1,10 @@
 /// <reference types="vite/client" />
+
+import 'react';
+
+declare module 'react' {
+  interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+    commandfor?: string;
+    command?: string;
+  }
+}

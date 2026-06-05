@@ -6,22 +6,31 @@ import { useState } from "react";
 import {
   allUsedCharacterInfo,
   createSVGStrokes,
+  createOneAnimatedCharacterSVG
 } from "../../Aux/previewerFunctions";
 
 import Loading from "../General/Loading";
 import InputWLabel from "../Form/InputWLabel";
+import Recommendations from "../General/Recommendations";
+import AllAvailableCharacters from "./AllAvailableCharacters";
 
 function DictionaryPage() {
   const { t } = useTranslation("global");
-  const { charactersInfo, characterSVGData, loading, error } =
+  const { charactersInfo, pinyinDic ,characterSVGData, loading, error } =
     useCharacterData();
 
-  const [selectedCharacter, setSelectedCharacter] = useState<string | null>(
-    null,
+  const [selectedCharacter, setSelectedCharacter] = useState<string>(
+    "",
   );
 
+  const [stopAnimation, setStopAnimation] = useState(false);
+
   if (loading || error) {
-    return <Loading loading={loading} error={error} isDictionary={true} />;
+    return (
+      <div className="p-4 min-h-screen">
+        <Loading loading={loading} error={error} isDictionary={true} />;
+      </div>
+    )
   }
 
   const errorMessages = {
@@ -31,9 +40,15 @@ function DictionaryPage() {
     radicalNotFound: t("other.radicalNotFound"),
   };
 
+  const chineseCharacterRegex = /^\p{Script=Han}$/u;
+
   return (
-    <div className="p-4">
-      <h1>{t("dictionary.title")}</h1>
+    <div className="p-4 min-h-screen">
+      <div>
+        <h1>{t("dictionary.title")}</h1>
+        <button commandfor="all-characters-dialog" command="show-modal">See all characters</button>
+      </div>
+      <AllAvailableCharacters charactersInfo={charactersInfo}/>
 
       <section>
         <form>
@@ -41,25 +56,33 @@ function DictionaryPage() {
             text={t("dictionary.search")}
             id="dictionary-search"
             type="text"
-            value={selectedCharacter || ""}
+            value={selectedCharacter}
             onChange={(e) => setSelectedCharacter(e.target.value)}
           />
         </form>
+        <Recommendations characters={selectedCharacter} pinyinDic={pinyinDic} setCharacters={setSelectedCharacter}/>
       </section>
 
       <section>
         {selectedCharacter ? (
           <ul>
             {selectedCharacter.split("").map((char, index) => {
-              const { definition, pinyin, decomposition, radical } =
-                allUsedCharacterInfo(char, charactersInfo, errorMessages);
+              const { pinyin, decomposition, radical } = allUsedCharacterInfo(
+                char,
+                charactersInfo,
+                errorMessages,
+              );
+
+              if (char === " " || !chineseCharacterRegex.test(char)) {
+                return null;
+              }
 
               return (
                 <li
                   key={char + index}
                   className="mt-10 p-4 border-b border-gray-300"
                 >
-                  <h2>
+                  <h2 className="text-2xl font-bold mb-4">
                     {t("dictionary.character")}: {char}
                   </h2>
                   {
@@ -69,7 +92,7 @@ function DictionaryPage() {
                           <span className="font-bold mr-2">
                             {t("other.definition")}:
                           </span>
-                          {definition}
+                          {t(`definitions.${char}`)}
                         </p>
                         <p>
                           <span className={"font-bold mr-2"}>
@@ -98,6 +121,25 @@ function DictionaryPage() {
                           false,
                           t("other.strokesOrderNotFound"),
                         )}
+                      </div>
+                      <div className="flex flex-row flex-wrap gap-2">
+                        {createOneAnimatedCharacterSVG(
+                          char,
+                          characterSVGData,
+                          t("other.strokesOrderNotFound"),
+                          stopAnimation
+                        )}
+                        <div className="flex flex-row items-center gap-2">
+                          <input
+                            type="checkbox"
+                            id={`stop-animation-${char}`}
+                            checked={stopAnimation}
+                            onChange={() => setStopAnimation(!stopAnimation)}
+                          />
+                          <label htmlFor={`stop-animation-${char}`}>
+                            {t("dictionary.stopAnimation")}
+                          </label>
+                        </div>
                       </div>
                     </div>
                   }

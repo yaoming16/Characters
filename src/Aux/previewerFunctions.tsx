@@ -62,6 +62,7 @@ function createOneCharacterSVG(
   index: number,
   svgDataForCharacter: string[],
   isPDF: boolean = false,
+  animated: boolean = false,
 ) {
   if (isPDF) {
     return (
@@ -98,9 +99,96 @@ function createOneCharacterSVG(
           opacity={strokeIndex <= index ? 1 : 0.2}
           fill={strokeIndex === index ? "green" : "black"}
         >
-          <path d={stroke} />
+          <path
+            d={stroke}
+            className={`${animated ? `step-by-step step-${strokeIndex}` : ""}`}
+          />
         </g>
       ))}
+    </svg>
+  );
+}
+
+export function createOneAnimatedCharacterSVG(
+  character: string,
+  characterSVGData: characterSVGType[],
+  errorMessage: string,
+  stopAnimation: boolean = false,
+) {
+  const svgDataForCharacter = returnInfoOrNotFound(
+    characterSVGData,
+    character,
+    "strokes",
+    " ",
+  );
+  const svgAvailable =
+    svgDataForCharacter !== " " &&
+    svgDataForCharacter !== null &&
+    Array.isArray(svgDataForCharacter);
+
+  if (!svgAvailable) {
+    return (
+      <p className="border border-solid p-2 text-[0.8rem]">{errorMessage}</p>
+    );
+  }
+
+  const totalAnimationSeconds = svgDataForCharacter.length + 1;
+
+  return (
+    <svg
+      viewBox="0 0 1024 1024"
+      className={`border border-solid min-w-20 min-h-20 w-20 h-20`}
+    >
+      <g
+        transform="scale(1, -1) translate(0, -900)"
+      >
+        {svgDataForCharacter.map((stroke: string, strokeIndex: number) => {
+          if (stopAnimation) {
+            return (
+              <path
+                key={`${character}-animated-stroke-static-${strokeIndex}`}
+                d={stroke}
+                fill="black"
+                opacity={1}
+              />
+            );
+          }
+
+          const t1 = strokeIndex / totalAnimationSeconds;
+          const t2 = (strokeIndex + 1) / totalAnimationSeconds;
+
+          const opacityValues = strokeIndex === 0 ? "0;1;1" : "0;0;1;1";
+          const opacityKeyTimes = strokeIndex === 0 ? `0;${t2};1` : `0;${t1};${t2};1`;
+
+          const fillValues = strokeIndex === 0 ? "green;black;black" : "green;green;black;black";
+          const fillKeyTimes = strokeIndex === 0 ? `0;${t2};1` : `0;${t1};${t2};1`;
+
+          return (
+            <path
+              key={`${character}-animated-stroke-${strokeIndex}`}
+              d={stroke}
+              fill="black"
+              opacity={0}
+            >
+              <animate
+                attributeName="opacity"
+                dur={`${totalAnimationSeconds}s`}
+                repeatCount="indefinite"
+                values={opacityValues}
+                keyTimes={opacityKeyTimes}
+              />
+              <animate
+                attributeName="fill"
+                dur={`${totalAnimationSeconds}s`}
+                repeatCount="indefinite"
+                calcMode="discrete"
+                values={fillValues}
+                keyTimes={fillKeyTimes}
+              />
+            </path>
+          );
+        })}
+      </g>
     </svg>
   );
 }

@@ -72,7 +72,8 @@
     "title": "Diccionario",
     "search": "Buscar un carácter",
     "empty": "No se ha seleccionado ningún carácter",
-    "character": "Carácter"
+    "character": "Caracter",
+    "stopAnimation": "Detener las animaciones"
   },
 
   "downloadBtn": {
@@ -84,6 +85,10 @@
     "default": "Cargando datos de caracteres...",
     "errorDictionary": "Error al cargar datos, el diccionario estará deshabilitado. Por favor, recargue la página para intentar nuevamente.",
     "errorPracticeSheet": "Error al cargar datos. Las definiciones, Pinyin y órdenes de trazos estarán deshabilitados. Escriba un carácter para generar una hoja de práctica o recargue la página para intentar nuevamente obtener datos de caracteres."
+  },
+
+  "allCharModal": {
+    "openModal": "Todos los caracteres disponibles"
   },
 
   "other": {

@@ -59,13 +59,16 @@ function Preview({
     radicalNotFound: t("other.radicalNotFound"),
   };
 
+  //Regex for identify chinese characters.
+  const chineseCharacterRegex = /\p{Script=Han}/u;
+
   const listCharacters = characters.split("").map((character, i) => {
     const { pinyin, decomposition, radical } = allUsedCharacterInfo(
       character,
       CharactersInfo,
       errorMessages,
     );
-    if (character !== " ") {
+    if (character !== " " && chineseCharacterRegex.test(character)) {
       return (
         <div key={`${character}-container-${i}`}>
           <div

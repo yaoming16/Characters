@@ -73,7 +73,8 @@
     "title": "Dictionary",
     "search": "Search for a character",
     "empty": "No character selected",
-    "character": "Character"
+    "character": "Character",
+    "stopAnimation": "Stop animations"
   },
 
   "downloadBtn": {
@@ -85,6 +86,10 @@
     "default": "Loading characters data...",
     "errorDictionary": "Error loading data, The dictionary will be disabled. Please reload the page to try again.",
     "errorPracticeSheet": "Error loading data. Definitions, Pinyin and stroke orders will be disabled. Type a character to generate a practice sheet or reload the page to try again to get character data."
+  },
+
+  "allCharModal": {
+    "openModal": "See all available characters"
   },
 
   "other": {
