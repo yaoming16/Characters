@@ -2,6 +2,8 @@ import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { clearText } from "../../Aux/previewerFunctions";
+import Input from "../Form/Input";
+import InputWLabel from "../Form/InputWLabel";
 
 interface AllAvailableCharactersProps {
   charactersInfo: any;
@@ -21,22 +23,20 @@ function AllAvailableCharacters({
     dialogRef.current?.close();
   }
 
-
   // We need to remove the accents from the pinyin and also any non-alphanumeric characters to make the search more flexible. For example, searching for "ma" should match "mǎ", "mà", "mā", etc.
   const filteredCharacters =
     searchTerm !== ""
       ? charactersInfo.filter((charInfo: any) => {
-        const pinyin = charInfo.pinyin[0];
-        const cleanedPinyin = clearText(pinyin);
-        const cleanedSearchTerm = clearText(searchTerm);
+          const pinyin = charInfo.pinyin[0];
+          const cleanedPinyin = clearText(pinyin);
+          const cleanedSearchTerm = clearText(searchTerm);
 
-        if (searchTerm === cleanedSearchTerm) {
-          return cleanedSearchTerm === cleanedPinyin;
-        } else {
-          return searchTerm === pinyin;
-        }
-      }
-      )
+          if (searchTerm === cleanedSearchTerm) {
+            return cleanedSearchTerm === cleanedPinyin;
+          } else {
+            return searchTerm === pinyin;
+          }
+        })
       : charactersInfo;
 
   // We can sort the characters alphabetically by their pinyin to make it easier for users to find them.
@@ -49,9 +49,14 @@ function AllAvailableCharacters({
   });
 
   // We need to filter unique pinyings from the filtered array to get all available tones for the pinyin search
-  const uniquePinyins = searchTerm !== ""
-    ? [...new Set(filteredCharacters.map((charInfo: any) => charInfo.pinyin[0]))]
-    : [];
+  const uniquePinyins =
+    searchTerm !== ""
+      ? [
+          ...new Set(
+            filteredCharacters.map((charInfo: any) => charInfo.pinyin[0]),
+          ),
+        ]
+      : [];
 
   return (
     <dialog
@@ -61,18 +66,15 @@ function AllAvailableCharacters({
       className="p-4 min-h-screen h-full min-w-[300px] w-[30%] "
     >
       <div className="p-4 min-h-screen">
-        <h1>All Available Characters</h1>
-        <p>
-          This page will list all the characters available in the dictionary.
-        </p>
-        <p>You can click on any character to add it to your selection.</p>
+        <h1 className="text-2xl font-bold mb-4">{t("allCharModal.title")}</h1>
+        <p className="mt-2">{t("allCharModal.description")}</p>
+        <p className="mt-2 mb-2">{t("allCharModal.instruction")}</p>
 
         <div>
-          <label>Search a character by Pinyin:</label>
-          <input
+          <InputWLabel
+            text={t("allCharModal.search")}
             type="text"
-            id="dictionary-search"
-            className="border border-gray-300 p-2 rounded w-full mt-2"
+            id="allChar-search"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -81,11 +83,11 @@ function AllAvailableCharacters({
         <div>
           {uniquePinyins.length > 0 && (
             <div className="mt-4">
-              <p>Available tones for this pinyin:</p>
+              <p>{t("allCharModal.pinyinTones")}</p>
               <div className="flex flex-row flex-wrap gap-2 mt-2">
                 {uniquePinyins.map((pinyin: any, index: number) => (
                   <button
-                  type="button"
+                    type="button"
                     key={pinyin + index}
                     className="border border-gray-300 p-2 rounded"
                     onClick={() => setSearchTerm(pinyin)}

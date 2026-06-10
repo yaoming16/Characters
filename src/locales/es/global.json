@@ -88,7 +88,12 @@
   },
 
   "allCharModal": {
-    "openModal": "Todos los caracteres disponibles"
+    "openModal": "Todos los caracteres disponibles",
+    "title": "Caracteres disponibles",
+    "description": "Esta página mostrará todos los caracteres disponibles en el diccionario.",
+    "instruction": "Puede hacer clic en cualquier carácter para agregarlo a su diccionario.",
+    "search": "Buscar un carácter por Pinyin:",
+    "pinyinTones": "Tones disponibles para este pinyin:"
   },
 
   "other": {

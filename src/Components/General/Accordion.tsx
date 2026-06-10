@@ -10,7 +10,7 @@ interface AccordionProps {
 
 function Accordion({ children , title }: AccordionProps) {
   // State to open/close
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   //Ref to mesure height
   const contentEl = useRef<HTMLDivElement>(null);
