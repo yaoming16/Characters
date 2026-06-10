@@ -6,7 +6,9 @@ import { useState } from "react";
 import {
   allUsedCharacterInfo,
   createSVGStrokes,
-  createOneAnimatedCharacterSVG
+  createOneAnimatedCharacterSVG,
+  getPinyinOfDecomposition,
+  decompositionNotToShowREGEX,
 } from "../../Aux/previewerFunctions";
 
 import Loading from "../General/Loading";
@@ -16,12 +18,10 @@ import AllAvailableCharacters from "./AllAvailableCharacters";
 
 function DictionaryPage() {
   const { t } = useTranslation("global");
-  const { charactersInfo, pinyinDic ,characterSVGData, loading, error } =
+  const { charactersInfo, pinyinDic, characterSVGData, loading, error } =
     useCharacterData();
 
-  const [selectedCharacter, setSelectedCharacter] = useState<string>(
-    "",
-  );
+  const [selectedCharacter, setSelectedCharacter] = useState<string>("");
 
   const [stopAnimation, setStopAnimation] = useState(false);
 
@@ -30,7 +30,7 @@ function DictionaryPage() {
       <div className="p-4 min-h-screen">
         <Loading loading={loading} error={error} isDictionary={true} />;
       </div>
-    )
+    );
   }
 
   const errorMessages = {
@@ -40,15 +40,15 @@ function DictionaryPage() {
     radicalNotFound: t("other.radicalNotFound"),
   };
 
-  const chineseCharacterRegex = /^\p{Script=Han}$/u;
-
   return (
     <div className="p-4 min-h-screen">
       <div>
         <h1>{t("dictionary.title")}</h1>
-        <button commandfor="all-characters-dialog" command="show-modal">See all characters</button>
+        <button commandfor="all-characters-dialog" command="show-modal">
+          See all characters
+        </button>
       </div>
-      <AllAvailableCharacters charactersInfo={charactersInfo}/>
+      <AllAvailableCharacters charactersInfo={charactersInfo} />
 
       <section>
         <form>
@@ -60,7 +60,11 @@ function DictionaryPage() {
             onChange={(e) => setSelectedCharacter(e.target.value)}
           />
         </form>
-        <Recommendations characters={selectedCharacter} pinyinDic={pinyinDic} setCharacters={setSelectedCharacter}/>
+        <Recommendations
+          characters={selectedCharacter}
+          pinyinDic={pinyinDic}
+          setCharacters={setSelectedCharacter}
+        />
       </section>
 
       <section>
@@ -72,6 +76,18 @@ function DictionaryPage() {
                 charactersInfo,
                 errorMessages,
               );
+
+              const chineseCharacterRegex = /^\p{Script=Han}$/u;
+              const decompositionsPinyin = decomposition
+                ? getPinyinOfDecomposition(
+                    decomposition,
+                    charactersInfo,
+                    errorMessages,
+                  )
+                : null;
+              const decompositionCharacters = decomposition
+                ? decomposition.split("")
+                : null;
 
               if (char === " " || !chineseCharacterRegex.test(char)) {
                 return null;
@@ -110,7 +126,27 @@ function DictionaryPage() {
                           <span className={"font-bold mr-2"}>
                             {t("other.decomposition")}:
                           </span>
-                          {decomposition}
+                          {decompositionsPinyin &&
+                            decompositionCharacters &&
+                            decompositionCharacters.map(
+                              (decompositionCharacter, index) => (
+                                <div
+                                  key={`${decompositionCharacter}-decomposition-${index}`}
+                                >
+                                  {!decompositionNotToShowREGEX.test(
+                                    decompositionCharacter,
+                                  ) && (
+                                    <>
+                                      <span>{decompositionCharacter}</span>
+                                      <span className="text-[0.8rem] text-gray-600">
+                                        {"  " +
+                                          decompositionsPinyin[index]}{" "}
+                                      </span>
+                                    </>
+                                  )}
+                                </div>
+                              ),
+                            )}
                         </p>
                       </div>
                       <div>
@@ -127,7 +163,7 @@ function DictionaryPage() {
                           char,
                           characterSVGData,
                           t("other.strokesOrderNotFound"),
-                          stopAnimation
+                          stopAnimation,
                         )}
                         <div className="flex flex-row items-center gap-2">
                           <input

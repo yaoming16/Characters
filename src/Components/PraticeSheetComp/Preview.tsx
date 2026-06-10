@@ -2,6 +2,8 @@ import Square from "./Square";
 import {
   allUsedCharacterInfo,
   createSVGStrokes,
+  getPinyinOfDecomposition,
+  decompositionNotToShowREGEX
 } from "../../Aux/previewerFunctions";
 
 import { useTranslation } from "react-i18next";
@@ -68,6 +70,14 @@ function Preview({
       CharactersInfo,
       errorMessages,
     );
+
+    const decompositionsPinyin = decomposition
+      ? getPinyinOfDecomposition(decomposition, CharactersInfo, errorMessages)
+      : null;
+    const decompositionCharacters = decomposition
+      ? decomposition.split("")
+      : null;
+
     if (character !== " " && chineseCharacterRegex.test(character)) {
       return (
         <div key={`${character}-container-${i}`}>
@@ -92,7 +102,9 @@ function Preview({
                 "border-b-1 p-2 text-[1rem] " + (showPinyin ? "" : " hidden")
               }
             >
-              <span className="font-bold mr-2 text-[0.8rem]">{t("other.pinyin")}:</span>
+              <span className="font-bold mr-2 text-[0.8rem]">
+                {t("other.pinyin")}:
+              </span>
               {pinyin}
             </p>
             <p
@@ -100,7 +112,9 @@ function Preview({
                 "border-b-1 p-2 text-[1rem] " + (showRadical ? "" : " hidden")
               }
             >
-              <span className="font-bold mr-2 text-[0.8rem]">{t("other.radical")}:</span>
+              <span className="font-bold mr-2 text-[0.8rem]">
+                {t("other.radical")}:
+              </span>
               {radical}
             </p>
             <p
@@ -112,7 +126,21 @@ function Preview({
               <span className={"font-bold mr-2 text-[0.8rem]"}>
                 {t("other.decomposition")}:
               </span>
-              {decomposition}
+              {showDecomposition &&
+                decompositionsPinyin &&
+                decompositionCharacters &&
+                decompositionCharacters.map((decompositionCharacter, index) => (
+                  <div key={`${decompositionCharacter}-decomposition-${index}`}>
+                    {!decompositionNotToShowREGEX.test(decompositionCharacter) && (
+                      <>
+                        <span>{decompositionCharacter}</span>
+                        <span className="text-[0.8rem] text-gray-600">
+                          {"  " + decompositionsPinyin[index]}{" "}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                ))}
             </p>
           </div>
           <div className="mt-2">

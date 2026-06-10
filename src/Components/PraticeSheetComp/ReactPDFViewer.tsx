@@ -3,6 +3,8 @@ import { createTw } from "react-pdf-tailwind";
 import {
   allUsedCharacterInfo,
   createSVGStrokes,
+  getPinyinOfDecomposition,
+  decompositionNotToShowREGEX,
 } from "../../Aux/previewerFunctions";
 import Loading from "./../General/Loading";
 
@@ -49,7 +51,7 @@ Font.register({
   fonts: [
     { src: NotoReg, fontWeight: "normal" },
     { src: NotoBold, fontWeight: "bold" },
-  ]
+  ],
 });
 
 interface PreviewPropsType {
@@ -119,6 +121,14 @@ function ReactPDFViewer({
       CharactersInfo,
       errorMessages,
     );
+
+    const decompositionsPinyin = decomposition
+      ? getPinyinOfDecomposition(decomposition, CharactersInfo, errorMessages)
+      : null;
+    const decompositionCharacters = decomposition
+      ? decomposition.split("")
+      : null;
+
     if (character !== " " && chineseCharacterRegex.test(character)) {
       return (
         <View key={`${character}-container-PDF-${i}`}>
@@ -140,26 +150,50 @@ function ReactPDFViewer({
             )}
             {showPinyin && (
               <Text style={tw(`border-b-[1px] p-2 text-[1rem]`)}>
-                <Text style={tw(`font-bold mr-2 text-[0.8rem]`)}>{t("other.pinyin")}:</Text>
+                <Text style={tw(`font-bold mr-2 text-[0.8rem]`)}>
+                  {t("other.pinyin")}:
+                </Text>
                 {"  "}
                 {pinyin}
               </Text>
             )}
             {showRadical && (
               <Text style={tw(`border-b-[1px] p-2 text-[1rem]`)}>
-                <Text style={tw(`font-bold mr-2 text-[0.8rem]`)}>{t("other.radical")}:</Text>
+                <Text style={tw(`font-bold mr-2 text-[0.8rem]`)}>
+                  {t("other.radical")}:
+                </Text>
                 {"  "}
                 {radical}
               </Text>
             )}
             {showDecomposition && (
-              <Text style={tw(`border-b-[1px] p-2 text-[1rem]`)}>
+              <View style={tw(`border-b-[1px] p-2 text-[1rem]`)}>
                 <Text style={tw(`font-bold mr-2 text-[0.8rem]`)}>
                   {t("other.decomposition")}:
                 </Text>
                 {"  "}
-                {decomposition}
-              </Text>
+                {showDecomposition &&
+                  decompositionsPinyin &&
+                  decompositionCharacters &&
+                  decompositionCharacters.map(
+                    (decompositionCharacter, index) => (
+                      <Text
+                        key={`${decompositionCharacter}-decomposition-${index}`}
+                      >
+                        {!decompositionNotToShowREGEX.test(
+                          decompositionCharacter,
+                        ) && (
+                          <>
+                            <Text>{decompositionCharacter}</Text>
+                            <Text style={tw("text-[0.8rem] text-gray-600")}>
+                              {"  " + decompositionsPinyin[index]}{" "}
+                            </Text>
+                          </>
+                        )}
+                      </Text>
+                    ),
+                  )}
+              </View>
             )}
           </View>
           <View style={tw("mt-2")}>

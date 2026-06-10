@@ -139,9 +139,7 @@ export function createOneAnimatedCharacterSVG(
       viewBox="0 0 1024 1024"
       className={`border border-solid min-w-20 min-h-20 w-20 h-20`}
     >
-      <g
-        transform="scale(1, -1) translate(0, -900)"
-      >
+      <g transform="scale(1, -1) translate(0, -900)">
         {svgDataForCharacter.map((stroke: string, strokeIndex: number) => {
           if (stopAnimation) {
             return (
@@ -158,10 +156,13 @@ export function createOneAnimatedCharacterSVG(
           const t2 = (strokeIndex + 1) / totalAnimationSeconds;
 
           const opacityValues = strokeIndex === 0 ? "0;1;1" : "0;0;1;1";
-          const opacityKeyTimes = strokeIndex === 0 ? `0;${t2};1` : `0;${t1};${t2};1`;
+          const opacityKeyTimes =
+            strokeIndex === 0 ? `0;${t2};1` : `0;${t1};${t2};1`;
 
-          const fillValues = strokeIndex === 0 ? "green;black;black" : "green;green;black;black";
-          const fillKeyTimes = strokeIndex === 0 ? `0;${t2};1` : `0;${t1};${t2};1`;
+          const fillValues =
+            strokeIndex === 0 ? "green;black;black" : "green;green;black;black";
+          const fillKeyTimes =
+            strokeIndex === 0 ? `0;${t2};1` : `0;${t1};${t2};1`;
 
           return (
             <path
@@ -263,4 +264,21 @@ export function allUsedCharacterInfo(
     decomposition,
     radical,
   };
+}
+
+export const decompositionNotToShowREGEX = /⿰|⿱|⿲|⿳|⿴|⿵|⿶|⿷|⿸|⿹|⿺|⿻/;
+
+export function getPinyinOfDecomposition(characters: string, CharactersInfo: characterInfoType[], errorMessages: {[key: string]: string} ) {
+  let charactersPinyin = [];
+  const charactersArray = characters.split("");
+  for (let i = 0; i < charactersArray.length; i++) {
+    const character = charactersArray[i];
+    const decomposition = allUsedCharacterInfo(
+      character,
+      CharactersInfo,
+      errorMessages,
+    ).pinyin;
+    charactersPinyin.push(decomposition);
+  }
+  return charactersPinyin;
 }
