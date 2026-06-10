@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
+import { useBeforeUnload } from "react-router-dom";
 
 import { useCharacterData } from "../../hooks/useCharacterData";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import {
   allUsedCharacterInfo,
@@ -14,7 +15,8 @@ import {
 import Loading from "../General/Loading";
 import InputWLabel from "../Form/InputWLabel";
 import Recommendations from "../General/Recommendations";
-import AllAvailableCharacters from "./AllAvailableCharacters";
+import AllAvailableCharacters from "../General/AllAvailableCharacters";
+import Accordion from "../General/Accordion";
 
 function DictionaryPage() {
   const { t } = useTranslation("global");
@@ -24,6 +26,19 @@ function DictionaryPage() {
   const [selectedCharacter, setSelectedCharacter] = useState<string>("");
 
   const [stopAnimation, setStopAnimation] = useState(false);
+
+  // Save the characters the user selected before they leave the page.
+  useBeforeUnload(() => {
+    localStorage.setItem("selectedCharacters", selectedCharacter);
+  });
+
+  // Load the selected characters from localStorage when the component mounts.
+  useEffect(() => {
+    const savedCharacters = localStorage.getItem("selectedCharacters");
+    if (savedCharacters) {
+      setSelectedCharacter(savedCharacters);
+    }
+  }, []);
 
   if (loading || error) {
     return (
@@ -48,7 +63,10 @@ function DictionaryPage() {
           See all characters
         </button>
       </div>
-      <AllAvailableCharacters charactersInfo={charactersInfo} />
+      <AllAvailableCharacters
+        charactersInfo={charactersInfo}
+        setCharacters={setSelectedCharacter}
+      />
 
       <section>
         <form>
@@ -94,10 +112,20 @@ function DictionaryPage() {
               }
 
               return (
+                <Accordion title={`${t("dictionary.character")} ${char}`}>
+
                 <li
                   key={char + index}
                   className="mt-10 p-4 border-b border-gray-300"
                 >
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setSelectedCharacter(selectedCharacter.replace(char, ""))
+                    }
+                  >
+                    X
+                  </button>
                   <h2 className="text-2xl font-bold mb-4">
                     {t("dictionary.character")}: {char}
                   </h2>
@@ -122,7 +150,7 @@ function DictionaryPage() {
                           </span>
                           {radical}
                         </p>
-                        <p>
+                        <div>
                           <span className={"font-bold mr-2"}>
                             {t("other.decomposition")}:
                           </span>
@@ -147,7 +175,7 @@ function DictionaryPage() {
                                 </div>
                               ),
                             )}
-                        </p>
+                        </div>
                       </div>
                       <div>
                         {createSVGStrokes(
@@ -180,6 +208,7 @@ function DictionaryPage() {
                     </div>
                   }
                 </li>
+                </Accordion>
               );
             })}
           </ul>

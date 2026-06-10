@@ -282,3 +282,10 @@ export function getPinyinOfDecomposition(characters: string, CharactersInfo: cha
   }
   return charactersPinyin;
 }
+
+export function clearText(text : string) {
+    return text
+        ?.normalize("NFD") 
+        ?.replace(/[\u0300-\u036f]/g, "") 
+        ?.replace(/[^a-zA-Z0-9]/g, "");
+}
