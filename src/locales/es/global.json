@@ -93,7 +93,10 @@
     "description": "Esta página mostrará todos los caracteres disponibles en el diccionario.",
     "instruction": "Puede hacer clic en cualquier carácter para agregarlo a su diccionario.",
     "search": "Buscar un carácter por Pinyin:",
-    "pinyinTones": "Tones disponibles para este pinyin:"
+    "pinyinTones": "Tonos disponibles para este pinyin:",
+    "clearSearch": "Limpiar búsqueda",
+    "noResults": "Ningún carácter coincide con su búsqueda.",
+    "results": "{{count}} resultados"
   },
 
   "other": {
@@ -105,8 +108,8 @@
     "strokesOrderNotFound": "Orden de trazos no encontrado",
     "radical": "Radical",
     "radicalNotFound": "Radical no encontrado",
-    "decomposition": "Decomposición",
-    "decompositionNotFound": "Decomposición no encontrada"
+    "decomposition": "Descomposición",
+    "decompositionNotFound": "Descomposición no encontrada"
   },
 
   "footer": {

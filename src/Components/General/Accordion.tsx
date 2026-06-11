@@ -6,9 +6,11 @@ import "../../styles/Accordion.css";
 interface AccordionProps {
   children: ReactNode;
   title: string;
+  className?: string;
+  titleStyle?: string;
 }
 
-function Accordion({ children , title }: AccordionProps) {
+function Accordion({ children , title, className = "", titleStyle = "" }: AccordionProps) {
   // State to open/close
   const [isOpen, setIsOpen] = useState(true);
 
@@ -24,7 +26,7 @@ function Accordion({ children , title }: AccordionProps) {
   }, [children, isOpen]);
 
   return (
-    <section className={`accordion-item ${isOpen ? "active" : ""}`}>
+    <section className={`accordion-item ${isOpen ? "active" : ""} ${className}`}>
       <button
         type="button"
         className="accordion-title"
@@ -32,7 +34,7 @@ function Accordion({ children , title }: AccordionProps) {
         aria-expanded={isOpen}
         aria-label={`Expand ${title} section`}
       >
-        <h3>{title}</h3>
+        <h3 className={titleStyle}>{title}</h3>
         <span
           aria-label={isOpen ? "Collapse Section" : "Expand Section"}
           className={`svg-span ${isOpen ? "rotate " : ""}`}

@@ -3,7 +3,7 @@ import {
   allUsedCharacterInfo,
   createSVGStrokes,
   getPinyinOfDecomposition,
-  decompositionNotToShowREGEX
+  decompositionNotToShowREGEX,
 } from "../../Aux/previewerFunctions";
 
 import { useTranslation } from "react-i18next";
@@ -131,11 +131,15 @@ function Preview({
                 decompositionCharacters &&
                 decompositionCharacters.map((decompositionCharacter, index) => (
                   <div key={`${decompositionCharacter}-decomposition-${index}`}>
-                    {!decompositionNotToShowREGEX.test(decompositionCharacter) && (
+                    {!decompositionNotToShowREGEX.test(
+                      decompositionCharacter,
+                    ) && (
                       <>
                         <span>{decompositionCharacter}</span>
                         <span className="text-[0.8rem] text-gray-600">
-                          {"  " + decompositionsPinyin[index]}{" "}
+                          {decompositionCharacter !== "？"
+                            ? ` ${decompositionsPinyin[index]}  -  ${t(`definitions.${decompositionCharacter}`)}`
+                            : " " + t("other.decompositionNotFound")}
                         </span>
                       </>
                     )}
