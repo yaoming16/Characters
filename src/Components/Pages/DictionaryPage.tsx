@@ -160,8 +160,7 @@ function DictionaryPage() {
                                       <>
                                         <span>{decompositionCharacter}</span>
                                         <span className="text-[0.8rem] text-gray-600">
-                                          {"  " +
-                                            decompositionsPinyin[index]}{" "}
+                                          {` ${decompositionsPinyin[index]} - ${t(`definitions.${decompositionCharacter}`)}`}
                                         </span>
                                       </>
                                     )}
