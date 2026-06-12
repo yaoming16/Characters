@@ -23,7 +23,9 @@ export function PracticeSheetProvider({
 }) {
   // Below i will put states that need to be shared. Next to each one I will add a comment with what the state is used for (Comment and name sof the states are the same I had on PracticeSheetPage).
   // Main Options
-  const [characters, setCharacters] = useState("你好"); // Characters to practice
+  const [characters, setCharacters] = useState<string>(() => {
+    return localStorage.getItem("practiceSheetCharacters") ?? "";
+  }); // Characters to practice
 
   const [numberOfSquaresPerRow, setNumberOfSquaresPerRow] = useState(8); //Use State for the input that selects the Boxes per row.
   const [numberOfRowsPerCharacter, setNumberOfRowsPerCharacter] = useState(2); //Use State for the input that selects the rows per character.

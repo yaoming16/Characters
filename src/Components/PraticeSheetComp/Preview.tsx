@@ -4,6 +4,8 @@ import {
   createSVGStrokes,
   getPinyinOfDecomposition,
   decompositionNotToShowREGEX,
+  addCharacterToSelection,
+  removeCharacterFromSelection,
 } from "../../Aux/previewerFunctions";
 
 import { useTranslation } from "react-i18next";
@@ -50,6 +52,7 @@ function Preview({
     titleBold,
     titleUnderline,
     separationLine,
+    setCharacters,
   } = ps;
 
   const { t } = useTranslation("global");
@@ -88,6 +91,14 @@ function Preview({
             }}
             className="flex flex-row flex-wrap gap-2 "
           >
+            <button
+              type="button"
+              onClick={() =>
+                removeCharacterFromSelection(setCharacters, character)
+              }
+            >
+              X
+            </button>
             <p
               className={
                 "border-b-1 p-2 text-[0.8rem]" +
@@ -107,7 +118,7 @@ function Preview({
               </span>
               {pinyin}
             </p>
-            <p
+            <div
               className={
                 "border-b-1 p-2 text-[1rem] " + (showRadical ? "" : " hidden")
               }
@@ -115,9 +126,18 @@ function Preview({
               <span className="font-bold mr-2 text-[0.8rem]">
                 {t("other.radical")}:
               </span>
-              {radical}
-            </p>
-            <p
+              <button
+                type="button"
+                onClick={() =>
+                  radical
+                    ? addCharacterToSelection(setCharacters, radical)
+                    : null
+                }
+              >
+                {radical}
+              </button>
+            </div>
+            <div
               className={
                 "border-b-1 p-2 text-[1rem] " +
                 (showDecomposition ? "" : " hidden")
@@ -135,7 +155,17 @@ function Preview({
                       decompositionCharacter,
                     ) && (
                       <>
-                        <span>{decompositionCharacter}</span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            addCharacterToSelection(
+                              setCharacters,
+                              decompositionCharacter,
+                            )
+                          }
+                        >
+                          {decompositionCharacter}
+                        </button>
                         <span className="text-[0.8rem] text-gray-600">
                           {decompositionCharacter !== "？"
                             ? ` ${decompositionsPinyin[index]}  -  ${t(`definitions.${decompositionCharacter}`)}`
@@ -145,7 +175,7 @@ function Preview({
                     )}
                   </div>
                 ))}
-            </p>
+            </div>
           </div>
           <div className="mt-2">
             {createSVGStrokes(

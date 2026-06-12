@@ -9,6 +9,8 @@ import {
   createOneAnimatedCharacterSVG,
   getPinyinOfDecomposition,
   decompositionNotToShowREGEX,
+  addCharacterToSelection,
+  removeCharacterFromSelection,
 } from "../../Aux/previewerFunctions";
 
 import Loading from "../General/Loading";
@@ -112,9 +114,7 @@ function DictionaryPage() {
                     <button
                       type="button"
                       onClick={() =>
-                        setSelectedCharacter(
-                          selectedCharacter.replace(char, ""),
-                        )
+                        removeCharacterFromSelection(setSelectedCharacter, char)
                       }
                     >
                       X
@@ -141,7 +141,19 @@ function DictionaryPage() {
                             <span className={"font-bold mr-2"}>
                               {t("other.radical")}:
                             </span>
-                            {radical}
+                            <button
+                              type="button"
+                              onClick={() =>
+                                radical
+                                  ? addCharacterToSelection(
+                                      setSelectedCharacter,
+                                      radical,
+                                    )
+                                  : null
+                              }
+                            >
+                              {radical}
+                            </button>
                           </p>
                           <div>
                             <span className={"font-bold mr-2"}>
@@ -158,9 +170,22 @@ function DictionaryPage() {
                                       decompositionCharacter,
                                     ) && (
                                       <>
-                                        <span>{decompositionCharacter}</span>
+                                        <button
+                                          type="button"
+                                          onClick={() =>
+                                            addCharacterToSelection(
+                                              setSelectedCharacter,
+                                              decompositionCharacter,
+                                            )
+                                          }
+                                        >
+                                          {decompositionCharacter}
+                                        </button>
                                         <span className="text-[0.8rem] text-gray-600">
-                                          {decompositionCharacter !== '？' ? ` ${decompositionsPinyin[index]}  -  ${t(`definitions.${decompositionCharacter}`)}` : ' ' + t("other.decompositionNotFound")}
+                                          {decompositionCharacter !== "？"
+                                            ? ` ${decompositionsPinyin[index]}  -  ${t(`definitions.${decompositionCharacter}`)}`
+                                            : " " +
+                                              t("other.decompositionNotFound")}
                                         </span>
                                       </>
                                     )}

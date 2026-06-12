@@ -266,9 +266,14 @@ export function allUsedCharacterInfo(
   };
 }
 
-export const decompositionNotToShowREGEX = /⿰|⿱|⿲|⿳|⿴|⿵|⿶|⿷|⿸|⿹|⿺|⿻/;
+export const decompositionNotToShowREGEX =
+  /⿰|⿱|⿲|⿳|⿴|⿵|⿶|⿷|⿸|⿹|⿺|⿻/;
 
-export function getPinyinOfDecomposition(characters: string, CharactersInfo: characterInfoType[], errorMessages: {[key: string]: string} ) {
+export function getPinyinOfDecomposition(
+  characters: string,
+  CharactersInfo: characterInfoType[],
+  errorMessages: { [key: string]: string },
+) {
   let charactersPinyin = [];
   const charactersArray = characters.split("");
   for (let i = 0; i < charactersArray.length; i++) {
@@ -283,9 +288,23 @@ export function getPinyinOfDecomposition(characters: string, CharactersInfo: cha
   return charactersPinyin;
 }
 
-export function clearText(text : string) {
-    return text
-        ?.normalize("NFD") 
-        ?.replace(/[\u0300-\u036f]/g, "") 
-        ?.replace(/[^a-zA-Z0-9]/g, "");
+export function clearText(text: string) {
+  return text
+    ?.normalize("NFD")
+    ?.replace(/[\u0300-\u036f]/g, "")
+    ?.replace(/[^a-zA-Z0-9]/g, "");
+}
+
+export function addCharacterToSelection(
+  setCharacter: React.Dispatch<React.SetStateAction<string>>,
+  charToAdd: string,
+) {
+  setCharacter((prevState) => prevState + charToAdd);
+}
+
+export function removeCharacterFromSelection(
+  setCharacter: React.Dispatch<React.SetStateAction<string>>,
+  charToRemove: string,
+) {
+  setCharacter((prevState) => prevState.replace(charToRemove, ""));
 }

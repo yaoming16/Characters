@@ -11,6 +11,7 @@ import { usePracticeSheet } from "../../context/PracticePageContext";
 import { useCharacterData } from "../../hooks/useCharacterData";
 
 import {changeStateIfNoWarnings, calculateDivWidth, calculateNewWidth} from "../../Aux/practiceSheetFunctions";
+import { useEffect, useState } from "react";
 
 function PracticePageContent({}) {
   const {t} = useTranslation("global"); 
@@ -28,8 +29,14 @@ function PracticePageContent({}) {
     setShowPreviewer,
     setchangeToPreviewer,
     setOpenModal,
-    openModal
+    openModal,
+    characters,
+    setCharacters,
   } = ps; 
+
+  useEffect(() => {
+    localStorage.setItem("practiceSheetCharacters", characters);
+  }, [characters]);
 
     const warningArr = [
     ps.warningNumberOfSquaresPerRow,
