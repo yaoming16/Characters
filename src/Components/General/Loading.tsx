@@ -11,13 +11,10 @@ function Loading({ loading, error, isDictionary = false }: loadingError) {
 
   if (loading) {
     return (
-      <div
-        className="flex items-center justify-center p-8"
-        style={{ height: "70vh" }}
-      >
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">{t("loading.default")}</p>
+      <div className="flex min-h-[70vh] items-center justify-center p-8">
+        <div className="max-w-sm rounded-3xl border border-slate-200 bg-white/90 px-8 py-10 text-center shadow-sm">
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-slate-900"></div>
+          <p className="text-sm font-medium text-slate-600">{t("loading.default")}</p>
         </div>
       </div>
     );
@@ -25,17 +22,14 @@ function Loading({ loading, error, isDictionary = false }: loadingError) {
 
   if (error) {
     return (
-      <div
-        className="flex items-center justify-center p-8"
-        style={{ height: "70vh" }}
-      >
-        <div className="text-center text-red-600">
-          <p className="font-bold mb-2">
+      <div className="flex min-h-[70vh] items-center justify-center p-8">
+        <div className="max-w-sm rounded-3xl border border-rose-200 bg-white/90 px-8 py-10 text-center shadow-sm">
+          <p className="mb-2 font-bold text-rose-600">
             {isDictionary
               ? t("loading.errorDictionary")
               : t("loading.errorPracticeSheet")}
           </p>
-          <p className="text-sm">{error.message}</p>
+          <p className="text-sm text-slate-600">{error.message}</p>
         </div>
       </div>
     );

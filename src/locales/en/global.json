@@ -57,6 +57,11 @@
 
   "main": {
   "title": "Chinese Character Practice Sheets",
+  "heroKicker": "Practice sheet",
+  "heroDescription": "Build your practice sheet, adjust the options and preview the result.",
+  "optionsDescription": "Configure the sheet, choose the grid and typography.",
+  "previewTitle": "Preview",
+  "previewDescription": "A live view of the current settings.",
   "switchView": {
     "options": "Options",
     "preview": "Preview",
@@ -71,6 +76,13 @@
 
   "dictionary": {
     "title": "Dictionary",
+    "heroKicker": "Dictionary",
+    "heroDescription": "Search, inspect and build your character set.",
+    "searchDescription": "Add characters manually or use recommendations to expand the selection.",
+    "selectionTitle": "Selected characters",
+    "selectionDescription": "Tap a card to view stroke order, radical and decomposition details.",
+    "characterDetailsDescription": "Character details and animated stroke preview.",
+    "removeCharacter": "Remove",
     "search": "Search for a character",
     "empty": "No character selected",
     "character": "Character",
@@ -96,6 +108,7 @@
     "search": "Search a character by Pinyin:",
     "pinyinTones": "Available tones for this pinyin:",
     "clearSearch": "Clear search",
+    "close": "Close",
     "noResults": "No characters match your search.",
     "results": "{{count}} results"
   },

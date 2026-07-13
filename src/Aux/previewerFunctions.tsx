@@ -137,7 +137,7 @@ export function createOneAnimatedCharacterSVG(
   return (
     <svg
       viewBox="0 0 1024 1024"
-      className={`border border-solid min-w-20 min-h-20 w-20 h-20`}
+      className="block h-24 w-24 min-w-24 min-h-24 overflow-visible border border-solid sm:h-28 sm:w-28"
     >
       <g transform="scale(1, -1) translate(0, -900)">
         {svgDataForCharacter.map((stroke: string, strokeIndex: number) => {

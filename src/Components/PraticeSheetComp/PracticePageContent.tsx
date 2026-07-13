@@ -58,6 +58,9 @@ function PracticePageContent({}) {
     margin: `${numberMarginTop}px ${numberMarginRight}px ${numberMarginBottom}px ${numberMarginLeft}px`,
   };
 
+  const showOnlyPreview = !showPreviewer && changeToPreviewer;
+  const showBothPanels = showPreviewer && !changeToPreviewer;
+
   const isMobileViewport = () =>
     window.matchMedia("(max-width: 1024px)").matches || window.innerWidth < 1024;
 
@@ -122,86 +125,123 @@ function PracticePageContent({}) {
 
   return (
       <>
-        <div className="border-gray-300 z-10 flex flex-col">
-          <h1 className="font-semibold mt-4 ml-auto mr-auto text-4xl font-[KaiTi]">
-            {t("main.title")}
-          </h1>
-          <div
-            id="container"
-            className={`w-3/4 m-auto mt-10 mb-10 border border-gray-300 p-10 rounded-lg shadow-lg flex ${
-              changeToPreviewer ? "flex-col" : "flex-row"
-            } `}
-          >
+        <div className="min-h-screen overflow-x-hidden bg-[radial-gradient(circle_at_top,_rgba(14,165,233,0.14),_transparent_32%),linear-gradient(180deg,_#f8fafc_0%,_#ffffff_100%)] px-4 py-6 sm:px-6 lg:px-8">
+          <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
+            <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white/90 shadow-sm backdrop-blur-sm">
+              <div className="flex flex-col gap-5 border-b border-slate-200 px-5 py-5 sm:px-6 lg:flex-row lg:items-end lg:justify-between lg:px-8">
+                <div className="max-w-2xl space-y-2">
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-sky-700">
+                    {t("main.heroKicker")}
+                  </p>
+                  <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl font-[KaiTi]">
+                    {t("main.title")}
+                  </h1>
+                  <p className="text-sm leading-6 text-slate-600 sm:text-base">
+                    {t("main.heroDescription")}
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3">
+                  <Toggle
+                    checked={showPreviewer}
+                    label={t("main.switchView.showPreviewer")}
+                    onChange={() => {
+                      setShowPreviewer(!showPreviewer);
+                      if (changeToPreviewer) {
+                        setchangeToPreviewer(false);
+                      }
+                    }}
+                  />
+                  <Toggle
+                    checked={changeToPreviewer}
+                    label={
+                      changeToPreviewer
+                        ? t("main.switchView.preview")
+                        : t("main.switchView.options")
+                    }
+                    onChange={() => {
+                      setchangeToPreviewer(!changeToPreviewer);
+                    }}
+                    className={`${showPreviewer ? "!hidden " : ""}`}
+                  />
+                </div>
+              </div>
+            </section>
+
             <div
-              className={`flex flex-col ${
-                showPreviewer ? "max-w-1/3" : "max-w-full  mr-auto ml-auto"
+              className={`grid min-w-0 gap-6 xl:gap-8 ${
+                showBothPanels
+                  ? "lg:grid-cols-[minmax(18rem,0.82fr)_minmax(0,1.18fr)] lg:items-start"
+                  : "lg:grid-cols-1 lg:justify-items-center"
               }`}
             >
-              <div className="mb-5 flex flex-row justify-around">
-                <Toggle
-                  checked={showPreviewer}
-                  label={t("main.switchView.showPreviewer")}
-                  onChange={() => {
-                    setShowPreviewer(!showPreviewer);
-                    if (changeToPreviewer) {
-                      setchangeToPreviewer(false);
-                    }
-                  }}
-                  className="mr-5"
+              <section
+                className={`min-w-0 w-full rounded-3xl border border-slate-200 bg-white/95 p-5 shadow-sm sm:p-6 ${
+                  showOnlyPreview
+                    ? "hidden"
+                    : showBothPanels
+                      ? "lg:sticky lg:top-6"
+                      : "max-w-5xl lg:sticky lg:top-6"
+                }`}
+              >
+                <div className={`${changeToPreviewer ? "hidden" : ""}`}>
+                  <OptionsForm
+                    className=""
+                    charactersInfoResponse={charactersInfoResponse}
+                  ></OptionsForm>
+                </div>
+
+                {/* Download button that only appears when the previewer is shown or when we are in changeToPreviewer mode and the options form is hidden */}
+                <DownloadButton
+                  onClick={handleDownloadClick}
+                  warningArr={warningArr}
+                  className={`${changeToPreviewer ? "hidden" : ""}`}
                 />
-                <Toggle
-                  checked={changeToPreviewer}
-                  label={
-                    changeToPreviewer
-                      ? t("main.switchView.preview")
-                      : t("main.switchView.options")
-                  }
-                  onChange={() => {
-                    setchangeToPreviewer(!changeToPreviewer);
-                  }}
-                  className={`${showPreviewer ? "!hidden " : ""}`}
-                />
-              </div>
-              <div className={`${changeToPreviewer ? "hidden" : ""}`}>
-                <OptionsForm
-                  className=""
-                  charactersInfoResponse={charactersInfoResponse}
-                ></OptionsForm>
-              </div>
-              {/* Download button that only appears when the previewer is shown or when we are in changeToPreviewer mode and the options form is hidden */}
+              </section>
+
+              <section
+                className={`min-w-0 w-full rounded-3xl border border-slate-200 bg-white/95 p-5 shadow-sm sm:p-6 ${
+                  showPreviewer ? "" : showOnlyPreview ? "max-w-5xl" : "hidden"
+                } ${showOnlyPreview ? "lg:sticky lg:top-6" : ""}`}
+                id="previewer-container"
+              >
+                <div className="mb-4 flex items-center justify-between gap-3 border-b border-slate-200 pb-4">
+                  <div>
+                    <h2 className="text-lg font-semibold text-slate-900 sm:text-xl">
+                      {t("main.previewTitle")}
+                    </h2>
+                    <p className="text-sm text-slate-500">
+                      {t("main.previewDescription")}
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  style={marginStylePreview}
+                  id="previewer-div"
+                  className="min-w-0 overflow-x-auto"
+                >
+                  {/* We need to check if every warning is false to know if the previewer should be shown or not */}
+                  {warningArr.every((val) => val === false) ? (
+                    <div className="w-full max-w-full min-w-0">
+                      <Preview
+                        id={"previewer"}
+                        charactersInfoResponse={charactersInfoResponse}
+                      ></Preview>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </section>
+
+              {/* Download button that only appears when the previewer is not shown */}
               <DownloadButton
                 onClick={handleDownloadClick}
                 warningArr={warningArr}
-                className={`${changeToPreviewer ? "hidden" : ""}`}
+                className={`${showPreviewer || !changeToPreviewer ? "hidden" : ""}`}
               />
             </div>
-  
-            <div
-              className={`ml-10  w-2/3 rounded-lg shadow-lg border 
-                border-gray-300 $
-                 ${showPreviewer ? "" : changeToPreviewer ? "" : "hidden"} 
-                ${changeToPreviewer ? "mr-auto ml-auto" : ""}`}
-              id="previewer-container"
-            >
-              <div style={marginStylePreview} id="previewer-div">
-                {/* We need to check if every warning is false to know if the previewer should be shown or not */}
-                {warningArr.every((val) => val === false) ? (
-                  <Preview
-                    id={"previewer"}
-                    charactersInfoResponse={charactersInfoResponse}
-                  ></Preview>
-                ) : (
-                  ""
-                )}
-              </div>
-            </div>
-  
-            {/* Download button that only appears when the previewer is not shown */}
-            <DownloadButton
-              onClick={handleDownloadClick}
-              warningArr={warningArr}
-              className={`${showPreviewer || !changeToPreviewer ? "hidden" : ""}`}
-            />
           </div>
         </div>
   

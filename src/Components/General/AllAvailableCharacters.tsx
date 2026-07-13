@@ -90,7 +90,7 @@ function AllAvailableCharacters({
               commandfor="all-characters-dialog"
               command="close"
             >
-              Close
+              {t("allCharModal.close")}
             </button>
           </div>
 

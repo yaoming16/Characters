@@ -43,13 +43,13 @@ function Recommendations({
   if (!recommendations ) return null;
 
   return (
-    <div className="bg-gray-100 p-3 rounded-md mb-5 flex flex-row flex-wrap gap-2 mt-3">
+    <div className="flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
       {recommendations &&
         recommendations.map((rec: string, index: number) => (
           <button
             type="button"
             key={`recommendation-${index}`}
-            className=" text-gray-800 text-xl p-2 border border-gray-300 hover:bg-gray-300 rounded-md transition-colors duration-200"
+            className="rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-base font-medium text-slate-700 transition hover:border-sky-300 hover:bg-sky-50 hover:text-sky-800 sm:text-lg"
             onClick={() => handleRecommendationClick(rec)}
           >
             {rec}

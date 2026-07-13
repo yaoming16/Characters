@@ -56,6 +56,11 @@
 
   "main": {
     "title": "Hojas de práctica de caracteres chinos",
+    "heroKicker": "Hoja de práctica",
+    "heroDescription": "Construya su hoja de práctica, ajuste las opciones y vea el resultado.",
+    "optionsDescription": "Configure la hoja, elija la cuadrícula y la tipografía.",
+    "previewTitle": "Vista previa",
+    "previewDescription": "Una vista en vivo de la configuración actual.",
     "switchView": {
       "options": "Opciones",
       "preview": "Vista previa",
@@ -70,6 +75,13 @@
 
   "dictionary": {
     "title": "Diccionario",
+    "heroKicker": "Diccionario",
+    "heroDescription": "Busque, explore y construya su conjunto de caracteres.",
+    "searchDescription": "Agregue caracteres manualmente o use las recomendaciones para ampliar la selección.",
+    "selectionTitle": "Caracteres seleccionados",
+    "selectionDescription": "Toque una tarjeta para ver el orden de trazos, el radical y los detalles de la descomposición.",
+    "characterDetailsDescription": "Detalles del carácter y vista previa animada del orden de trazos.",
+    "removeCharacter": "Eliminar",
     "search": "Buscar un carácter",
     "empty": "No se ha seleccionado ningún carácter",
     "character": "Caracter",
@@ -95,6 +107,7 @@
     "search": "Buscar un carácter por Pinyin:",
     "pinyinTones": "Tonos disponibles para este pinyin:",
     "clearSearch": "Limpiar búsqueda",
+    "close": "Cerrar",
     "noResults": "Ningún carácter coincide con su búsqueda.",
     "results": "{{count}} resultados"
   },

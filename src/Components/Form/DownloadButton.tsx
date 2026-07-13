@@ -13,15 +13,15 @@ const DownloadButton = ({
 }: DownloadButtonProps) => {
   const { t } = useTranslation("global");
 
-  return (<div className={`w-2/3 ml-auto mr-auto ${className}`}>
+  return (<div className={`w-full ${className}`}>
     <button
-      className="w-full ml-auto mr-auto mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+      className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-2"
       onClick={onClick}
     >
       {t("downloadBtn.name")}
     </button>
     {warningArr.some((val) => val === true) ? (
-      <p className="text-red-600 text-center">
+      <p className="text-center text-sm text-rose-600">
         {t("downloadBtn.error")}
       </p>
     ) : null}
