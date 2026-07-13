@@ -1,5 +1,6 @@
 {
-    "CharactersInfo":[{"character":"⺀","definition":"ice","pinyin":[],"decomposition":"？","radical":"⺀","matches":[null,null]},
+    "CharactersInfo":[
+        {"character":"⺀","definition":"ice","pinyin":[],"decomposition":"？","radical":"⺀","matches":[null,null]},
 {"character":"⺈","pinyin":[],"decomposition":"？","radical":"⺈","matches":[null,null]},
 {"character":"⺊","pinyin":[],"decomposition":"⿰丨？","etymology":{"type":"ideographic","hint":"A crack on an oracle bone; compare 卜"},"radical":"⺊","matches":[[0],null]},
 {"character":"⺌","pinyin":[],"decomposition":"？","radical":"⺌","matches":[null,null,null]},
@@ -9572,4 +9573,6 @@
 {"character":"龥","definition":"to beg, to implore","pinyin":["yù"],"decomposition":"⿰龠頁","etymology":{"type":"pictophonetic","phonetic":"龠","semantic":"頁","hint":"leaf"},"radical":"龠","matches":[[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[0],[1],[1],[1],[1],[1],[1],[1],[1],[1]]},
 {"character":"龶","pinyin":[],"decomposition":"？","radical":"龶","matches":[null,null,null,null]},
 {"character":"龹","definition":"Form of 卷 used as a phonetic component","pinyin":["quǎn"],"decomposition":"⿻？丿","radical":"丿","matches":[null,null,null,null,[1],null]},
-{"character":"龺","definition":"sunlight; the rays of the sun","pinyin":["gān"],"decomposition":"⿳十日十","radical":"日","matches":[[0],[0],[1],[1],[1],[1],[2],[2]]}]}
+{"character":"龺","definition":"sunlight; the rays of the sun","pinyin":["gān"],"decomposition":"⿳十日十","radical":"日","matches":[[0],[0],[1],[1],[1],[1],[2],[2]]}
+]
+}

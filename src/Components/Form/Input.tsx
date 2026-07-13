@@ -12,6 +12,7 @@ interface InputProps {
   warning?: boolean;
   name?: string;
   step?: string;
+  checked?: boolean;
 }
 
 function Input({
@@ -28,6 +29,7 @@ function Input({
   warning,
   name,
   step,
+  checked,
 }: InputProps) {
   return (
     <div>
@@ -48,6 +50,7 @@ function Input({
         name={name}
         step={step}
         lang={lang}
+        checked={checked}
       />
     </div>
   );

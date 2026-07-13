@@ -1,0 +1,59 @@
+.accordion-item {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background-color: var(--card-background);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease;
+}
+
+.accordion-item:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.accordion-item h3 {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.accordion-item + .accordion-item {
+  margin-top: 12px;
+}
+
+.accordion-title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: linear-gradient(to right, #f8fafc, #f1f5f9);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.accordion-title:hover {
+  background: linear-gradient(to right, #e0f2fe, #dbeafe);
+}
+
+.accordion-item.active .accordion-title {
+  background: linear-gradient(to right, #dbeafe, #bfdbfe);
+  color: var(--primary-dark);
+}
+
+.accordion-content {
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
+.accordion-content .content {
+  padding: 12px 16px 16px;
+}
+
+.svg-span {
+  transition: transform 0.3s ease-in-out;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}

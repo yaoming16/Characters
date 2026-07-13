@@ -1,30 +1,35 @@
 import Input from "./Input";
-import { useRef } from "react";
 
 interface RadioModProps {
   options: string[];
   onChange: React.ChangeEventHandler<HTMLInputElement>;
+  currentValue: string;
 }
 
-function RadioMod({ options, onChange } : RadioModProps) {
-  // We Use UseRef so the inputs don´t reRender when the user changes the selected grid. This is to stop a bug that consisted in that the user selected option didnt show correctly in the interface
-  let inputs = useRef(
-    options.map((option : string) => (
-      <div className=" flex flex-row max-w-[75px] mr-5" key={option}>
-        <label htmlFor={option} className="mr-2">
-          <img src={option} className="object-cover" />
-        </label>
-        <Input
-          type="radio"
-          id={option}
-          name={"grid-input"}
-          onChange={onChange}
-          value={option}
-        ></Input>
-      </div>
-    ))
+function RadioMod({ options, onChange, currentValue } : RadioModProps) {
+  
+  return (
+    <div className="flex flex-row flex-wrap items-center justify-center gap-4 w-full">
+      {
+        options.map((option : string, index : number) => (
+          <div className="flex flex-col items-center justify-center gap-2" key={option}>
+            <label htmlFor={option} className="text-center max-w-[75px]">
+              <img src={option} className="object-cover mx-auto" />
+            </label>
+            <Input
+              type="radio"
+              id={option}
+              name={"grid-input"}
+              onChange={onChange}
+              value={option}
+              className="w-auto mx-auto"
+              checked={option === currentValue}
+            ></Input>
+          </div>
+        ))
+      }
+    </div>
   );
-  return <>{inputs.current}</>;
 }
 
 export default RadioMod;
