@@ -17,6 +17,7 @@ import NotoBold from "../../Fonts/NotoSansSC-Bold.ttf";
 import { useTranslation } from "react-i18next";
 
 import { usePracticeSheet } from "../../context/PracticePageContext";
+import type { PracticeSheetContextType } from "../../Types/types";
 
 const tw = createTw({});
 
@@ -55,26 +56,29 @@ Font.register({
 });
 
 interface PreviewPropsType {
-  id: string;
+  id?: string;
   className?: string;
   charactersInfoResponse: any;
   widthOfTheSquaresInPx: number;
 }
 
-function ReactPDFViewer({
-  id,
-  className = "",
+interface PracticeSheetPdfDocumentProps {
+  charactersInfoResponse: any;
+  widthOfTheSquaresInPx: number;
+  ps: PracticeSheetContextType;
+}
+
+function PracticeSheetPdfDocument({
   charactersInfoResponse,
   widthOfTheSquaresInPx,
-}: PreviewPropsType) {
+  ps,
+}: PracticeSheetPdfDocumentProps) {
   const {
     charactersInfo: CharactersInfo,
     characterSVGData,
     loading,
     error,
   } = charactersInfoResponse;
-
-  const ps = usePracticeSheet();
 
   const {
     characters,
@@ -275,26 +279,42 @@ function ReactPDFViewer({
   //PDF width
 
   return (
+    <Document style={{ width: 595 }}>
+      <Page size="A4" style={styles.page}>
+        <Loading error={error} loading={loading} />
+        <Text
+          style={{
+            fontSize: titleFontSize,
+            fontWeight: titleBold ? "bold" : "normal",
+            fontStyle: titleItalic ? "italic" : "normal",
+            textDecoration: titleUnderline ? "underline" : "none",
+            ...tw(`w-full text-center`),
+          }}
+        >
+          {title}
+        </Text>
+        <View>{listCharacters}</View>
+      </Page>
+    </Document>
+  );
+}
+
+function ReactPDFViewer({
+  charactersInfoResponse,
+  widthOfTheSquaresInPx,
+}: PreviewPropsType) {
+  const ps = usePracticeSheet();
+
+  return (
     <PDFViewer style={{ width: "100%", height: "70vh" }}>
-      <Document style={{ width: 595 }}>
-        <Page size="A4" style={styles.page}>
-          <Loading error={error} loading={loading} />
-          <Text
-            style={{
-              fontSize: titleFontSize,
-              fontWeight: titleBold ? "bold" : "normal",
-              fontStyle: titleItalic ? "italic" : "normal",
-              textDecoration: titleUnderline ? "underline" : "none",
-              ...tw(`w-full text-center`),
-            }}
-          >
-            {title}
-          </Text>
-          <View>{listCharacters}</View>
-        </Page>
-      </Document>
+      <PracticeSheetPdfDocument
+        charactersInfoResponse={charactersInfoResponse}
+        widthOfTheSquaresInPx={widthOfTheSquaresInPx}
+        ps={ps}
+      />
     </PDFViewer>
   );
 }
 
+export { PracticeSheetPdfDocument };
 export default ReactPDFViewer;

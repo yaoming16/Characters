@@ -1,4 +1,4 @@
-import ReactPDFViewer from "../PraticeSheetComp/ReactPDFViewer";
+import ReactPDFViewer, { PracticeSheetPdfDocument } from "../PraticeSheetComp/ReactPDFViewer";
 import Preview from "../PraticeSheetComp/Preview";
 import OptionsForm from "../PraticeSheetComp/OptionsForm";
 import Toggle from "../Form/Toggle";
@@ -9,9 +9,10 @@ import { Modal, ModalBody, ModalHeader } from "flowbite-react";
 import { useTranslation } from "react-i18next";
 import { usePracticeSheet } from "../../context/PracticePageContext";
 import { useCharacterData } from "../../hooks/useCharacterData";
+import { pdf } from "@react-pdf/renderer";
 
 import {changeStateIfNoWarnings, calculateDivWidth, calculateNewWidth} from "../../Aux/practiceSheetFunctions";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 function PracticePageContent({}) {
   const {t} = useTranslation("global"); 
@@ -31,7 +32,6 @@ function PracticePageContent({}) {
     setOpenModal,
     openModal,
     characters,
-    setCharacters,
   } = ps; 
 
   useEffect(() => {
@@ -56,6 +56,64 @@ function PracticePageContent({}) {
   // Style for the margins previewer
   const marginStylePreview = {
     margin: `${numberMarginTop}px ${numberMarginRight}px ${numberMarginBottom}px ${numberMarginLeft}px`,
+  };
+
+  const isMobileViewport = () =>
+    window.matchMedia("(max-width: 1024px)").matches || window.innerWidth < 1024;
+
+  const triggerPdfDownload = (url: string) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "practice-sheet.pdf";
+    link.rel = "noopener noreferrer";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  const openPdfInNewTab = async () => {
+    const tab = window.open("", "_blank", "noopener,noreferrer");
+
+    try {
+      const blob = await pdf(
+        <PracticeSheetPdfDocument
+          charactersInfoResponse={charactersInfoResponse}
+          widthOfTheSquaresInPx={calculateNewWidth(595, ps)}
+          ps={ps}
+        />,
+      ).toBlob();
+
+      const url = URL.createObjectURL(blob);
+
+      if (!tab || tab.closed) {
+        triggerPdfDownload(url);
+        URL.revokeObjectURL(url);
+        return;
+      }
+
+      tab.location.href = url;
+      tab.opener = null;
+      window.setTimeout(() => URL.revokeObjectURL(url), 10_000);
+    } catch (error) {
+      if (tab && !tab.closed) {
+        tab.close();
+      }
+      console.error("Failed to generate PDF for download.", error);
+    }
+  };
+
+  const handleDownloadClick = () => {
+    if (warningArr.some((val) => val === true)) {
+      changeStateIfNoWarnings(warningArr, setOpenModal);
+      return;
+    }
+
+    if (isMobileViewport()) {
+      void openPdfInNewTab();
+      return;
+    }
+
+    setOpenModal(true);
   };
 
   return (
@@ -108,9 +166,7 @@ function PracticePageContent({}) {
               </div>
               {/* Download button that only appears when the previewer is shown or when we are in changeToPreviewer mode and the options form is hidden */}
               <DownloadButton
-                onClick={() => {
-                  changeStateIfNoWarnings(warningArr, setOpenModal);
-                }}
+                onClick={handleDownloadClick}
                 warningArr={warningArr}
                 className={`${changeToPreviewer ? "hidden" : ""}`}
               />
@@ -138,9 +194,7 @@ function PracticePageContent({}) {
   
             {/* Download button that only appears when the previewer is not shown */}
             <DownloadButton
-              onClick={() => {
-                changeStateIfNoWarnings(warningArr, setOpenModal);
-              }}
+              onClick={handleDownloadClick}
               warningArr={warningArr}
               className={`${showPreviewer || !changeToPreviewer ? "hidden" : ""}`}
             />
