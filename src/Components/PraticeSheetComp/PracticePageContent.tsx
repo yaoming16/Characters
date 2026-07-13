@@ -72,7 +72,7 @@ function PracticePageContent({}) {
   };
 
   const openPdfInNewTab = async () => {
-    const tab = window.open("", "_blank", "noopener,noreferrer");
+    const tab = window.open("", "_blank");
 
     try {
       const blob = await pdf(
@@ -91,9 +91,13 @@ function PracticePageContent({}) {
         return;
       }
 
-      tab.location.href = url;
-      tab.opener = null;
-      window.setTimeout(() => URL.revokeObjectURL(url), 10_000);
+      tab.location.replace(url);
+      try {
+        tab.opener = null;
+      } catch {
+        // Some browsers do not allow mutating opener on the returned window.
+      }
+      window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
     } catch (error) {
       if (tab && !tab.closed) {
         tab.close();
